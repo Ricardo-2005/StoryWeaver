@@ -1,112 +1,250 @@
+<div align="center">
+
 # 文脉 StoryWeaver
 
-StoryWeaver（文脉）是一个面向长篇小说创作的全栈应用。它将项目、世界书、人物、章节、滚动大纲与 AI 写作工作流整合在一个工作台中，并通过一致性校验、审核与版本化机制，帮助作者管理长篇创作中的设定和连续性。
+**面向长篇小说创作的全栈工作台**
 
-当前版本为 **V1.5 + 2026-08 功能更新**。项目由 Vue 3 前端和 Spring Boot 后端组成；本仓库的后端已覆盖 Phase 0–8，前端已覆盖 Phase 0–9、V1.5 长篇生产、项目选项式向导、全局 Skill 工坊及动态模板熔炉。产品设计稿和各阶段实现记录位于 [`设计稿`](设计稿) 目录，当前事实以[实现状态](docs/IMPLEMENTATION_STATUS.md)为准。
+在一个可审核、可版本化的工作流中管理项目、人物、世界书、大纲、章节与 AI 辅助写作。
 
-## 快速启动
+[![Backend CI](https://github.com/Ricardo-2005/StoryWeaver/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Ricardo-2005/StoryWeaver/actions/workflows/ci.yml)
+[![Frontend CI](https://github.com/Ricardo-2005/StoryWeaver/actions/workflows/frontend-ci.yml/badge.svg?branch=main)](https://github.com/Ricardo-2005/StoryWeaver/actions/workflows/frontend-ci.yml)
+[![Agent Evaluations](https://github.com/Ricardo-2005/StoryWeaver/actions/workflows/agent-evals.yml/badge.svg?branch=main)](https://github.com/Ricardo-2005/StoryWeaver/actions/workflows/agent-evals.yml)
 
-在 Windows PowerShell 中，从仓库根目录执行：
+![Java 21](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white)
+![Spring Boot 4](https://img.shields.io/badge/Spring%20Boot-4.1-6DB33F?logo=springboot&logoColor=white)
+![Vue 3](https://img.shields.io/badge/Vue-3.5-42B883?logo=vuedotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 
-```powershell
-Set-Location 'D:\实习\StoryWeaver'
-.\Start-StoryWeaver.ps1
-```
+</div>
 
-脚本会检查 Docker、首次创建后端本地配置、启动后端与前端，等待健康检查通过后打开浏览器。默认复用本机已有镜像；源码或 Dockerfile 有变化时使用 `./Start-StoryWeaver.ps1 -Rebuild` 重新构建。
+![StoryWeaver 项目概览](frontend/tests/e2e/visual.spec.ts-snapshots/project-dashboard-light.png)
 
-也可以在资源管理器中直接双击 [`启动StoryWeaver.cmd`](启动StoryWeaver.cmd)。它会自动调用同一套启动逻辑；启动失败时会保留命令窗口，便于查看错误信息。
+## 项目简介
 
-默认访问地址：
+StoryWeaver（文脉）是一个面向长篇小说创作的全栈应用。它把分散的人物设定、世界规则、大纲、章节、伏笔和生成工作流放进同一套项目模型，并通过版本、审核、一致性校验与可观测性机制降低长篇创作中的设定漂移。
 
-| 服务 | 地址 |
+当前仓库包含完整的 Vue 3 前端、Spring Boot 后端、Docker Compose 开发环境、Agent Evaluation Harness，以及可追溯的产品与工程文档。当前实现以源码、数据库迁移和自动化测试为准，详细状态见[实现状态](docs/IMPLEMENTATION_STATUS.md)。
+
+## 核心能力
+
+| 领域 | 已实现能力 |
 | --- | --- |
-| StoryWeaver 前端 | http://127.0.0.1:4173 |
-| 后端健康检查 | http://127.0.0.1:18080/actuator/health |
-| Prometheus | http://127.0.0.1:19090 |
-| Grafana | http://127.0.0.1:13080 |
-| MCP 端点 | http://127.0.0.1:18080/mcp |
+| 创作资产 | 项目、人物与状态、世界书、大纲、章节、不可变章节版本、正典资产与快照 |
+| 长篇生产 | 滚动大纲、串行章节批次、重大剧情门、伏笔台账、影响报告、分支与局部修订 |
+| 写作工作流 | Preflight、Context、Planner、Writer、Extractor、Reviewer、SSE 进度与人工审批 |
+| 一致性治理 | 故事事实、物品归属、人物知识边界、时间线校验与 BLOCKER 门禁 |
+| Skill 工坊 | 全局 Skill、TXT/手写素材熔炼、28 套动态模板、证据审阅、边界测试与安全导出 |
+| 导入与迁移 | TXT、Markdown、DOCX、ZIP 导入，章节切分、候选审查与 Git ZIP 导出 |
+| 成本与观测 | Token、费用、预算、耗时、Prometheus、Grafana、OpenTelemetry 与 Tempo |
+| 接口能力 | REST、SSE 与 Stateless Streamable HTTP MCP；MCP 写入仅生成候选事实 |
 
-首次启动前，请先安装并运行 Docker Desktop。详细要求、故障排查和停止方式请参阅[快速开始指南](docs/GETTING_STARTED.md)。
+## 界面预览
 
-## 项目能力
+<table>
+  <tr>
+    <th>创作工作台</th>
+    <th>用量与可观测性</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/tests/e2e/visual.spec.ts-snapshots/workspace-light.png" alt="StoryWeaver 创作工作台"></td>
+    <td><img src="frontend/tests/e2e/visual.spec.ts-snapshots/observability-light.png" alt="StoryWeaver 可观测性面板"></td>
+  </tr>
+</table>
 
-- 账号认证、`USER/ADMIN` 角色、项目管理、归档查看/恢复/永久删除、项目快照和版本化正典资产；创建项目时可选择题材、目标读者、作品视角、篇幅与故事构想，并在项目设置中修改。
-- 人物、人物状态、世界书、大纲、章节与章节不可变版本管理。
-- 独立于小说项目的全局 Skill 工坊：可用 UTF-8/GB18030 TXT 与手写粘贴文本熔炼 Skill；7 种素材 × 4 种 Skill 类型提供 28 套动态模板，逐条核验证据、运行 8 类边界测试并导出不含原文的标准 Skill 包。
-- 导入 TXT、Markdown、DOCX、ZIP；支持章节切分、候选审核和 Git ZIP 导出。
-- 基于 Planner、Writer、Extractor、Reviewer 的写作工作流，提供预检、上下文预览、SSE 进度、暂停/恢复、取消与审批。
-- 通过 StoryFact、物品归属、人物知识边界和时间线校验，阻止明显的设定冲突。
-- 长篇生产能力：滚动大纲、批量串行章节、重大剧情门、局部修订、章节分支与模型尝试审计。
-- 用量、Token、成本、请求耗时、预算与可观测性面板。
+<details>
+<summary><strong>查看完整 Skill 熔炉界面</strong></summary>
 
-AI 写作工作流可配置 DeepSeek；没有配置 API Key 时，服务仍可启动，但需要模型调用的功能不可用。世界书向量模型缺失时会降级为常量与关键词检索。
+### Skill 熔炉
+
+![StoryWeaver Skill 熔炉](frontend/tests/e2e/skill-workshop-visual.spec.ts-snapshots/skill-forge-desktop.png)
+
+</details>
 
 ## 技术架构
 
-```text
-浏览器
-  │
-  ├── Vue 3 + TypeScript + Vite（frontend，:4173）
-  │       └── /api 反向代理
-  │
-  └── Spring Boot（容器 :8080；当前宿主 :18080）
-          ├── PostgreSQL + pgvector（:5432）
-          ├── Redis（:6379）
-          ├── Prometheus（容器 :9090；当前宿主 :19090）
-          ├── Grafana（容器 :3000；当前宿主 :13080）
-          ├── Tempo（链路追踪）
-          └── DeepSeek / MCP
+```mermaid
+flowchart LR
+    user["作者 / 浏览器"] --> web["Vue 3 + TypeScript + Nginx"]
+    web -->|"REST / SSE"| api["Spring Boot 4"]
+    api --> db["PostgreSQL + pgvector"]
+    api --> cache["Redis"]
+    api --> llm["可选的 DeepSeek Adapter"]
+    api --> mcp["MCP Server"]
+    api --> telemetry["Actuator + OpenTelemetry"]
+    telemetry --> observability["Prometheus + Grafana + Tempo"]
 ```
 
-| 层级 | 主要技术 |
+| 层级 | 技术栈 |
 | --- | --- |
-| 前端 | Vue 3、TypeScript、Vite、Pinia、Vue Query、TipTap、ECharts、Element Plus |
-| 后端 | Java 21、Spring Boot 4、Spring AI、JPA、Flyway、Spring Security |
-| 数据与运行 | PostgreSQL 18 + pgvector、Redis 8、Docker Compose |
-| 质量保障 | Vitest、Playwright、axe、Testcontainers、ArchUnit、Spotless |
-| 可观测性 | Actuator、Micrometer、Prometheus、Grafana、OpenTelemetry、Tempo |
+| 前端 | Vue 3、TypeScript、Vite、Pinia、TanStack Vue Query、TipTap、ECharts、Element Plus |
+| 后端 | Java 21、Spring Boot 4.1、Spring AI、Spring Security、JPA、Flyway |
+| 数据 | PostgreSQL 18、pgvector、Redis 8 |
+| 测试 | JUnit、Testcontainers、ArchUnit、Vitest、Playwright、axe |
+| 运行 | Docker Compose、Nginx、Prometheus、Grafana、Tempo |
+
+## 快速开始
+
+### 方式一：Windows 一键启动
+
+前置条件：Windows 10/11、PowerShell 5.1+，以及已启动的 Docker Desktop。
+
+```powershell
+git clone https://github.com/Ricardo-2005/StoryWeaver.git
+Set-Location StoryWeaver
+.\Start-StoryWeaver.ps1
+```
+
+启动脚本会：
+
+1. 检查 Docker 与 Compose；
+2. 从 `backend/.env.example` 创建本地 `backend/.env`；
+3. 启动数据库、缓存、后端、监控和前端；
+4. 等待健康检查通过后打开浏览器。
+
+修改源码或 Dockerfile 后需要重新构建镜像：
+
+```powershell
+.\Start-StoryWeaver.ps1 -Rebuild
+```
+
+也可以双击仓库根目录的 [`启动StoryWeaver.cmd`](启动StoryWeaver.cmd)。
+
+### 方式二：Docker Compose
+
+Linux / macOS：
+
+```bash
+git clone https://github.com/Ricardo-2005/StoryWeaver.git
+cd StoryWeaver
+cp backend/.env.example backend/.env
+docker compose up -d --build
+```
+
+停止服务并保留数据卷：
+
+```bash
+docker compose down
+```
+
+> 不要随意使用 `docker compose down -v`，该命令会删除本地数据库和监控数据卷。
+
+### 默认地址
+
+| 服务 | 地址 |
+| --- | --- |
+| Web 应用 | <http://127.0.0.1:4173> |
+| 后端健康检查 | <http://127.0.0.1:8080/actuator/health> |
+| MCP | <http://127.0.0.1:8080/mcp> |
+| Prometheus | <http://127.0.0.1:9090> |
+| Grafana | <http://127.0.0.1:3000> |
+
+端口均可通过本地 `backend/.env` 调整。完整说明见[快速开始指南](docs/GETTING_STARTED.md)。
+
+## 模型与安全配置
+
+项目不包含任何真实 API Key。模型配置只允许保存在已被 Git 忽略的 `backend/.env` 中：
+
+```dotenv
+DEEPSEEK_API_KEY=
+DEEPSEEK_BASE_URL=https://api.deepseek.com
+```
+
+- 未配置模型 Key 时，登录、项目管理、资产编辑和确定性校验仍可运行；模型生成相关功能会明确提示未配置。
+- 不要把真实 Key 写入 `.env.example`、源码、Issue、日志或截图。
+- 本地 ONNX 模型缺失时，世界书检索会降级为常量与关键词检索。
+- 如需启用本地语义检索，可运行 `backend/scripts/download-embedding-model.ps1`。
+
+更多环境变量与安全边界见[配置与安全](docs/CONFIGURATION.md)。
+
+## 本地开发
+
+### 后端
+
+要求 JDK 21+；仓库已包含 Maven Wrapper。
+
+```powershell
+Set-Location backend
+.\mvnw.cmd clean verify
+.\mvnw.cmd spring-boot:run
+```
+
+### 前端
+
+要求 Node.js 24 和 pnpm 10.30.0。
+
+```bash
+cd frontend
+corepack enable
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+常用验证命令：
+
+```bash
+pnpm test:unit
+pnpm lint
+pnpm typecheck
+pnpm build
+pnpm test:e2e
+```
+
+### Agent Evaluation
+
+Windows 用户可运行：
+
+```powershell
+.\evals\run-evals.cmd
+```
+
+评测默认使用确定性离线 Profile，不会调用真实 DeepSeek，也不会消耗模型额度。数据集、冻结基线和报告口径见 [Agent Evaluation](docs/evaluation.md) 与 [evals/README.md](evals/README.md)。
 
 ## 仓库结构
 
 ```text
 StoryWeaver/
-├── Start-StoryWeaver.ps1  # 根目录一键启动脚本
-├── README.md              # 项目总览（本文件）
-├── docs/                  # 根目录使用与维护文档
-├── evals/                 # Agent Evaluation Harness 与版本化 Dataset
-├── frontend/              # Vue 3 前端
-├── backend/               # Spring Boot 后端、Compose 与运维资源
-└── 设计稿/                # 产品、前端、后端设计稿与实现差异记录
+├── backend/                 # Spring Boot 后端、迁移、Compose 与运维资源
+├── frontend/                # Vue 3 前端、单元测试与 Playwright 测试
+├── evals/                   # Agent Evaluation Harness、数据集与版本化报告
+├── docs/                    # 使用、架构、接口、开发与运维文档
+├── 设计稿/                  # 产品目标、设计稿与历史实施记录
+├── compose.yaml             # 完整应用编排入口
+├── Start-StoryWeaver.ps1    # Windows 一键启动脚本
+└── README.md
 ```
 
 ## 文档导航
 
-- [文档中心](docs/README.md)：按使用、开发、运维和详细契约组织的完整索引。
-- [项目流程说明](docs/PROJECT_FLOW.md)：从建项目、沉淀设定到生成、审核和发布章节的完整操作流程。
-- [当前实现状态](docs/IMPLEMENTATION_STATUS.md)：现有功能、迁移、测试、运行端口、当前本地实例和明确边界。
-- [技术选型与问题解答](docs/TECHNICAL_QA.md)：为什么采用这些技术、遇到的问题、解决方案和替代方案。
-- [系统架构说明](docs/SYSTEM_ARCHITECTURE.md)：前后端、核心模块、数据流和部署拓扑。
-- [接口与数据说明](docs/API_AND_DATA.md)：接口分组、认证、版本与一致性规则。
-- [快速开始](docs/GETTING_STARTED.md)：前置条件、启动、停止、端口与常见问题。
-- [开发与测试](docs/DEVELOPMENT.md)：本地开发模式、常用命令和验证策略。
-- [Agent Evaluation](docs/evaluation.md)：RAG、Token、一致性、Workflow Stub 与 MCP 的离线基线和报告。
-- [配置与安全](docs/CONFIGURATION.md)：环境变量、DeepSeek、Embedding 与本地配置边界。
-- [部署与运维](docs/OPERATIONS.md)：健康检查、日志、监控、数据持久化与恢复注意事项。
-- [后端架构](backend/docs/architecture.md)、[后端 API](backend/docs/api.md)、[后端测试说明](backend/docs/testing.md)。
-- [前端 API 契约](frontend/docs/api-contract.md)、[前端完成度审计](frontend/docs/frontend-completion-audit.md)、[前端设计系统](frontend/docs/design-system.md)。
+- [文档中心](docs/README.md)：按使用、开发、配置和运维组织的完整索引。
+- [项目流程](docs/PROJECT_FLOW.md)：从创建项目到生成、审核和发布章节的操作流程。
+- [实现状态](docs/IMPLEMENTATION_STATUS.md)：当前能力、数据迁移、测试与明确边界。
+- [系统架构](docs/SYSTEM_ARCHITECTURE.md)：模块、数据流和部署拓扑。
+- [接口与数据](docs/API_AND_DATA.md)：REST、SSE、认证、版本和一致性规则。
+- [开发与测试](docs/DEVELOPMENT.md)：本地开发方式与验证策略。
+- [部署与运维](docs/OPERATIONS.md)：健康检查、监控、数据持久化和故障排查。
 
-## 开发约定
+## 当前边界
 
-- 不要提交 `backend/.env`、模型文件、构建产物或本地数据卷。
-- 后端数据库结构只通过 Flyway 迁移变更；不要手工修改已应用的迁移文件。
-- 前端业务请求经 `src/api/endpoints` 与共享 API Client 发出，不在页面中直接调用后端。
-- 正式设定变更必须走审核语义；MCP 仅可创建带证据的候选事实，不能直接写入正典。
+StoryWeaver 当前面向本地开发、工程验证和产品演示，不是生产高可用部署。以下能力尚未完成：
 
-更多边界与已知限制请以各子项目 README 和设计稿中的实现差异记录为准。
+- 持久化 Conversation / Message / Chat API；
+- Refresh Token、Token 吊销与完整账号安全体系；
+- 管理员用户管理界面和管理 REST API；
+- TLS、生产 Secret Manager、多实例高可用和 Kubernetes；
+- 无人工审批的自动正典写入。
 
-## Agent Evaluation
+前端不会为不存在的后端能力伪造数据；MCP 与模型输出也不能绕过人工审核直接写入正典。
 
-Windows 用户可双击 `evals\run-evals.cmd` 一键运行 Offline 全量评测，并在 `evals\reports\latest\summary.md` 查看最新结果。默认不会调用 DeepSeek。
+## 参与开发
 
-冻结 v1 基线为 Recall@5 22.00%、Recall@10 76.50%、Token Reduction 78.42%；评测驱动选择的生产 `VECTOR_ONLY` 策略达到 Recall@5 93.00%、All-Required@10 100.00%、MRR 1.0000、Token Reduction 78.59%。预先冻结的 24 条 holdout 得到 Recall@5 94.10%、All-Required@10 100.00%，且未据此回调参数。详见 [RAG 评测驱动优化](docs/rag-evaluation-optimization.md) 与 [evals/README.md](evals/README.md)。
+提交前请至少运行与改动范围对应的单元测试、Lint 或 Maven `verify`，并遵循以下约定：
+
+- 不提交 `backend/.env`、模型文件、构建产物、本地数据卷或数据库备份；
+- 数据库结构只通过新的 Flyway 迁移变更；
+- 前端业务请求统一经过共享 API Client；
+- 设计稿记录目标，当前行为以源码、迁移、测试和中央文档为准。
+
+## License
+
+本仓库暂未附带开源许可证。公开可见不代表授予复制、修改或再分发许可；如需使用，请先联系仓库维护者。
