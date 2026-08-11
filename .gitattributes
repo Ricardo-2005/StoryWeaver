@@ -1,0 +1,8 @@
+# Frozen evaluation assets are hashed byte-for-byte; never rewrite line endings.
+/evals/datasets/rag/retrieval_cases.jsonl -text
+/evals/fixtures/worldbook/eval-project-v1.json -text
+/evals/reports/baseline-v1/summary.md -text
+/evals/reports/baseline-v1/summary.json -text
+/evals/reports/baseline-v1/raw/failures.json -text
+/evals/datasets/rag-holdout-v1/retrieval_cases.jsonl -text
+/evals/fixtures/worldbook/eval-holdout-v1.json -text
