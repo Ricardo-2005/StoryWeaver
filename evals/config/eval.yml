@@ -1,0 +1,30 @@
+datasetVersion: v1
+
+rag:
+  ks: [1, 3, 5, 10]
+  retrieval: PRODUCTION_WORLDBOOK_SERVICE_EXACT_VECTOR
+  embedding: LOCAL_ONNX
+
+token:
+  qualityGate: true
+  countMethod: ESTIMATED_TOKEN_COUNT
+
+consistency:
+  categories:
+    - CHARACTER_STATE
+    - ITEM_OWNERSHIP
+    - TIMELINE
+    - KNOWLEDGE_BOUNDARY
+    - WORLD_RULE
+
+workflow:
+  liveModelEnabled: false
+  deterministicGateway: STUB
+
+mcp:
+  authorizationTests: true
+  discoveryClass: com.storyweaver.mcp.transport.StoryMcpCapabilities
+
+report:
+  json: true
+  markdown: true

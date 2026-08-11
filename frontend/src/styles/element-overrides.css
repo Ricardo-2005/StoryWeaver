@@ -1,0 +1,38 @@
+:root {
+  --el-color-primary: var(--sw-accent);
+  --el-color-primary-light-3: color-mix(in srgb, var(--sw-accent) 72%, white);
+  --el-color-primary-light-5: color-mix(in srgb, var(--sw-accent) 52%, white);
+  --el-color-primary-light-7: color-mix(in srgb, var(--sw-accent) 32%, white);
+  --el-color-primary-light-8: color-mix(in srgb, var(--sw-accent) 22%, white);
+  --el-color-primary-light-9: var(--sw-accent-soft);
+  --el-color-primary-dark-2: var(--sw-accent-hover);
+  --el-bg-color: var(--sw-bg-surface);
+  --el-bg-color-page: var(--sw-bg-canvas);
+  --el-bg-color-overlay: var(--sw-bg-surface);
+  --el-text-color-primary: var(--sw-text-primary);
+  --el-text-color-regular: var(--sw-text-secondary);
+  --el-text-color-secondary: var(--sw-text-muted);
+  --el-border-color: var(--sw-border);
+  --el-border-color-light: var(--sw-border);
+  --el-border-color-lighter: var(--sw-border);
+  --el-fill-color-light: var(--sw-bg-subtle);
+  --el-fill-color-blank: var(--sw-bg-surface);
+  --el-border-radius-base: var(--sw-radius-control);
+  --el-font-family: var(--sw-font-sans);
+}
+
+.el-button:focus-visible,
+.el-radio-button__inner:focus-visible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 2px;
+}
+
+.el-tag {
+  border-color: var(--sw-border-strong) !important;
+  background: var(--sw-bg-surface) !important;
+  color: var(--sw-text-primary) !important;
+}
+
+.el-tag__content {
+  color: inherit !important;
+}

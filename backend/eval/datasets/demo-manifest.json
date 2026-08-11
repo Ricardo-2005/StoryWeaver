@@ -1,0 +1,97 @@
+{
+  "datasetVersion": "2.0.0-dragon-template",
+  "templateMarker": "storyweaver-dragon-template-v1",
+  "projectName": "龙族技术演示：青铜城调查",
+  "genre": "现代校园幻想 / 任务冒险",
+  "description": "storyweaver-dragon-template-v1：仅用于非商业技术演示；章号、剧情与测试文本均为原创产品夹具，不是《龙族》原著真实章节。",
+  "authorIntent": "卡塞尔学院执行青铜城调查任务；保持人物知识边界、完整七宗罪剑匣归属、事件因果和混血种世界规则连续，所有新事实必须有测试文本证据。",
+  "currentFocus": "卡塞尔学院执行青铜城调查任务，路明非、楚子航等人需要进入青铜城，并在行动中发现人物知识、炼金武器归属和时间线方面的潜在冲突。",
+  "characterNames": [
+    "路明非", "楚子航", "诺诺", "恺撒", "昂热", "芬格尔"
+  ],
+  "chapterTitles": [
+    "任务简报", "学院集合", "三峡启程", "水下勘测", "入口信号", "龙文机关", "潜航记录", "青铜门廊", "炼金封锁", "血统警报",
+    "狮心会联络", "学生会支援", "剑匣记录", "机关回响", "知识边界", "青铜城调查", "水路撤离", "证据复核", "任务汇报", "学院归档"
+  ],
+  "worldbookEntries": [
+    {
+      "title": "卡塞尔学院",
+      "content": "混血种教育与任务组织。青铜城行动资料按任务权限向参与者开放。",
+      "keywords": ["卡塞尔学院", "任务简报"],
+      "activationMode": "CONSTANT"
+    },
+    {
+      "title": "秘党",
+      "content": "负责协调龙族相关调查的组织体系；敏感结论必须有证据并遵守知情范围。",
+      "keywords": ["秘党", "调查权限"],
+      "activationMode": "KEYWORD"
+    },
+    {
+      "title": "青铜城",
+      "content": "本演示中的水下调查地点。进入前必须先发现入口，再解析龙文机关。",
+      "keywords": ["青铜城", "水下结构", "入口"],
+      "activationMode": "VECTOR"
+    },
+    {
+      "title": "混血种血统规则",
+      "content": "识别龙文、承受言灵和操作部分炼金装置需要可追溯的血统、训练或设备依据。",
+      "keywords": ["混血种", "血统", "规则"],
+      "activationMode": "CONSTANT"
+    },
+    {
+      "title": "言灵规则",
+      "content": "言灵能力必须与人物已确认的血统和能力记录一致，普通人物不能无依据直接使用。",
+      "keywords": ["言灵", "能力", "血统"],
+      "activationMode": "KEYWORD"
+    },
+    {
+      "title": "龙文",
+      "content": "青铜城机关使用的符号系统。理解内容需要知识传播、训练、设备或现场发现证据。",
+      "keywords": ["龙文", "机关", "识别"],
+      "activationMode": "VECTOR"
+    },
+    {
+      "title": "炼金术",
+      "content": "炼金装置和武器受授权、状态与使用条件限制，损毁后不能继续正常使用。",
+      "keywords": ["炼金术", "炼金武器", "限制"],
+      "activationMode": "CONSTANT"
+    },
+    {
+      "title": "七宗罪",
+      "content": "完整七宗罪剑匣作为唯一道具记录；同一有效时间只能有一个当前持有人。",
+      "keywords": ["七宗罪", "剑匣", "唯一道具"],
+      "activationMode": "KEYWORD"
+    },
+    {
+      "title": "学生会",
+      "content": "恺撒所在的学生组织，可提供经任务记录确认的行动支援。",
+      "keywords": ["学生会", "恺撒", "支援"],
+      "activationMode": "VECTOR"
+    },
+    {
+      "title": "狮心会",
+      "content": "楚子航所在的学生组织，行动记录与武器交接必须保留证据。",
+      "keywords": ["狮心会", "楚子航", "交接"],
+      "activationMode": "CONSTANT"
+    },
+    {
+      "title": "任务角色可见信息",
+      "content": "路明非当前只确认青铜城调查目标；青铜与火之王的身份仍属于未确认信息。",
+      "keywords": ["角色可见信息", "知识边界", "青铜与火之王"],
+      "activationMode": "KEYWORD",
+      "visibilityCharacter": "路明非"
+    }
+  ],
+  "worldbookEntryCount": 60,
+  "storyEventCount": 150,
+  "seededChapterCount": 20,
+  "workflowRegressionChapterCount": 10,
+  "chapterBodyCodePoints": 600,
+  "selectedWorldbookCount": 8,
+  "selectedEventCount": 8,
+  "uniqueItem": {
+    "itemKey": "seven-sins-sword-case",
+    "itemName": "完整七宗罪剑匣",
+    "expectedOwner": "路明非"
+  }
+}

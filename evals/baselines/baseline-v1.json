@@ -1,0 +1,49 @@
+{
+  "baselineId": "baseline-v1",
+  "frozenAt": "2026-08-11T02:35:50.164886500Z",
+  "datasetVersion": "v1",
+  "gitCommit": null,
+  "inputs": {
+    "ragDataset": {
+      "path": "evals/datasets/rag/retrieval_cases.jsonl",
+      "sha256": "CF5969C299F21F437CEBF28A4E3087175E672EB41635239C41521D11E60ADF21",
+      "caseCount": 50
+    },
+    "worldbookFixture": {
+      "path": "evals/fixtures/worldbook/eval-project-v1.json",
+      "sha256": "37E856BD348BC1E4FB5113669D350E74EA80630C180A8237C953EB49991B9DF7",
+      "entryCount": 60
+    }
+  },
+  "artifacts": {
+    "summaryMarkdown": {
+      "path": "evals/reports/baseline-v1/summary.md",
+      "sha256": "1D71CA2EE3362297800A6F38B24FDDDCB8C0235F520D5F8539FAF0421792EDE2"
+    },
+    "summaryJson": {
+      "path": "evals/reports/baseline-v1/summary.json",
+      "sha256": "0DEF8250BF155989CF5955320FEA11553E56B5478613AEDA4635E7F17F7CD128"
+    },
+    "failures": {
+      "path": "evals/reports/baseline-v1/raw/failures.json",
+      "sha256": "785216F8E54849EF807410B8A363C205EFA213F030B6F661890658269B91C883"
+    }
+  },
+  "metrics": {
+    "ragRecallAt1": 0.01,
+    "ragRecallAt3": 0.05,
+    "ragRecallAt5": 0.22,
+    "ragRecallAt10": 0.765,
+    "requiredHitRateAt5": 0.18,
+    "requiredHitRateAt10": 0.76,
+    "tokenReduction": 0.7842175732217573,
+    "contextPreservationRate": 1.0,
+    "consistencyPassRate": 1.0,
+    "workflowEngineSuccessRate": 1.0,
+    "mcpToolSuccessRate": 1.0,
+    "liveWorkflowSuccessRate": null
+  },
+  "failedCaseCount": 17,
+  "deepSeekCalls": 0,
+  "immutable": true
+}

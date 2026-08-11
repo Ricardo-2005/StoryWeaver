@@ -1,0 +1,20 @@
+<script setup lang="ts">
+import { computed, reactive, watch } from 'vue'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
+import { ElMessage } from 'element-plus'
+import { useRoute } from 'vue-router'
+import { rollingOutlineApi } from '@/api/endpoints/v15'
+import ErrorState from '@/components/base/ErrorState.vue'
+import LoadingState from '@/components/base/LoadingState.vue'
+import ProblemAlert from '@/components/base/ProblemAlert.vue'
+
+const route = useRoute(); const client = useQueryClient(); const projectId = computed(() => String(route.params.projectId ?? ''))
+const key = computed(() => ['rolling-outline', projectId.value])
+const query = useQuery({ queryKey: key, queryFn: () => rollingOutlineApi.get(projectId.value) })
+const form = reactive({ currentChapterNo: 1, windowSize: 5, summary: '', goals: '', risks: '' })
+watch(query.data, value => { if (value) Object.assign(form, { currentChapterNo: value.currentChapterNo, windowSize: value.windowSize, summary: value.summary ?? '', goals: value.goals.join('\n'), risks: value.risks.join('\n') }) }, { immediate: true })
+const save = useMutation({ mutationFn: () => rollingOutlineApi.put(projectId.value, { expectedVersion: query.data.value?.version ?? 0, currentChapterNo: form.currentChapterNo, windowSize: form.windowSize, summary: form.summary || null, goals: lines(form.goals), risks: lines(form.risks) }), onSuccess: async () => { await client.invalidateQueries({ queryKey: key.value }); ElMessage.success('滚动大纲已保存') } })
+const advance = useMutation({ mutationFn: () => rollingOutlineApi.advance(projectId.value, { expectedVersion: query.data.value?.version ?? 0, summary: form.summary || null, goals: lines(form.goals), risks: lines(form.risks) }), onSuccess: async () => { await client.invalidateQueries({ queryKey: key.value }); ElMessage.success('已推进到下一章') } })
+function lines(value: string): string[] { return value.split('\n').map(x => x.trim()).filter(Boolean) }
+</script>
+<template><main class="page-container page-container--narrow"><header class="page-header"><div><p class="eyebrow">Rolling outline</p><h1 tabindex="-1">滚动大纲</h1><p>只维护当前章附近的目标与风险窗口；推进动作不会生成正文。</p></div></header><LoadingState v-if="query.isPending.value"/><ErrorState v-else-if="query.isError.value" :error="query.error.value" @retry="query.refetch()"/><form v-else class="v15-panel sw-form" @submit.prevent="save.mutate()"><ProblemAlert v-if="save.isError.value || advance.isError.value" :error="save.error.value || advance.error.value"/><div class="form-row"><label class="form-field"><span>当前章节</span><input v-model.number="form.currentChapterNo" type="number" min="1" required/></label><label class="form-field"><span>窗口大小</span><input v-model.number="form.windowSize" type="number" min="1" max="20" required/></label></div><label class="form-field"><span>阶段摘要</span><textarea v-model="form.summary" rows="6"/></label><label class="form-field"><span>近期目标（每行一项）</span><textarea v-model="form.goals" rows="6"/></label><label class="form-field"><span>连续性风险（每行一项）</span><textarea v-model="form.risks" rows="6"/></label><div class="project-header-actions"><button class="sw-button sw-button--secondary" type="button" @click="advance.mutate()">保存并推进一章</button><button class="sw-button sw-button--primary">保存</button></div></form></main></template>

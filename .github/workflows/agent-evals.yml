@@ -1,0 +1,51 @@
+name: Agent Evaluations
+
+on:
+  push:
+    paths: ["backend/**", "evals/**", ".github/workflows/agent-evals.yml"]
+  pull_request:
+    paths: ["backend/**", "evals/**", ".github/workflows/agent-evals.yml"]
+  workflow_dispatch:
+    inputs:
+      live:
+        description: "Run the separately gated live profile"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  offline:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - name: Offline deterministic baseline
+        shell: powershell
+        run: ./evals/scripts/run-all.ps1 -Mode all -Profile ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: storyweaver-agent-evals
+          path: evals/reports/
+
+  live:
+    if: github.event_name == 'workflow_dispatch' && inputs.live
+    runs-on: windows-latest
+    environment: agent-evals-live
+    env:
+      STORYWEAVER_EVAL_LIVE: "true"
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - name: Gated live profile
+        shell: powershell
+        run: ./evals/scripts/run-all.ps1 -Mode live -Profile live -Repetitions 3

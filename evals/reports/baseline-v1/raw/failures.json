@@ -1,0 +1,426 @@
+[ {
+  "section" : "rag",
+  "caseId" : "rag-001",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-001", "asset-recent-002", "asset-state-002", "asset-knowledge-001", "asset-state-005", "asset-recent-001", "asset-alias-001", "asset-character-001", "asset-character-002", "asset-distractor-010" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-001", "asset-recent-002", "asset-state-002", "asset-knowledge-001", "asset-state-005", "asset-recent-001", "asset-alias-001" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-character-001" ],
+    "requiredIds" : [ "asset-character-001" ]
+  },
+  "latencyMs" : 20,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-009",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-001", "asset-recent-001", "asset-knowledge-002", "asset-character-001", "asset-character-003", "asset-item-004", "asset-event-005", "asset-memory-004", "asset-location-003", "asset-distractor-008" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-001", "asset-knowledge-002", "asset-character-001", "asset-character-003", "asset-item-004", "asset-event-005" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-location-003", "asset-recent-001" ],
+    "requiredIds" : [ "asset-location-003" ]
+  },
+  "latencyMs" : 3,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-012",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-recent-002", "asset-state-002", "asset-item-001", "asset-knowledge-002", "asset-character-001", "asset-knowledge-005", "asset-character-003", "asset-faction-001", "asset-faction-002", "asset-memory-001" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-recent-002", "asset-state-002", "asset-item-001", "asset-knowledge-002", "asset-character-001", "asset-knowledge-005", "asset-character-003" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-faction-001" ],
+    "requiredIds" : [ "asset-faction-001" ]
+  },
+  "latencyMs" : 2,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-013",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-004", "asset-knowledge-004", "asset-character-001", "asset-rule-004", "asset-item-002", "asset-character-003", "asset-event-005", "asset-faction-002", "asset-memory-003", "asset-memory-005" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-004", "asset-knowledge-004", "asset-character-001", "asset-rule-004", "asset-character-003", "asset-event-005" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-faction-002", "asset-item-002" ],
+    "requiredIds" : [ "asset-faction-002" ]
+  },
+  "latencyMs" : 3,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-015",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-knowledge-001", "asset-state-003", "asset-character-001", "asset-knowledge-005", "asset-event-001", "asset-event-005", "asset-location-004", "asset-faction-004", "asset-memory-004", "asset-distractor-010" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-knowledge-001", "asset-state-003", "asset-character-001", "asset-knowledge-005", "asset-event-001", "asset-location-004" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-faction-004", "asset-event-005" ],
+    "requiredIds" : [ "asset-faction-004" ]
+  },
+  "latencyMs" : 2,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-020",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-001", "asset-recent-004", "asset-recent-001", "asset-knowledge-003", "asset-character-001", "asset-rule-004", "asset-event-001", "asset-rule-005", "asset-location-003" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-001", "asset-recent-004", "asset-recent-001", "asset-knowledge-003", "asset-character-001", "asset-rule-004", "asset-event-001" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-rule-005" ],
+    "requiredIds" : [ "asset-rule-005" ]
+  },
+  "latencyMs" : 4,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-021",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-recent-002", "asset-state-001", "asset-item-001", "asset-knowledge-002", "asset-character-003", "asset-faction-001", "asset-location-004", "asset-item-005", "asset-distractor-003" ],
+    "missedRelevantIds" : [ "asset-state-002" ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-knowledge-002", "asset-character-003", "asset-faction-001", "asset-location-004" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-item-001", "asset-recent-002", "asset-state-001", "asset-state-002" ],
+    "requiredIds" : [ "asset-item-001", "asset-recent-002" ]
+  },
+  "latencyMs" : 3,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-025",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-recent-004", "asset-recent-001", "asset-knowledge-002", "asset-knowledge-005", "asset-event-001", "asset-character-005", "asset-faction-001", "asset-memory-003", "asset-item-005" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-recent-004", "asset-recent-001", "asset-knowledge-002", "asset-event-001", "asset-character-005", "asset-faction-001" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-item-005", "asset-knowledge-005" ],
+    "requiredIds" : [ "asset-item-005" ]
+  },
+  "latencyMs" : 2,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-032",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-recent-002", "asset-recent-004", "asset-item-001", "asset-knowledge-002", "asset-location-002", "asset-event-001", "asset-location-005", "asset-event-002", "asset-memory-003", "asset-distractor-003" ],
+    "missedRelevantIds" : [ "asset-character-002" ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-recent-002", "asset-recent-004", "asset-item-001", "asset-location-002", "asset-event-001", "asset-location-005" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-knowledge-002", "asset-character-002" ],
+    "requiredIds" : [ "asset-knowledge-002" ]
+  },
+  "latencyMs" : 4,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-036",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-001", "asset-recent-002", "asset-knowledge-001", "asset-item-001", "asset-recent-001", "asset-alias-001", "asset-recent-005", "asset-character-001", "asset-memory-004", "asset-distractor-010" ],
+    "missedRelevantIds" : [ "asset-location-003" ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-001", "asset-recent-002", "asset-knowledge-001", "asset-item-001", "asset-alias-001", "asset-recent-005" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-recent-001", "asset-location-003" ],
+    "requiredIds" : [ "asset-recent-001" ]
+  },
+  "latencyMs" : 3,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-037",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-recent-002", "asset-knowledge-001", "asset-state-004", "asset-item-001", "asset-recent-001", "asset-knowledge-004", "asset-character-003", "asset-faction-001", "asset-memory-001", "asset-distractor-003" ],
+    "missedRelevantIds" : [ "asset-state-002" ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-knowledge-001", "asset-state-004", "asset-item-001", "asset-recent-001", "asset-knowledge-004", "asset-character-003" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-recent-002", "asset-state-002" ],
+    "requiredIds" : [ "asset-recent-002" ]
+  },
+  "latencyMs" : 2,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-040",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-003", "asset-state-005", "asset-recent-001", "asset-recent-003", "asset-recent-005", "asset-knowledge-005", "asset-character-002", "asset-event-005", "asset-character-005", "asset-memory-004" ],
+    "missedRelevantIds" : [ "asset-item-003" ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-003", "asset-state-005", "asset-recent-001", "asset-recent-003", "asset-knowledge-005", "asset-character-002" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-recent-005", "asset-item-003" ],
+    "requiredIds" : [ "asset-recent-005" ]
+  },
+  "latencyMs" : 3,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-046",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-recent-002", "asset-knowledge-001", "asset-knowledge-002", "asset-alias-001", "asset-location-001", "asset-character-005", "asset-event-004", "asset-memory-004", "asset-item-005", "asset-memory-001", "asset-distractor-002" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-recent-002", "asset-knowledge-001", "asset-knowledge-002", "asset-location-001", "asset-character-005", "asset-event-004" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-memory-001", "asset-alias-001" ],
+    "requiredIds" : [ "asset-memory-001" ]
+  },
+  "latencyMs" : 3,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-047",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-001", "asset-state-003", "asset-recent-003", "asset-knowledge-003", "asset-character-004", "asset-location-004", "asset-faction-003", "asset-memory-003", "asset-memory-002", "asset-distractor-006" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-001", "asset-recent-003", "asset-knowledge-003", "asset-character-004", "asset-location-004", "asset-faction-003" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-memory-002", "asset-state-003" ],
+    "requiredIds" : [ "asset-memory-002" ]
+  },
+  "latencyMs" : 4,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-048",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-002", "asset-recent-004", "asset-knowledge-004", "asset-location-002", "asset-event-002", "asset-faction-002", "asset-location-004", "asset-memory-003", "asset-memory-005", "asset-memory-002" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-002", "asset-knowledge-004", "asset-location-002", "asset-event-002", "asset-faction-002", "asset-location-004" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-memory-003", "asset-recent-004" ],
+    "requiredIds" : [ "asset-memory-003" ]
+  },
+  "latencyMs" : 3,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-049",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-005", "asset-recent-001", "asset-recent-005", "asset-character-001", "asset-knowledge-005", "asset-character-003", "asset-event-001", "asset-event-005", "asset-character-005", "asset-memory-004" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-005", "asset-recent-001", "asset-recent-005", "asset-character-001", "asset-knowledge-005", "asset-character-003", "asset-event-001" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-memory-004", "asset-event-005" ],
+    "requiredIds" : [ "asset-memory-004" ]
+  },
+  "latencyMs" : 2,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+}, {
+  "section" : "rag",
+  "caseId" : "rag-050",
+  "passed" : false,
+  "actual" : {
+    "retrievedIds" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-004", "asset-recent-004", "asset-knowledge-004", "asset-item-002", "asset-location-002", "asset-faction-002", "asset-memory-003", "asset-memory-005", "asset-distractor-008", "asset-distractor-009" ],
+    "missedRelevantIds" : [ ],
+    "incorrectTop10Ids" : [ "asset-rule-001", "asset-rule-002", "asset-rule-003", "asset-state-004", "asset-recent-004", "asset-knowledge-004", "asset-item-002", "asset-location-002", "asset-memory-003" ],
+    "embeddingAvailable" : true,
+    "degradedReason" : null
+  },
+  "expected" : {
+    "relevantIds" : [ "asset-memory-005", "asset-faction-002" ],
+    "requiredIds" : [ "asset-memory-005" ]
+  },
+  "latencyMs" : 2,
+  "tokenUsage" : null,
+  "cost" : null,
+  "error" : null,
+  "metadata" : {
+    "evaluationType" : "DETERMINISTIC",
+    "embeddingModel" : "BAAI/bge-small-zh-v1.5",
+    "vectorSearch" : "EXACT_COSINE",
+    "retrieval" : "WorldbookService.preview"
+  }
+} ]

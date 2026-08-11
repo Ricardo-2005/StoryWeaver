@@ -1,0 +1,19 @@
+package com.storyweaver.skill.global.domain;
+
+public enum ForgeRunStatus {
+    CREATED,
+    SOURCE_READY,
+    PREPROCESSING,
+    EXTRACTING,
+    CROSS_VALIDATING,
+    WAITING_CONFLICT_RESOLUTION,
+    BUILDING_CONTRACT,
+    COLLECTING,
+    DISTILLING,
+    WAITING_REVIEW,
+    VALIDATING,
+    VALIDATION_FAILED,
+    VALIDATED,
+    CANCELLED,
+    FAILED
+}

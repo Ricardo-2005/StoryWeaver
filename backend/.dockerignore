@@ -1,0 +1,15 @@
+.git
+.github
+.idea
+.vscode
+target
+.env
+.env.*
+!.env.example
+*.log
+docs/private
+data
+docker-data
+models
+StoryWeaver_CODEX_*.md
+文脉_*.md

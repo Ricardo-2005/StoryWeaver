@@ -1,0 +1,48 @@
+{
+  "schemaVersion" : "phase8-eval-v1",
+  "generatedAt" : "2026-08-03T04:57:01.860632900Z",
+  "conflictDatasetSha256" : "9b28fa84f4f862833588f47f422ebbe9ee0d59690910d3f1072ae6d83e0af12b",
+  "demoManifestSha256" : "8a612153de0822ca9f67f555e99e9e2bf22144aed85a0e758f56b3fd0087356a",
+  "environment" : {
+    "javaVersion" : "23.0.2",
+    "operatingSystem" : "Windows 11"
+  },
+  "conflictEvaluation" : {
+    "conflictGroups" : 120,
+    "predictions" : 240,
+    "overall" : {
+      "truePositive" : 120,
+      "falsePositive" : 0,
+      "trueNegative" : 120,
+      "falseNegative" : 0,
+      "evidenceLocated" : 120,
+      "precisionPercent" : 100.00,
+      "recallPercent" : 100.00,
+      "f1Percent" : 100.00,
+      "blockerMissRatePercent" : 0.00,
+      "evidenceLocationAccuracyPercent" : 100.00
+    },
+    "byCategory" : {
+      "CHARACTER_STATE" : { "truePositive" : 40, "falsePositive" : 0, "trueNegative" : 40, "falseNegative" : 0, "evidenceLocated" : 40, "precisionPercent" : 100.00, "recallPercent" : 100.00, "f1Percent" : 100.00, "blockerMissRatePercent" : 0.00, "evidenceLocationAccuracyPercent" : 100.00 },
+      "ITEM_OWNERSHIP" : { "truePositive" : 20, "falsePositive" : 0, "trueNegative" : 20, "falseNegative" : 0, "evidenceLocated" : 20, "precisionPercent" : 100.00, "recallPercent" : 100.00, "f1Percent" : 100.00, "blockerMissRatePercent" : 0.00, "evidenceLocationAccuracyPercent" : 100.00 },
+      "TIMELINE" : { "truePositive" : 30, "falsePositive" : 0, "trueNegative" : 30, "falseNegative" : 0, "evidenceLocated" : 30, "precisionPercent" : 100.00, "recallPercent" : 100.00, "f1Percent" : 100.00, "blockerMissRatePercent" : 0.00, "evidenceLocationAccuracyPercent" : 100.00 },
+      "KNOWLEDGE_BOUNDARY" : { "truePositive" : 30, "falsePositive" : 0, "trueNegative" : 30, "falseNegative" : 0, "evidenceLocated" : 30, "precisionPercent" : 100.00, "recallPercent" : 100.00, "f1Percent" : 100.00, "blockerMissRatePercent" : 0.00, "evidenceLocationAccuracyPercent" : 100.00 }
+    }
+  },
+  "contextComparison" : {
+    "baselineHistoryChapters" : 15,
+    "selectedWorldbookEntries" : 8,
+    "selectedEvents" : 8,
+    "baselineTokens" : 4880,
+    "storyWeaverTokens" : 2265,
+    "tokenSavingsPercent" : 53.59
+  },
+  "performance" : {
+    "validatorSamples" : 12000,
+    "validatorLatencyMicros" : { "p50" : 7.200, "p95" : 17.200 },
+    "contextSamples" : 1000,
+    "contextAssemblyLatencyMicros" : { "p50" : 71.000, "p95" : 139.200 },
+    "scope" : "Single-JVM local microbenchmark after warm-up; no concurrency or network I/O."
+  },
+  "limitations" : "Fixed deterministic Java-rule benchmark; not an open-domain or LLM generalization score."
+}

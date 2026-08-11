@@ -1,0 +1,2355 @@
+{
+  "datasetVersion" : "v1",
+  "evaluationType" : "DETERMINISTIC",
+  "layer" : "JAVA_VALIDATOR",
+  "caseCount" : 100,
+  "metrics" : {
+    "truePositive" : 50,
+    "trueNegative" : 50,
+    "falsePositive" : 0,
+    "falseNegative" : 0,
+    "consistencyPassRate" : 1.0,
+    "conflictPrecision" : 1.0,
+    "conflictRecall" : 1.0,
+    "conflictF1" : 1.0,
+    "cleanChapterPassRate" : 1.0,
+    "conflictDetectionRate" : 1.0,
+    "blockerRecall" : 1.0,
+    "byCategory" : {
+      "CHARACTER_STATE" : {
+        "precision" : 1.0,
+        "accuracy" : 1.0,
+        "recall" : 1.0,
+        "f1" : 1.0
+      },
+      "ITEM_OWNERSHIP" : {
+        "precision" : 1.0,
+        "accuracy" : 1.0,
+        "recall" : 1.0,
+        "f1" : 1.0
+      },
+      "TIMELINE" : {
+        "precision" : 1.0,
+        "accuracy" : 1.0,
+        "recall" : 1.0,
+        "f1" : 1.0
+      },
+      "KNOWLEDGE_BOUNDARY" : {
+        "precision" : 1.0,
+        "accuracy" : 1.0,
+        "recall" : 1.0,
+        "f1" : 1.0
+      },
+      "WORLD_RULE" : {
+        "precision" : 1.0,
+        "accuracy" : 1.0,
+        "recall" : 1.0,
+        "f1" : 1.0
+      }
+    },
+    "llmReviewer" : null,
+    "combinedPipeline" : null
+  },
+  "failedCaseCount" : 0,
+  "cases" : [ {
+    "caseId" : "cons-001",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "死亡人物在正文中以正常行动者出现",
+        "evidence" : "林澈",
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 2,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-002",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "死亡人物在正文中以正常行动者出现",
+        "evidence" : "沈弦",
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-003",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "死亡人物在正文中以正常行动者出现",
+        "evidence" : "顾潮生",
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-004",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "死亡人物在正文中以正常行动者出现",
+        "evidence" : "叶砂",
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-005",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "死亡人物在正文中以正常行动者出现",
+        "evidence" : "闻舟",
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-006",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "死亡人物在正文中以正常行动者出现",
+        "evidence" : "周岚",
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-007",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "死亡人物在正文中以正常行动者出现",
+        "evidence" : "陶以宁",
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-008",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "死亡人物在正文中以正常行动者出现",
+        "evidence" : "秦灯",
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-009",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "死亡人物在正文中以正常行动者出现",
+        "evidence" : "许墨",
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-010",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "死亡人物在正文中以正常行动者出现",
+        "evidence" : "孟海",
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "CHARACTER_STATE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-011",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-012",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-013",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-014",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-015",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-016",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-017",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-018",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-019",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-020",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-021",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "已销毁道具被继续正常使用",
+        "evidence" : "裂纹罗盘",
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 2,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-022",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "已销毁道具被继续正常使用",
+        "evidence" : "银哨",
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-023",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "已销毁道具被继续正常使用",
+        "evidence" : "潮纹短剑",
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-024",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "已销毁道具被继续正常使用",
+        "evidence" : "蓝瓶枪",
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-025",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "已销毁道具被继续正常使用",
+        "evidence" : "旧信号枪",
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-026",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "已销毁道具被继续正常使用",
+        "evidence" : "铜钟",
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-027",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "已销毁道具被继续正常使用",
+        "evidence" : "黑匣",
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-028",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "已销毁道具被继续正常使用",
+        "evidence" : "骨柄刀",
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-029",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "已销毁道具被继续正常使用",
+        "evidence" : "旧火铳",
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-030",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "已销毁道具被继续正常使用",
+        "evidence" : "潮声炮",
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "ITEM_OWNERSHIP",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-031",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-032",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-033",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-034",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-035",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-036",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-037",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-038",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-039",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-040",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-041",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "新事件日期早于已提交时间线",
+        "evidence" : "段落-cons-041",
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 1,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-042",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "新事件日期早于已提交时间线",
+        "evidence" : "段落-cons-042",
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-043",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "新事件日期早于已提交时间线",
+        "evidence" : "段落-cons-043",
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-044",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "新事件日期早于已提交时间线",
+        "evidence" : "段落-cons-044",
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-045",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "新事件日期早于已提交时间线",
+        "evidence" : "段落-cons-045",
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-046",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "新事件日期早于已提交时间线",
+        "evidence" : "段落-cons-046",
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-047",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "新事件日期早于已提交时间线",
+        "evidence" : "段落-cons-047",
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-048",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "新事件日期早于已提交时间线",
+        "evidence" : "段落-cons-048",
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-049",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "新事件日期早于已提交时间线",
+        "evidence" : "段落-cons-049",
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-050",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "新事件日期早于已提交时间线",
+        "evidence" : "段落-cons-050",
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "TIMELINE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-051",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-052",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-053",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-054",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-055",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-056",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-057",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-058",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-059",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-060",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-061",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "视角人物直接使用了其尚未知晓的秘密",
+        "evidence" : "铜门第三枚螺栓后有开关",
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 3,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-062",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "视角人物直接使用了其尚未知晓的秘密",
+        "evidence" : "本周口令是雾灯归航",
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-063",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "视角人物直接使用了其尚未知晓的秘密",
+        "evidence" : "白鸥就是沈弦",
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-064",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "视角人物直接使用了其尚未知晓的秘密",
+        "evidence" : "航海图能够改写真实航线",
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-065",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "视角人物直接使用了其尚未知晓的秘密",
+        "evidence" : "测绘局档案藏在港务署",
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-066",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "视角人物直接使用了其尚未知晓的秘密",
+        "evidence" : "备用齿轮由顾潮生领走",
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-067",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "视角人物直接使用了其尚未知晓的秘密",
+        "evidence" : "医院药库有替代解毒剂",
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-068",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "视角人物直接使用了其尚未知晓的秘密",
+        "evidence" : "鱼摊后有排水渠入口",
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-069",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "视角人物直接使用了其尚未知晓的秘密",
+        "evidence" : "录音筒会引来白鸥",
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-070",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "视角人物直接使用了其尚未知晓的秘密",
+        "evidence" : "巡夜东门有十分钟空窗",
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "KNOWLEDGE_BOUNDARY",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-071",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-072",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-073",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-074",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-075",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-076",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-077",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-078",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-079",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-080",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-081",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "候选状态缺少正文证据",
+        "evidence" : "",
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-082",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "候选状态缺少正文证据",
+        "evidence" : "",
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-083",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "候选状态缺少正文证据",
+        "evidence" : "",
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-084",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "候选状态缺少正文证据",
+        "evidence" : "",
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-085",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "候选状态缺少正文证据",
+        "evidence" : "",
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-086",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "候选状态缺少正文证据",
+        "evidence" : "",
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-087",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "候选状态缺少正文证据",
+        "evidence" : "",
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-088",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "候选状态缺少正文证据",
+        "evidence" : "",
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-089",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "候选状态缺少正文证据",
+        "evidence" : "",
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-090",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "message" : "候选状态缺少正文证据",
+        "evidence" : "",
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "expected" : {
+      "shouldPass" : false,
+      "violations" : [ {
+        "type" : "WORLD_RULE",
+        "severity" : "BLOCKER"
+      } ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-091",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-092",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-093",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-094",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-095",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-096",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-097",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-098",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-099",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  }, {
+    "caseId" : "cons-100",
+    "passed" : true,
+    "actual" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "expected" : {
+      "shouldPass" : true,
+      "violations" : [ ]
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "layer" : "JAVA_VALIDATOR",
+      "evaluationType" : "DETERMINISTIC"
+    }
+  } ]
+}

@@ -1,0 +1,40 @@
+{
+  "datasetVersion": "rag-holdout-v1",
+  "status": "FROZEN_BEFORE_FIRST_RUN",
+  "frozenAt": "2026-08-11T02:48:00Z",
+  "caseCount": 24,
+  "fixtureEntryCount": 44,
+  "createdBy": "HUMAN_REVIEWED_STATIC_GROUND_TRUTH",
+  "deepSeekCalls": 0,
+  "selectedStrategyBeforeRun": {
+    "mode": "VECTOR_ONLY",
+    "candidatePoolSize": 10,
+    "finalRankingSize": 2147483647,
+    "rrfRankConstant": 60
+  },
+  "files": {
+    "cases": {
+      "path": "evals/datasets/rag-holdout-v1/retrieval_cases.jsonl",
+      "sha256": "E3FDB2F167E4C9BB609C2E08DCE23599017258EF8BF5CEED0FF15A85248AD8A6"
+    },
+    "fixture": {
+      "path": "evals/fixtures/worldbook/eval-holdout-v1.json",
+      "sha256": "2299697101EE76CB8334D929055B3E6CC98DD609055E455DA6FF7DFB5E86CE39"
+    }
+  },
+  "coverage": [
+    "same-name ambiguity",
+    "state change",
+    "cross chapter",
+    "timeline",
+    "negative facts",
+    "knowledge boundaries",
+    "similar places/items",
+    "old/new state",
+    "multi-required retrieval",
+    "reader-vs-character knowledge",
+    "item ownership",
+    "StoryFact dependency"
+  ],
+  "immutable": true
+}

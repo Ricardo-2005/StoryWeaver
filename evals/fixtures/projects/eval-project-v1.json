@@ -1,0 +1,8 @@
+{
+  "datasetVersion": "v1",
+  "projectId": "eval-project-v1",
+  "name": "雾港档案",
+  "origin": "HUMAN",
+  "copyright": "Original synthetic evaluation fixture",
+  "teardown": "In-memory fixture; process exit discards all state"
+}

@@ -1,0 +1,5 @@
+datasetVersion: v1
+profile: ci
+liveModelEnabled: false
+repetitions: 1
+failOnHarnessError: true

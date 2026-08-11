@@ -1,0 +1,7 @@
+datasetVersion: v1
+profile: live
+requires:
+  STORYWEAVER_EVAL_LIVE: "true"
+  DEEPSEEK_API_KEY: "present"
+repetitions: 3
+offlineMetricsInLiveRun: false

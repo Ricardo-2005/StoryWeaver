@@ -1,0 +1,69 @@
+{
+  "datasetVersion" : "v1",
+  "gitCommit" : null,
+  "timestamp" : "2026-08-11T03:10:26.442731700Z",
+  "profile" : "local",
+  "mode" : "all",
+  "repetitions" : 1,
+  "environment" : {
+    "os" : "Windows 11",
+    "osVersion" : "10.0",
+    "java" : "23.0.2",
+    "timezone" : "Asia/Shanghai"
+  },
+  "live" : {
+    "requested" : false,
+    "gateEnabled" : false,
+    "apiKeyPresent" : false,
+    "executed" : false,
+    "estimatedCases" : 0,
+    "estimatedCalls" : 0,
+    "reason" : "Offline deterministic baseline; live model was not requested."
+  },
+  "modelVersion" : null,
+  "ragConfiguration" : {
+    "retrievalMode" : "HYBRID_FUSION",
+    "candidatePoolSize" : 10,
+    "finalRankingSize" : 2147483647,
+    "rrfRankConstant" : 60
+  },
+  "metrics" : {
+    "ragRecallAt1" : 0.49,
+    "ragRecallAt3" : 0.87,
+    "ragRecallAt5" : 0.93,
+    "ragRecallAt10" : 0.955,
+    "requiredHitRateAt5" : 1.0,
+    "requiredHitRateAt10" : 1.0,
+    "allRequiredHitRateAt5" : 1.0,
+    "allRequiredHitRateAt10" : 1.0,
+    "mrr" : 0.87,
+    "binaryNdcgAt5" : 0.8483780113082351,
+    "binaryNdcgAt10" : 0.8590907108233468,
+    "meanFirstRequiredRank" : 1.5,
+    "medianFirstRequiredRank" : 1.0,
+    "p95FirstRequiredRank" : 3.0,
+    "tokenReduction" : 0.7842175732217573,
+    "contextPreservationRate" : 1.0,
+    "qualityPreservingTokenReduction" : 0.7842175732217573,
+    "consistencyPassRate" : 1.0,
+    "conflictPrecision" : 1.0,
+    "conflictRecall" : 1.0,
+    "conflictF1" : 1.0,
+    "blockerRecall" : 1.0,
+    "workflowEngineSuccessRate" : 1.0,
+    "liveWorkflowSuccessRate" : null,
+    "atomicCommitSuccessRate" : 1.0,
+    "recoverySuccessRate" : 1.0,
+    "mcpToolSuccessRate" : 1.0,
+    "authorizationEnforcementRate" : 1.0,
+    "outputSchemaPassRate" : 1.0
+  },
+  "caseCounts" : {
+    "rag" : 50,
+    "token" : 50,
+    "consistency" : 100,
+    "workflow" : 14,
+    "mcp" : 18
+  },
+  "failedCaseCount" : 5
+}

@@ -1,0 +1,465 @@
+{
+  "datasetVersion" : "v1",
+  "evaluationType" : "DETERMINISTIC",
+  "caseCount" : 18,
+  "metrics" : {
+    "mcpToolSuccessRate" : 1.0,
+    "validInvocationSuccessRate" : 1.0,
+    "invalidInputRejectionRate" : 1.0,
+    "authorizationEnforcementRate" : 1.0,
+    "outputSchemaPassRate" : 1.0,
+    "toolSelectionAccuracy" : null,
+    "toolArgumentAccuracy" : null,
+    "discoveredTools" : [ "get_character_knowledge", "get_character_state", "get_item_owner", "get_recent_story_events", "get_worldbook_entries", "save_candidate_fact" ],
+    "uncoveredDiscoveredTools" : [ ]
+  },
+  "failedCaseCount" : 0,
+  "cases" : [ {
+    "caseId" : "mcp-001",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : true,
+      "outputSchemaPassed" : true,
+      "errorCode" : null,
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : true
+    },
+    "latencyMs" : 1,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-002",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : true,
+      "outputSchemaPassed" : true,
+      "errorCode" : null,
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : true
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-003",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : true,
+      "outputSchemaPassed" : true,
+      "errorCode" : null,
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : true
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-004",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : true,
+      "outputSchemaPassed" : true,
+      "errorCode" : null,
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : true
+    },
+    "latencyMs" : 1,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-005",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : true,
+      "outputSchemaPassed" : true,
+      "errorCode" : null,
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : true
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-006",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : true,
+      "outputSchemaPassed" : true,
+      "errorCode" : null,
+      "sideEffectDelta" : 1,
+      "candidateDelta" : 1,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : true,
+      "canonEffect" : false,
+      "status" : "CANDIDATE"
+    },
+    "latencyMs" : 1,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-007",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : false,
+      "outputSchemaPassed" : null,
+      "errorCode" : "invalid_argument",
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : false,
+      "errorCode" : "invalid_argument"
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-008",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : false,
+      "outputSchemaPassed" : null,
+      "errorCode" : "invalid_argument",
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : false,
+      "errorCode" : "invalid_argument"
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-009",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : false,
+      "outputSchemaPassed" : null,
+      "errorCode" : "invalid_argument",
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : false,
+      "errorCode" : "invalid_argument"
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-010",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : false,
+      "outputSchemaPassed" : null,
+      "errorCode" : "invalid_argument",
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : false,
+      "errorCode" : "invalid_argument"
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-011",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : false,
+      "outputSchemaPassed" : null,
+      "errorCode" : "invalid_argument",
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : false,
+      "errorCode" : "invalid_argument"
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-012",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : false,
+      "inputSchemaAccepted" : false,
+      "outputSchemaPassed" : null,
+      "errorCode" : "tool_not_found",
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : false,
+      "errorCode" : "tool_not_found"
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-013",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : false,
+      "outputSchemaPassed" : null,
+      "errorCode" : "project_not_found",
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : false,
+      "errorCode" : "project_not_found"
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-014",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : false,
+      "outputSchemaPassed" : null,
+      "errorCode" : "project_not_found",
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : false,
+      "errorCode" : "project_not_found"
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-015",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : true,
+      "outputSchemaPassed" : true,
+      "errorCode" : null,
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : true,
+      "sideEffects" : 0
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-016",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : true,
+      "outputSchemaPassed" : true,
+      "errorCode" : null,
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : true,
+      "sideEffects" : 0
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-017",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : true,
+      "outputSchemaPassed" : true,
+      "errorCode" : null,
+      "sideEffectDelta" : 1,
+      "candidateDelta" : 1,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : true,
+      "canonEffect" : false,
+      "status" : "CANDIDATE"
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  }, {
+    "caseId" : "mcp-018",
+    "passed" : true,
+    "actual" : {
+      "toolDiscovered" : true,
+      "inputSchemaAccepted" : false,
+      "outputSchemaPassed" : null,
+      "errorCode" : "character_not_found",
+      "sideEffectDelta" : 0,
+      "candidateDelta" : 0,
+      "canonChanged" : false
+    },
+    "expected" : {
+      "success" : false,
+      "errorCode" : "character_not_found"
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "transport" : "IN_PROCESS_CONTRACT",
+      "evaluationType" : "DETERMINISTIC",
+      "discovery" : "StoryMcpCapabilities annotations"
+    }
+  } ]
+}

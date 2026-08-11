@@ -1,0 +1,423 @@
+{
+  "datasetVersion" : "v1",
+  "evaluationType" : "DETERMINISTIC",
+  "llmMode" : "STUB",
+  "caseCount" : 14,
+  "metrics" : {
+    "workflowEngineSuccessRate" : 1.0,
+    "liveWorkflowSuccessRate" : null,
+    "plannerSuccessRate" : 0.9,
+    "writerSuccessRate" : 1.0,
+    "extractorSuccessRate" : 0.875,
+    "reviewerSuccessRate" : 1.0,
+    "atomicCommitSuccessRate" : 1.0,
+    "recoverySuccessRate" : 1.0,
+    "cancellationCorrectnessRate" : 1.0,
+    "meanLatencyMs" : 0.14285714285714285,
+    "p95LatencyMs" : 1.0,
+    "meanToken" : null,
+    "meanCost" : null
+  },
+  "failedCaseCount" : 0,
+  "cases" : [ {
+    "caseId" : "workflow-001",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "WAITING_APPROVAL",
+      "executedSteps" : [ "PREFLIGHT", "CONTEXT", "PLANNER", "PLAN_READY", "WRITER", "TEXT_READY", "EXTRACTOR", "VALIDATOR", "REVIEWER", "WAITING_APPROVAL" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : false,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "CONTEXT_READY", "PLANNING", "PLAN_READY", "WRITING", "TEXT_READY", "EXTRACTING", "VALIDATING", "REVIEWING", "WAITING_APPROVAL" ]
+    },
+    "expected" : {
+      "finalStatus" : "WAITING_APPROVAL",
+      "requiredSteps" : [ "PREFLIGHT", "CONTEXT", "PLANNER", "WRITER", "EXTRACTOR", "VALIDATOR", "REVIEWER", "WAITING_APPROVAL" ],
+      "structuredOutputValid" : true
+    },
+    "latencyMs" : 1,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-002",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "BLOCKED",
+      "executedSteps" : [ "PREFLIGHT", "MISSING_CONTEXT" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : false,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "BLOCKED" ]
+    },
+    "expected" : {
+      "finalStatus" : "BLOCKED",
+      "requiredSteps" : [ "PREFLIGHT", "MISSING_CONTEXT" ],
+      "structuredOutputValid" : true
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-003",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "FAILED",
+      "executedSteps" : [ "PREFLIGHT", "CONTEXT", "PLANNER", "PLANNER_FAILED" ],
+      "structuredOutputValid" : false,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : false,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "CONTEXT_READY", "PLANNING", "FAILED" ]
+    },
+    "expected" : {
+      "finalStatus" : "FAILED",
+      "requiredSteps" : [ "PLANNER", "PLANNER_FAILED" ],
+      "structuredOutputValid" : false
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-004",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "WAITING_APPROVAL",
+      "executedSteps" : [ "PREFLIGHT", "CONTEXT", "PLANNER", "PLAN_READY", "WRITER", "RECOVERY", "TEXT_READY", "EXTRACTOR", "VALIDATOR", "REVIEWER", "WAITING_APPROVAL" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : true,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "CONTEXT_READY", "PLANNING", "PLAN_READY", "WRITING", "TEXT_READY", "EXTRACTING", "VALIDATING", "REVIEWING", "WAITING_APPROVAL" ]
+    },
+    "expected" : {
+      "finalStatus" : "WAITING_APPROVAL",
+      "requiredSteps" : [ "WRITER", "RECOVERY", "EXTRACTOR", "REVIEWER", "WAITING_APPROVAL" ],
+      "structuredOutputValid" : true,
+      "recovered" : true
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-005",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "FAILED",
+      "executedSteps" : [ "PREFLIGHT", "CONTEXT", "PLANNER", "PLAN_READY", "WRITER", "TEXT_READY", "EXTRACTOR", "EXTRACTOR_FAILED" ],
+      "structuredOutputValid" : false,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : false,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "CONTEXT_READY", "PLANNING", "PLAN_READY", "WRITING", "TEXT_READY", "EXTRACTING", "FAILED" ]
+    },
+    "expected" : {
+      "finalStatus" : "FAILED",
+      "requiredSteps" : [ "EXTRACTOR", "EXTRACTOR_FAILED" ],
+      "structuredOutputValid" : false
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-006",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "REVISION_REQUIRED",
+      "executedSteps" : [ "PREFLIGHT", "CONTEXT", "PLANNER", "PLAN_READY", "WRITER", "TEXT_READY", "EXTRACTOR", "VALIDATOR", "REVIEWER", "WAITING_APPROVAL", "REVISION_REQUIRED" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : false,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "CONTEXT_READY", "PLANNING", "PLAN_READY", "WRITING", "TEXT_READY", "EXTRACTING", "VALIDATING", "REVIEWING", "WAITING_APPROVAL", "REVISION_REQUIRED" ]
+    },
+    "expected" : {
+      "finalStatus" : "REVISION_REQUIRED",
+      "requiredSteps" : [ "REVIEWER", "WAITING_APPROVAL", "REVISION_REQUIRED" ],
+      "structuredOutputValid" : true
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-007",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "ROLLED_BACK",
+      "executedSteps" : [ "PREFLIGHT", "CONTEXT", "PLANNER", "PLAN_READY", "WRITER", "TEXT_READY", "EXTRACTOR", "VALIDATOR", "REVIEWER", "WAITING_APPROVAL", "USER_REJECTED" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : false,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "CONTEXT_READY", "PLANNING", "PLAN_READY", "WRITING", "TEXT_READY", "EXTRACTING", "VALIDATING", "REVIEWING", "WAITING_APPROVAL", "ROLLED_BACK" ]
+    },
+    "expected" : {
+      "finalStatus" : "ROLLED_BACK",
+      "requiredSteps" : [ "WAITING_APPROVAL", "USER_REJECTED" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-008",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "CANCELLED",
+      "executedSteps" : [ "PREFLIGHT", "CONTEXT", "PLANNER", "PLAN_READY", "WRITER", "CANCELLED" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : false,
+      "cancelledCorrectly" : true,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "CONTEXT_READY", "PLANNING", "PLAN_READY", "WRITING", "CANCELLED" ]
+    },
+    "expected" : {
+      "finalStatus" : "CANCELLED",
+      "requiredSteps" : [ "WRITER", "CANCELLED" ],
+      "structuredOutputValid" : true,
+      "cancelledCorrectly" : true
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-009",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "COMPLETED",
+      "executedSteps" : [ "PREFLIGHT", "CONTEXT", "PLANNER", "PLAN_READY", "WRITER", "TEXT_READY", "EXTRACTOR", "VALIDATOR", "REVIEWER", "WAITING_APPROVAL", "COMMITTING", "COMPLETED" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : true,
+      "committedVersionNo" : 1,
+      "recovered" : false,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "CONTEXT_READY", "PLANNING", "PLAN_READY", "WRITING", "TEXT_READY", "EXTRACTING", "VALIDATING", "REVIEWING", "WAITING_APPROVAL", "COMMITTING", "COMPLETED" ]
+    },
+    "expected" : {
+      "finalStatus" : "COMPLETED",
+      "requiredSteps" : [ "WAITING_APPROVAL", "COMMITTING", "COMPLETED" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : true
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-010",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "ROLLED_BACK",
+      "executedSteps" : [ "PREFLIGHT", "CONTEXT", "PLANNER", "PLAN_READY", "WRITER", "TEXT_READY", "EXTRACTOR", "VALIDATOR", "REVIEWER", "WAITING_APPROVAL", "COMMITTING", "ROLLBACK" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : false,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "CONTEXT_READY", "PLANNING", "PLAN_READY", "WRITING", "TEXT_READY", "EXTRACTING", "VALIDATING", "REVIEWING", "WAITING_APPROVAL", "COMMITTING", "ROLLED_BACK" ]
+    },
+    "expected" : {
+      "finalStatus" : "ROLLED_BACK",
+      "requiredSteps" : [ "COMMITTING", "ROLLBACK" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-011",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "COMPLETED",
+      "executedSteps" : [ "PREFLIGHT", "CONTEXT", "PLANNER", "PLAN_READY", "WRITER", "TEXT_READY", "EXTRACTOR", "VALIDATOR", "REVIEWER", "WAITING_APPROVAL", "REVISION_REQUIRED", "TEXT_READY", "EXTRACTOR", "VALIDATOR", "REVIEWER", "WAITING_APPROVAL", "COMMITTING", "COMPLETED" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : true,
+      "committedVersionNo" : 2,
+      "recovered" : true,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "CONTEXT_READY", "PLANNING", "PLAN_READY", "WRITING", "TEXT_READY", "EXTRACTING", "VALIDATING", "REVIEWING", "WAITING_APPROVAL", "REVISION_REQUIRED", "TEXT_READY", "EXTRACTING", "VALIDATING", "REVIEWING", "WAITING_APPROVAL", "COMMITTING", "COMPLETED" ]
+    },
+    "expected" : {
+      "finalStatus" : "COMPLETED",
+      "requiredSteps" : [ "REVISION_REQUIRED", "TEXT_READY", "EXTRACTOR", "REVIEWER", "COMMITTING", "COMPLETED" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : true,
+      "recovered" : true
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-012",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "CREATED",
+      "executedSteps" : [ "IDEMPOTENCY_CHECK" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : false,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : true,
+      "workflowStates" : [ "CREATED" ]
+    },
+    "expected" : {
+      "finalStatus" : "CREATED",
+      "requiredSteps" : [ "IDEMPOTENCY_CHECK" ],
+      "structuredOutputValid" : true,
+      "idempotencyStable" : true
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-013",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "BLOCKED",
+      "executedSteps" : [ "PREFLIGHT", "BUDGET_EXCEEDED" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : false,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED", "PREFLIGHT", "BLOCKED" ]
+    },
+    "expected" : {
+      "finalStatus" : "BLOCKED",
+      "requiredSteps" : [ "PREFLIGHT", "BUDGET_EXCEEDED" ],
+      "structuredOutputValid" : true
+    },
+    "latencyMs" : 0,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  }, {
+    "caseId" : "workflow-014",
+    "passed" : true,
+    "actual" : {
+      "finalStatus" : "CREATED",
+      "executedSteps" : [ "INVALID_TRANSITION_REJECTED" ],
+      "structuredOutputValid" : true,
+      "atomicCommit" : false,
+      "committedVersionNo" : null,
+      "recovered" : false,
+      "cancelledCorrectly" : false,
+      "idempotencyStable" : false,
+      "workflowStates" : [ "CREATED" ]
+    },
+    "expected" : {
+      "finalStatus" : "CREATED",
+      "requiredSteps" : [ "INVALID_TRANSITION_REJECTED" ],
+      "structuredOutputValid" : true
+    },
+    "latencyMs" : 1,
+    "tokenUsage" : null,
+    "cost" : null,
+    "error" : null,
+    "metadata" : {
+      "evaluationType" : "DETERMINISTIC",
+      "llm" : "STUB",
+      "engine" : "WorkflowRun+WorkflowStateMachine"
+    }
+  } ]
+}

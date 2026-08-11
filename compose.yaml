@@ -1,0 +1,14 @@
+name: storyweaver
+
+include:
+  - path: backend/compose.yaml
+    project_directory: backend
+  - path: frontend/compose.frontend.yaml
+    project_directory: frontend
+
+services:
+  frontend:
+    environment:
+      BACKEND_UPSTREAM: http://app:8080
+    networks:
+      - backend

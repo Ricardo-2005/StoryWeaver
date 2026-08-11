@@ -1,0 +1,37 @@
+[
+  {
+    "id": "DRAGON-CHARACTER-LOCATION",
+    "category": "CHARACTER_STATE",
+    "conflictInput": "同一故事时间的两条记录分别称路明非位于卡塞尔学院和三峡任务现场。",
+    "safeInput": "记录明确路明非先从卡塞尔学院出发，随后抵达三峡任务现场。",
+    "evidenceMarker": "路明非"
+  },
+  {
+    "id": "DRAGON-UNIQUE-ITEM",
+    "category": "ITEM_OWNERSHIP",
+    "conflictInput": "同一有效时间内，路明非和楚子航都被记录为完整七宗罪剑匣的持有人。",
+    "safeInput": "记录显示路明非先持有完整七宗罪剑匣，交接后当前持有人变为楚子航。",
+    "evidenceMarker": "完整七宗罪剑匣"
+  },
+  {
+    "id": "DRAGON-TIMELINE-CAUSE",
+    "category": "TIMELINE",
+    "conflictInput": "进入青铜城的结果早于调查组发现青铜城水下入口的事件。",
+    "safeInput": "调查组先发现青铜城水下入口，随后才进入青铜城。",
+    "evidenceMarker": "青铜城水下入口"
+  },
+  {
+    "id": "DRAGON-KNOWLEDGE-BOUNDARY",
+    "category": "KNOWLEDGE_BOUNDARY",
+    "conflictInput": "楚子航在没有证据和信息传播事件时，提前确认青铜与火之王的身份。",
+    "safeInput": "楚子航只把青铜与火之王的身份列为怀疑，等待现场证据。",
+    "evidenceMarker": "青铜与火之王"
+  },
+  {
+    "id": "DRAGON-WORLD-RULE",
+    "category": "CANON_REFERENCE",
+    "conflictInput": "普通人物没有血统或训练依据，却直接识别龙文并使用言灵。",
+    "safeInput": "人物的混血种血统、训练记录和能力证据齐全后，才能识别龙文并使用已确认的言灵。",
+    "evidenceMarker": "血统或训练依据"
+  }
+]
