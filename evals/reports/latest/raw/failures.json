@@ -194,7 +194,7 @@
     "relevantIds" : [ "asset-item-001", "asset-recent-002", "asset-state-001", "asset-state-002" ],
     "requiredIds" : [ "asset-item-001", "asset-recent-002" ]
   },
-  "latencyMs" : 3,
+  "latencyMs" : 12,
   "tokenUsage" : null,
   "cost" : null,
   "error" : null,
@@ -418,7 +418,7 @@
     "relevantIds" : [ "asset-knowledge-002", "asset-character-002" ],
     "requiredIds" : [ "asset-knowledge-002" ]
   },
-  "latencyMs" : 2,
+  "latencyMs" : 6,
   "tokenUsage" : null,
   "cost" : null,
   "error" : null,
@@ -642,7 +642,7 @@
     "relevantIds" : [ "asset-recent-001", "asset-location-003" ],
     "requiredIds" : [ "asset-recent-001" ]
   },
-  "latencyMs" : 2,
+  "latencyMs" : 10,
   "tokenUsage" : null,
   "cost" : null,
   "error" : null,
@@ -866,7 +866,7 @@
     "relevantIds" : [ "asset-recent-002", "asset-state-002" ],
     "requiredIds" : [ "asset-recent-002" ]
   },
-  "latencyMs" : 2,
+  "latencyMs" : 11,
   "tokenUsage" : null,
   "cost" : null,
   "error" : null,
@@ -1090,7 +1090,7 @@
     "relevantIds" : [ "asset-recent-005", "asset-item-003" ],
     "requiredIds" : [ "asset-recent-005" ]
   },
-  "latencyMs" : 3,
+  "latencyMs" : 8,
   "tokenUsage" : null,
   "cost" : null,
   "error" : null,

@@ -3,8 +3,8 @@
 > 此文件由 `evals` Harness 从真实 `summary.json` 自动生成，请勿手写指标。
 
 - Dataset Version: `v1`
-- Git Commit: `null`
-- Timestamp: `2026-08-11T03:41:31.869001400Z`
+- Git Commit: `7d940cfe7c179695e8927588509a98acea1acd0e`
+- Timestamp: `2026-08-12T08:28:45.856106600Z`
 - Profile: `local`
 - RAG Configuration: `{retrievalMode=VECTOR_ONLY, candidatePoolSize=10, finalRankingSize=2147483647, rrfRankConstant=60}`
 - Environment: `{os=Windows 11, osVersion=10.0, java=23.0.2, timezone=Asia/Shanghai}`

@@ -18,33 +18,33 @@
     "byCategory" : {
       "CHARACTER_STATE" : {
         "f1" : 1.0,
-        "recall" : 1.0,
+        "precision" : 1.0,
         "accuracy" : 1.0,
-        "precision" : 1.0
+        "recall" : 1.0
       },
       "ITEM_OWNERSHIP" : {
         "f1" : 1.0,
-        "recall" : 1.0,
+        "precision" : 1.0,
         "accuracy" : 1.0,
-        "precision" : 1.0
+        "recall" : 1.0
       },
       "TIMELINE" : {
         "f1" : 1.0,
-        "recall" : 1.0,
+        "precision" : 1.0,
         "accuracy" : 1.0,
-        "precision" : 1.0
+        "recall" : 1.0
       },
       "KNOWLEDGE_BOUNDARY" : {
         "f1" : 1.0,
-        "recall" : 1.0,
+        "precision" : 1.0,
         "accuracy" : 1.0,
-        "precision" : 1.0
+        "recall" : 1.0
       },
       "WORLD_RULE" : {
         "f1" : 1.0,
-        "recall" : 1.0,
+        "precision" : 1.0,
         "accuracy" : 1.0,
-        "precision" : 1.0
+        "recall" : 1.0
       }
     },
     "llmReviewer" : null,
@@ -57,10 +57,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "CHARACTER_STATE",
-        "evidence" : "林澈",
+        "severity" : "BLOCKER",
         "message" : "死亡人物在正文中以正常行动者出现",
-        "severity" : "BLOCKER"
+        "evidence" : "林澈",
+        "type" : "CHARACTER_STATE"
       } ]
     },
     "expected" : {
@@ -75,8 +75,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-002",
@@ -84,10 +84,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "CHARACTER_STATE",
-        "evidence" : "沈弦",
+        "severity" : "BLOCKER",
         "message" : "死亡人物在正文中以正常行动者出现",
-        "severity" : "BLOCKER"
+        "evidence" : "沈弦",
+        "type" : "CHARACTER_STATE"
       } ]
     },
     "expected" : {
@@ -102,8 +102,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-003",
@@ -111,10 +111,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "CHARACTER_STATE",
-        "evidence" : "顾潮生",
+        "severity" : "BLOCKER",
         "message" : "死亡人物在正文中以正常行动者出现",
-        "severity" : "BLOCKER"
+        "evidence" : "顾潮生",
+        "type" : "CHARACTER_STATE"
       } ]
     },
     "expected" : {
@@ -129,8 +129,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-004",
@@ -138,10 +138,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "CHARACTER_STATE",
-        "evidence" : "叶砂",
+        "severity" : "BLOCKER",
         "message" : "死亡人物在正文中以正常行动者出现",
-        "severity" : "BLOCKER"
+        "evidence" : "叶砂",
+        "type" : "CHARACTER_STATE"
       } ]
     },
     "expected" : {
@@ -156,8 +156,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-005",
@@ -165,10 +165,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "CHARACTER_STATE",
-        "evidence" : "闻舟",
+        "severity" : "BLOCKER",
         "message" : "死亡人物在正文中以正常行动者出现",
-        "severity" : "BLOCKER"
+        "evidence" : "闻舟",
+        "type" : "CHARACTER_STATE"
       } ]
     },
     "expected" : {
@@ -183,8 +183,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-006",
@@ -192,10 +192,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "CHARACTER_STATE",
-        "evidence" : "周岚",
+        "severity" : "BLOCKER",
         "message" : "死亡人物在正文中以正常行动者出现",
-        "severity" : "BLOCKER"
+        "evidence" : "周岚",
+        "type" : "CHARACTER_STATE"
       } ]
     },
     "expected" : {
@@ -210,8 +210,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-007",
@@ -219,10 +219,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "CHARACTER_STATE",
-        "evidence" : "陶以宁",
+        "severity" : "BLOCKER",
         "message" : "死亡人物在正文中以正常行动者出现",
-        "severity" : "BLOCKER"
+        "evidence" : "陶以宁",
+        "type" : "CHARACTER_STATE"
       } ]
     },
     "expected" : {
@@ -237,8 +237,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-008",
@@ -246,10 +246,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "CHARACTER_STATE",
-        "evidence" : "秦灯",
+        "severity" : "BLOCKER",
         "message" : "死亡人物在正文中以正常行动者出现",
-        "severity" : "BLOCKER"
+        "evidence" : "秦灯",
+        "type" : "CHARACTER_STATE"
       } ]
     },
     "expected" : {
@@ -264,8 +264,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-009",
@@ -273,10 +273,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "CHARACTER_STATE",
-        "evidence" : "许墨",
+        "severity" : "BLOCKER",
         "message" : "死亡人物在正文中以正常行动者出现",
-        "severity" : "BLOCKER"
+        "evidence" : "许墨",
+        "type" : "CHARACTER_STATE"
       } ]
     },
     "expected" : {
@@ -291,8 +291,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-010",
@@ -300,10 +300,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "CHARACTER_STATE",
-        "evidence" : "孟海",
+        "severity" : "BLOCKER",
         "message" : "死亡人物在正文中以正常行动者出现",
-        "severity" : "BLOCKER"
+        "evidence" : "孟海",
+        "type" : "CHARACTER_STATE"
       } ]
     },
     "expected" : {
@@ -318,8 +318,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-011",
@@ -337,8 +337,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-012",
@@ -356,8 +356,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-013",
@@ -375,8 +375,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-014",
@@ -394,8 +394,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-015",
@@ -413,8 +413,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-016",
@@ -432,8 +432,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-017",
@@ -451,8 +451,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-018",
@@ -470,8 +470,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-019",
@@ -489,8 +489,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-020",
@@ -508,8 +508,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-021",
@@ -517,10 +517,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "ITEM_OWNERSHIP",
-        "evidence" : "裂纹罗盘",
+        "severity" : "BLOCKER",
         "message" : "已销毁道具被继续正常使用",
-        "severity" : "BLOCKER"
+        "evidence" : "裂纹罗盘",
+        "type" : "ITEM_OWNERSHIP"
       } ]
     },
     "expected" : {
@@ -530,13 +530,13 @@
         "severity" : "BLOCKER"
       } ]
     },
-    "latencyMs" : 1,
+    "latencyMs" : 3,
     "tokenUsage" : null,
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-022",
@@ -544,10 +544,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "ITEM_OWNERSHIP",
-        "evidence" : "银哨",
+        "severity" : "BLOCKER",
         "message" : "已销毁道具被继续正常使用",
-        "severity" : "BLOCKER"
+        "evidence" : "银哨",
+        "type" : "ITEM_OWNERSHIP"
       } ]
     },
     "expected" : {
@@ -562,8 +562,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-023",
@@ -571,10 +571,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "ITEM_OWNERSHIP",
-        "evidence" : "潮纹短剑",
+        "severity" : "BLOCKER",
         "message" : "已销毁道具被继续正常使用",
-        "severity" : "BLOCKER"
+        "evidence" : "潮纹短剑",
+        "type" : "ITEM_OWNERSHIP"
       } ]
     },
     "expected" : {
@@ -589,8 +589,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-024",
@@ -598,10 +598,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "ITEM_OWNERSHIP",
-        "evidence" : "蓝瓶枪",
+        "severity" : "BLOCKER",
         "message" : "已销毁道具被继续正常使用",
-        "severity" : "BLOCKER"
+        "evidence" : "蓝瓶枪",
+        "type" : "ITEM_OWNERSHIP"
       } ]
     },
     "expected" : {
@@ -616,8 +616,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-025",
@@ -625,10 +625,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "ITEM_OWNERSHIP",
-        "evidence" : "旧信号枪",
+        "severity" : "BLOCKER",
         "message" : "已销毁道具被继续正常使用",
-        "severity" : "BLOCKER"
+        "evidence" : "旧信号枪",
+        "type" : "ITEM_OWNERSHIP"
       } ]
     },
     "expected" : {
@@ -643,8 +643,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-026",
@@ -652,10 +652,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "ITEM_OWNERSHIP",
-        "evidence" : "铜钟",
+        "severity" : "BLOCKER",
         "message" : "已销毁道具被继续正常使用",
-        "severity" : "BLOCKER"
+        "evidence" : "铜钟",
+        "type" : "ITEM_OWNERSHIP"
       } ]
     },
     "expected" : {
@@ -670,8 +670,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-027",
@@ -679,10 +679,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "ITEM_OWNERSHIP",
-        "evidence" : "黑匣",
+        "severity" : "BLOCKER",
         "message" : "已销毁道具被继续正常使用",
-        "severity" : "BLOCKER"
+        "evidence" : "黑匣",
+        "type" : "ITEM_OWNERSHIP"
       } ]
     },
     "expected" : {
@@ -697,8 +697,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-028",
@@ -706,10 +706,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "ITEM_OWNERSHIP",
-        "evidence" : "骨柄刀",
+        "severity" : "BLOCKER",
         "message" : "已销毁道具被继续正常使用",
-        "severity" : "BLOCKER"
+        "evidence" : "骨柄刀",
+        "type" : "ITEM_OWNERSHIP"
       } ]
     },
     "expected" : {
@@ -724,8 +724,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-029",
@@ -733,10 +733,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "ITEM_OWNERSHIP",
-        "evidence" : "旧火铳",
+        "severity" : "BLOCKER",
         "message" : "已销毁道具被继续正常使用",
-        "severity" : "BLOCKER"
+        "evidence" : "旧火铳",
+        "type" : "ITEM_OWNERSHIP"
       } ]
     },
     "expected" : {
@@ -751,8 +751,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-030",
@@ -760,10 +760,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "ITEM_OWNERSHIP",
-        "evidence" : "潮声炮",
+        "severity" : "BLOCKER",
         "message" : "已销毁道具被继续正常使用",
-        "severity" : "BLOCKER"
+        "evidence" : "潮声炮",
+        "type" : "ITEM_OWNERSHIP"
       } ]
     },
     "expected" : {
@@ -778,8 +778,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-031",
@@ -797,8 +797,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-032",
@@ -816,8 +816,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-033",
@@ -835,8 +835,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-034",
@@ -854,8 +854,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-035",
@@ -873,8 +873,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-036",
@@ -892,8 +892,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-037",
@@ -911,8 +911,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-038",
@@ -930,8 +930,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-039",
@@ -949,8 +949,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-040",
@@ -968,8 +968,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-041",
@@ -977,10 +977,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "TIMELINE",
-        "evidence" : "段落-cons-041",
+        "severity" : "BLOCKER",
         "message" : "新事件日期早于已提交时间线",
-        "severity" : "BLOCKER"
+        "evidence" : "段落-cons-041",
+        "type" : "TIMELINE"
       } ]
     },
     "expected" : {
@@ -995,8 +995,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-042",
@@ -1004,10 +1004,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "TIMELINE",
-        "evidence" : "段落-cons-042",
+        "severity" : "BLOCKER",
         "message" : "新事件日期早于已提交时间线",
-        "severity" : "BLOCKER"
+        "evidence" : "段落-cons-042",
+        "type" : "TIMELINE"
       } ]
     },
     "expected" : {
@@ -1022,8 +1022,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-043",
@@ -1031,10 +1031,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "TIMELINE",
-        "evidence" : "段落-cons-043",
+        "severity" : "BLOCKER",
         "message" : "新事件日期早于已提交时间线",
-        "severity" : "BLOCKER"
+        "evidence" : "段落-cons-043",
+        "type" : "TIMELINE"
       } ]
     },
     "expected" : {
@@ -1049,8 +1049,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-044",
@@ -1058,10 +1058,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "TIMELINE",
-        "evidence" : "段落-cons-044",
+        "severity" : "BLOCKER",
         "message" : "新事件日期早于已提交时间线",
-        "severity" : "BLOCKER"
+        "evidence" : "段落-cons-044",
+        "type" : "TIMELINE"
       } ]
     },
     "expected" : {
@@ -1076,8 +1076,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-045",
@@ -1085,10 +1085,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "TIMELINE",
-        "evidence" : "段落-cons-045",
+        "severity" : "BLOCKER",
         "message" : "新事件日期早于已提交时间线",
-        "severity" : "BLOCKER"
+        "evidence" : "段落-cons-045",
+        "type" : "TIMELINE"
       } ]
     },
     "expected" : {
@@ -1103,8 +1103,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-046",
@@ -1112,10 +1112,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "TIMELINE",
-        "evidence" : "段落-cons-046",
+        "severity" : "BLOCKER",
         "message" : "新事件日期早于已提交时间线",
-        "severity" : "BLOCKER"
+        "evidence" : "段落-cons-046",
+        "type" : "TIMELINE"
       } ]
     },
     "expected" : {
@@ -1130,8 +1130,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-047",
@@ -1139,10 +1139,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "TIMELINE",
-        "evidence" : "段落-cons-047",
+        "severity" : "BLOCKER",
         "message" : "新事件日期早于已提交时间线",
-        "severity" : "BLOCKER"
+        "evidence" : "段落-cons-047",
+        "type" : "TIMELINE"
       } ]
     },
     "expected" : {
@@ -1157,8 +1157,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-048",
@@ -1166,10 +1166,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "TIMELINE",
-        "evidence" : "段落-cons-048",
+        "severity" : "BLOCKER",
         "message" : "新事件日期早于已提交时间线",
-        "severity" : "BLOCKER"
+        "evidence" : "段落-cons-048",
+        "type" : "TIMELINE"
       } ]
     },
     "expected" : {
@@ -1184,8 +1184,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-049",
@@ -1193,10 +1193,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "TIMELINE",
-        "evidence" : "段落-cons-049",
+        "severity" : "BLOCKER",
         "message" : "新事件日期早于已提交时间线",
-        "severity" : "BLOCKER"
+        "evidence" : "段落-cons-049",
+        "type" : "TIMELINE"
       } ]
     },
     "expected" : {
@@ -1211,8 +1211,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-050",
@@ -1220,10 +1220,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "TIMELINE",
-        "evidence" : "段落-cons-050",
+        "severity" : "BLOCKER",
         "message" : "新事件日期早于已提交时间线",
-        "severity" : "BLOCKER"
+        "evidence" : "段落-cons-050",
+        "type" : "TIMELINE"
       } ]
     },
     "expected" : {
@@ -1238,8 +1238,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-051",
@@ -1257,8 +1257,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-052",
@@ -1276,8 +1276,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-053",
@@ -1295,8 +1295,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-054",
@@ -1314,8 +1314,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-055",
@@ -1333,8 +1333,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-056",
@@ -1352,8 +1352,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-057",
@@ -1371,8 +1371,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-058",
@@ -1390,8 +1390,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-059",
@@ -1409,8 +1409,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-060",
@@ -1428,8 +1428,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-061",
@@ -1437,10 +1437,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "KNOWLEDGE_BOUNDARY",
-        "evidence" : "铜门第三枚螺栓后有开关",
+        "severity" : "BLOCKER",
         "message" : "视角人物直接使用了其尚未知晓的秘密",
-        "severity" : "BLOCKER"
+        "evidence" : "铜门第三枚螺栓后有开关",
+        "type" : "KNOWLEDGE_BOUNDARY"
       } ]
     },
     "expected" : {
@@ -1455,8 +1455,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-062",
@@ -1464,10 +1464,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "KNOWLEDGE_BOUNDARY",
-        "evidence" : "本周口令是雾灯归航",
+        "severity" : "BLOCKER",
         "message" : "视角人物直接使用了其尚未知晓的秘密",
-        "severity" : "BLOCKER"
+        "evidence" : "本周口令是雾灯归航",
+        "type" : "KNOWLEDGE_BOUNDARY"
       } ]
     },
     "expected" : {
@@ -1482,8 +1482,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-063",
@@ -1491,10 +1491,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "KNOWLEDGE_BOUNDARY",
-        "evidence" : "白鸥就是沈弦",
+        "severity" : "BLOCKER",
         "message" : "视角人物直接使用了其尚未知晓的秘密",
-        "severity" : "BLOCKER"
+        "evidence" : "白鸥就是沈弦",
+        "type" : "KNOWLEDGE_BOUNDARY"
       } ]
     },
     "expected" : {
@@ -1509,8 +1509,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-064",
@@ -1518,10 +1518,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "KNOWLEDGE_BOUNDARY",
-        "evidence" : "航海图能够改写真实航线",
+        "severity" : "BLOCKER",
         "message" : "视角人物直接使用了其尚未知晓的秘密",
-        "severity" : "BLOCKER"
+        "evidence" : "航海图能够改写真实航线",
+        "type" : "KNOWLEDGE_BOUNDARY"
       } ]
     },
     "expected" : {
@@ -1536,8 +1536,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-065",
@@ -1545,10 +1545,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "KNOWLEDGE_BOUNDARY",
-        "evidence" : "测绘局档案藏在港务署",
+        "severity" : "BLOCKER",
         "message" : "视角人物直接使用了其尚未知晓的秘密",
-        "severity" : "BLOCKER"
+        "evidence" : "测绘局档案藏在港务署",
+        "type" : "KNOWLEDGE_BOUNDARY"
       } ]
     },
     "expected" : {
@@ -1563,8 +1563,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-066",
@@ -1572,10 +1572,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "KNOWLEDGE_BOUNDARY",
-        "evidence" : "备用齿轮由顾潮生领走",
+        "severity" : "BLOCKER",
         "message" : "视角人物直接使用了其尚未知晓的秘密",
-        "severity" : "BLOCKER"
+        "evidence" : "备用齿轮由顾潮生领走",
+        "type" : "KNOWLEDGE_BOUNDARY"
       } ]
     },
     "expected" : {
@@ -1590,8 +1590,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-067",
@@ -1599,10 +1599,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "KNOWLEDGE_BOUNDARY",
-        "evidence" : "医院药库有替代解毒剂",
+        "severity" : "BLOCKER",
         "message" : "视角人物直接使用了其尚未知晓的秘密",
-        "severity" : "BLOCKER"
+        "evidence" : "医院药库有替代解毒剂",
+        "type" : "KNOWLEDGE_BOUNDARY"
       } ]
     },
     "expected" : {
@@ -1617,8 +1617,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-068",
@@ -1626,10 +1626,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "KNOWLEDGE_BOUNDARY",
-        "evidence" : "鱼摊后有排水渠入口",
+        "severity" : "BLOCKER",
         "message" : "视角人物直接使用了其尚未知晓的秘密",
-        "severity" : "BLOCKER"
+        "evidence" : "鱼摊后有排水渠入口",
+        "type" : "KNOWLEDGE_BOUNDARY"
       } ]
     },
     "expected" : {
@@ -1644,8 +1644,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-069",
@@ -1653,10 +1653,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "KNOWLEDGE_BOUNDARY",
-        "evidence" : "录音筒会引来白鸥",
+        "severity" : "BLOCKER",
         "message" : "视角人物直接使用了其尚未知晓的秘密",
-        "severity" : "BLOCKER"
+        "evidence" : "录音筒会引来白鸥",
+        "type" : "KNOWLEDGE_BOUNDARY"
       } ]
     },
     "expected" : {
@@ -1671,8 +1671,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-070",
@@ -1680,10 +1680,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "KNOWLEDGE_BOUNDARY",
-        "evidence" : "巡夜东门有十分钟空窗",
+        "severity" : "BLOCKER",
         "message" : "视角人物直接使用了其尚未知晓的秘密",
-        "severity" : "BLOCKER"
+        "evidence" : "巡夜东门有十分钟空窗",
+        "type" : "KNOWLEDGE_BOUNDARY"
       } ]
     },
     "expected" : {
@@ -1698,8 +1698,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-071",
@@ -1717,8 +1717,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-072",
@@ -1736,8 +1736,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-073",
@@ -1755,8 +1755,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-074",
@@ -1774,8 +1774,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-075",
@@ -1793,8 +1793,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-076",
@@ -1812,8 +1812,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-077",
@@ -1831,8 +1831,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-078",
@@ -1850,8 +1850,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-079",
@@ -1869,8 +1869,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-080",
@@ -1888,8 +1888,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-081",
@@ -1897,10 +1897,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "WORLD_RULE",
-        "evidence" : "",
+        "severity" : "BLOCKER",
         "message" : "候选状态缺少正文证据",
-        "severity" : "BLOCKER"
+        "evidence" : "",
+        "type" : "WORLD_RULE"
       } ]
     },
     "expected" : {
@@ -1915,8 +1915,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-082",
@@ -1924,10 +1924,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "WORLD_RULE",
-        "evidence" : "",
+        "severity" : "BLOCKER",
         "message" : "候选状态缺少正文证据",
-        "severity" : "BLOCKER"
+        "evidence" : "",
+        "type" : "WORLD_RULE"
       } ]
     },
     "expected" : {
@@ -1942,8 +1942,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-083",
@@ -1951,10 +1951,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "WORLD_RULE",
-        "evidence" : "",
+        "severity" : "BLOCKER",
         "message" : "候选状态缺少正文证据",
-        "severity" : "BLOCKER"
+        "evidence" : "",
+        "type" : "WORLD_RULE"
       } ]
     },
     "expected" : {
@@ -1969,8 +1969,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-084",
@@ -1978,10 +1978,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "WORLD_RULE",
-        "evidence" : "",
+        "severity" : "BLOCKER",
         "message" : "候选状态缺少正文证据",
-        "severity" : "BLOCKER"
+        "evidence" : "",
+        "type" : "WORLD_RULE"
       } ]
     },
     "expected" : {
@@ -1996,8 +1996,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-085",
@@ -2005,10 +2005,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "WORLD_RULE",
-        "evidence" : "",
+        "severity" : "BLOCKER",
         "message" : "候选状态缺少正文证据",
-        "severity" : "BLOCKER"
+        "evidence" : "",
+        "type" : "WORLD_RULE"
       } ]
     },
     "expected" : {
@@ -2023,8 +2023,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-086",
@@ -2032,10 +2032,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "WORLD_RULE",
-        "evidence" : "",
+        "severity" : "BLOCKER",
         "message" : "候选状态缺少正文证据",
-        "severity" : "BLOCKER"
+        "evidence" : "",
+        "type" : "WORLD_RULE"
       } ]
     },
     "expected" : {
@@ -2050,8 +2050,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-087",
@@ -2059,10 +2059,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "WORLD_RULE",
-        "evidence" : "",
+        "severity" : "BLOCKER",
         "message" : "候选状态缺少正文证据",
-        "severity" : "BLOCKER"
+        "evidence" : "",
+        "type" : "WORLD_RULE"
       } ]
     },
     "expected" : {
@@ -2077,8 +2077,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-088",
@@ -2086,10 +2086,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "WORLD_RULE",
-        "evidence" : "",
+        "severity" : "BLOCKER",
         "message" : "候选状态缺少正文证据",
-        "severity" : "BLOCKER"
+        "evidence" : "",
+        "type" : "WORLD_RULE"
       } ]
     },
     "expected" : {
@@ -2104,8 +2104,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-089",
@@ -2113,10 +2113,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "WORLD_RULE",
-        "evidence" : "",
+        "severity" : "BLOCKER",
         "message" : "候选状态缺少正文证据",
-        "severity" : "BLOCKER"
+        "evidence" : "",
+        "type" : "WORLD_RULE"
       } ]
     },
     "expected" : {
@@ -2131,8 +2131,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-090",
@@ -2140,10 +2140,10 @@
     "actual" : {
       "shouldPass" : false,
       "violations" : [ {
-        "type" : "WORLD_RULE",
-        "evidence" : "",
+        "severity" : "BLOCKER",
         "message" : "候选状态缺少正文证据",
-        "severity" : "BLOCKER"
+        "evidence" : "",
+        "type" : "WORLD_RULE"
       } ]
     },
     "expected" : {
@@ -2158,8 +2158,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-091",
@@ -2177,8 +2177,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-092",
@@ -2196,8 +2196,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-093",
@@ -2215,8 +2215,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-094",
@@ -2234,8 +2234,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-095",
@@ -2253,8 +2253,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-096",
@@ -2272,8 +2272,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-097",
@@ -2291,8 +2291,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-098",
@@ -2310,8 +2310,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-099",
@@ -2329,8 +2329,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   }, {
     "caseId" : "cons-100",
@@ -2348,8 +2348,8 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "layer" : "JAVA_VALIDATOR",
-      "evaluationType" : "DETERMINISTIC"
+      "evaluationType" : "DETERMINISTIC",
+      "layer" : "JAVA_VALIDATOR"
     }
   } ]
 }

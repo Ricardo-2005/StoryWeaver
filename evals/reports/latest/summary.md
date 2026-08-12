@@ -1,8 +1,8 @@
 # StoryWeaver Agent Evaluation Report
 
 - Dataset: `v1`
-- Commit: `null`
-- Date: `2026-08-11T03:41:31.869001400Z`
+- Commit: `7d940cfe7c179695e8927588509a98acea1acd0e`
+- Date: `2026-08-12T08:28:45.856106600Z`
 - Profile: `local`
 - Mode: `all`
 - RAG Configuration: `{retrievalMode=VECTOR_ONLY, candidatePoolSize=10, finalRankingSize=2147483647, rrfRankConstant=60}`
