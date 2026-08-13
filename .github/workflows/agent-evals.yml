@@ -23,6 +23,9 @@ jobs:
           distribution: temurin
           java-version: "21"
           cache: maven
+      - name: Prepare verified local embedding assets
+        shell: powershell
+        run: ./backend/scripts/download-embedding-model.ps1
       - name: Offline deterministic baseline
         shell: powershell
         run: ./evals/scripts/run-all.ps1 -Mode all -Profile ci
