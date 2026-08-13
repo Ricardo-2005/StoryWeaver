@@ -216,6 +216,7 @@ StoryWeaver/
 
 ## 文档导航
 
+- [项目技术白皮书](docs/StoryWeaver_项目技术白皮书/StoryWeaver_项目详细技术文档.md)：从架构、工作流、Context Engineering、RAG、一致性到评测与面试表达的 154 题完整说明。
 - [文档中心](docs/README.md)：按使用、开发、配置和运维组织的完整索引。
 - [项目流程](docs/PROJECT_FLOW.md)：从创建项目到生成、审核和发布章节的操作流程。
 - [实现状态](docs/IMPLEMENTATION_STATUS.md)：当前能力、数据迁移、测试与明确边界。

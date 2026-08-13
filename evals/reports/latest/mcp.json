@@ -29,14 +29,14 @@
     "expected" : {
       "success" : true
     },
-    "latencyMs" : 0,
+    "latencyMs" : 1,
     "tokenUsage" : null,
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-002",
@@ -58,9 +58,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-003",
@@ -82,9 +82,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-004",
@@ -101,14 +101,14 @@
     "expected" : {
       "success" : true
     },
-    "latencyMs" : 0,
+    "latencyMs" : 1,
     "tokenUsage" : null,
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-005",
@@ -130,9 +130,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-006",
@@ -151,14 +151,14 @@
       "canonEffect" : false,
       "status" : "CANDIDATE"
     },
-    "latencyMs" : 1,
+    "latencyMs" : 2,
     "tokenUsage" : null,
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-007",
@@ -181,9 +181,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-008",
@@ -206,9 +206,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-009",
@@ -231,9 +231,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-010",
@@ -256,9 +256,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-011",
@@ -281,9 +281,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-012",
@@ -306,9 +306,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-013",
@@ -331,9 +331,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-014",
@@ -356,9 +356,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-015",
@@ -381,9 +381,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-016",
@@ -406,9 +406,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-017",
@@ -432,9 +432,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   }, {
     "caseId" : "mcp-018",
@@ -457,9 +457,9 @@
     "cost" : null,
     "error" : null,
     "metadata" : {
-      "transport" : "IN_PROCESS_CONTRACT",
+      "discovery" : "StoryMcpCapabilities annotations",
       "evaluationType" : "DETERMINISTIC",
-      "discovery" : "StoryMcpCapabilities annotations"
+      "transport" : "IN_PROCESS_CONTRACT"
     }
   } ]
 }
