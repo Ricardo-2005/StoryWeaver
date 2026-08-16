@@ -23,19 +23,24 @@ public class WorldbookVectorRepository {
         jdbc.update("update worldbook_entry set embedding=null where id=?", entryId);
     }
 
-    public List<VectorMatch> search(UUID projectId, float[] query, int topK) {
+    public List<VectorMatch> search(UUID projectId, float[] query, Integer chapterNo, int topK) {
         return jdbc.query(
                 """
                 select id, greatest(0.0, 1.0 - (embedding <=> cast(? as vector))) as similarity
                 from worldbook_entry
                 where project_id=? and active=true and vector_enabled=true
                   and embedding_status='AVAILABLE' and embedding is not null
+                  and retrieval_eligible=true and lifecycle_status='ACTIVE'
+                  and valid_from_chapter_no <= coalesce(?, 2147483647)
+                  and (valid_to_chapter_no is null or valid_to_chapter_no > coalesce(?, 2147483647))
                 order by embedding <=> cast(? as vector), priority desc
                 limit ?
                 """,
                 (rs, row) -> new VectorMatch(rs.getObject("id", UUID.class), rs.getDouble("similarity")),
                 vectorLiteral(query),
                 projectId,
+                chapterNo,
+                chapterNo,
                 vectorLiteral(query),
                 topK);
     }

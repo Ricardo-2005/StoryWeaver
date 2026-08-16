@@ -43,6 +43,8 @@ export interface ProjectResponse {
   targetWordCount: number | null
   chapterWordTarget: number | null
   archived: boolean
+  creationSource?: 'MANUAL' | 'TXT_IMPORT'
+  reconstructionStatus?: 'NOT_ANALYZED' | 'ANALYZING' | 'PARTIAL' | 'REVIEW_REQUIRED' | 'READY'
   version: number
   createdAt: IsoInstant
   updatedAt: IsoInstant
@@ -142,10 +144,12 @@ export interface AssetTransitionRequest {
 }
 
 export type LifeStatus = 'UNKNOWN' | 'ALIVE' | 'DEAD'
+export type CharacterImportance = 'PROTAGONIST' | 'MAJOR' | 'SUPPORTING' | 'MINOR' | 'MENTION_ONLY'
+export type CharacterLifecycleStatus = 'CANDIDATE' | 'ACTIVE' | 'INACTIVE' | 'DECEASED' | 'MISSING' | 'LEFT_STORY' | 'MERGED' | 'REJECTED' | 'ARCHIVED' | 'PURGED'
 export interface CharacterStateInput { lifeStatus: LifeStatus | null; currentLocation: string | null; physicalCondition: string | null; emotionalState: string | null; abilities: string | null; inventoryNotes: string | null; notes: string | null }
 export interface CharacterStateResponse extends CharacterStateInput { id: Uuid; projectId: Uuid; characterId: Uuid; version: number; createdAt: IsoInstant; updatedAt: IsoInstant }
-export interface CharacterResponse { id: Uuid; projectId: Uuid; name: string; aliases: string | null; role: string | null; description: string | null; personality: string | null; background: string | null; goals: string | null; appearance: string | null; notes: string | null; archived: boolean; version: number; createdAt: IsoInstant; updatedAt: IsoInstant; state: CharacterStateResponse }
-export interface CreateCharacterRequest { name: string; aliases?: string | null; role?: string | null; description?: string | null; personality?: string | null; background?: string | null; goals?: string | null; appearance?: string | null; notes?: string | null; state?: CharacterStateInput | null }
+export interface CharacterResponse { id: Uuid; projectId: Uuid; name: string; aliases: string | null; role: string | null; description: string | null; personality: string | null; background: string | null; goals: string | null; appearance: string | null; notes: string | null; archived: boolean; importance: CharacterImportance; lifecycleStatus: CharacterLifecycleStatus; mergedInto: Uuid | null; retrievalEligible: boolean; version: number; createdAt: IsoInstant; updatedAt: IsoInstant; state: CharacterStateResponse }
+export interface CreateCharacterRequest { name: string; aliases?: string | null; role?: string | null; description?: string | null; personality?: string | null; background?: string | null; goals?: string | null; appearance?: string | null; notes?: string | null; importance?: CharacterImportance | null; state?: CharacterStateInput | null }
 export interface UpdateCharacterRequest extends Omit<CreateCharacterRequest, 'state'> { archived: boolean; expectedVersion: number }
 export interface UpdateCharacterStateRequest extends CharacterStateInput { expectedVersion: number }
 
@@ -277,12 +281,92 @@ export interface BookAnalysisCandidateResponse { id: Uuid; chapterId: Uuid | nul
 export interface BookAnalysisResponse { importId: Uuid; projectId: Uuid; status: BookAnalysisStatus; processedChunks: number; errorCode: string | null; errorMessage: string | null; candidates: BookAnalysisCandidateResponse[] }
 export interface BookAnalysisRequest { extractCharacters: boolean; extractWorldbook: boolean; extractOutline: boolean; extractEvents: boolean; extractSkills: boolean }
 
-export type ForeshadowStatus = 'PLANNED' | 'PLANTED' | 'ADVANCED' | 'RESOLVED' | 'ABANDONED'
+export type ReconstructionMode = 'QUICK' | 'STANDARD' | 'DEEP'
+export type ReconstructionStatus =
+  | 'NOT_ANALYZED' | 'QUEUED' | 'PREPROCESSING' | 'CHAPTER_ANALYSIS'
+  | 'VOLUME_AGGREGATION' | 'ENTITY_RESOLUTION' | 'GLOBAL_RECONSTRUCTION'
+  | 'FORESHADOW_ANALYSIS' | 'SKILL_DISTILLATION' | 'VALIDATING'
+  | 'WAITING_REVIEW' | 'APPLYING' | 'COMPLETED' | 'PAUSED'
+  | 'PAUSED_BUDGET' | 'PARTIAL' | 'CANCELLED' | 'FAILED'
+export interface ReconstructionOptions {
+  mode: ReconstructionMode
+  includeSkillDistillation: boolean
+  includeForeshadowing: boolean
+}
+export interface ReconstructionEstimate extends ReconstructionOptions {
+  chapters: number
+  chunks: number
+  estimatedCalls: number
+  estimatedInputTokens: number
+  estimatedOutputTokens: number
+  estimatedCostMin: number | null
+  estimatedCostMax: number | null
+  currency: string | null
+  model: string
+  unpriced: boolean
+}
+export interface ReconstructionJob {
+  id: Uuid | null
+  projectId: Uuid
+  mode: ReconstructionMode
+  status: ReconstructionStatus
+  currentStep: string
+  totalChapters: number
+  totalChunks: number
+  processedChunks: number
+  failedChapters: number
+  progress: number
+  estimatedCalls: number
+  estimatedInputTokens: number
+  estimatedOutputTokens: number
+  estimatedCostMin: number | null
+  estimatedCostMax: number | null
+  currency: string | null
+  maxBudget: number | null
+  actualInputTokens: number
+  actualOutputTokens: number
+  actualReasoningTokens: number
+  actualCost: number
+  retryCount: number
+  candidateCount: number
+  pendingCandidates: number
+  conflicts: number
+  acceptedCandidates: number
+  rejectedCandidates: number
+  errorCode: string | null
+  errorMessage: string | null
+  startedAt: IsoInstant | null
+  completedAt: IsoInstant | null
+}
+export interface ReconstructionCandidate {
+  id: Uuid
+  chapterId: Uuid | null
+  candidateType: string
+  content: string
+  status: 'CANDIDATE' | 'ACCEPTED' | 'REJECTED' | 'REVOKED' | 'APPLIED' | 'CONFLICT'
+  confidence: 'HIGH' | 'MEDIUM' | 'LOW'
+  inferenceType: 'DIRECT_FACT' | 'MODEL_INFERENCE' | 'USER_CONFIRMED'
+  evidenceCount: number
+  sourceCoverage: number
+  sourceAnchors: string
+  safeToApply: boolean
+  suggestedAction: 'CREATE_CHARACTER' | 'UPDATE_PROFILE' | 'APPEND_STATE' | 'APPEND_KNOWLEDGE' | 'APPEND_RELATIONSHIP' | 'APPEND_EVENT' | 'MERGE_ALIAS' | 'UPDATE_WORLD_ASSET' | 'CREATE_FORESHADOW' | 'ADVANCE_FORESHADOW' | 'RESOLVE_FORESHADOW' | 'UPDATE_ROLLING_OUTLINE' | 'IGNORE' | 'NEEDS_REVIEW'
+  targetEntityId: Uuid | null
+  subjectName: string | null
+  policyReason: string | null
+  characterImportance: CharacterImportance | null
+  retrievalEligible: boolean
+  revokedAt: IsoInstant | null
+  revocationReason: string | null
+  createdAt: IsoInstant
+}
+
+export type ForeshadowStatus = 'CANDIDATE' | 'PLANTED' | 'DEVELOPING' | 'DUE' | 'RESOLVED' | 'PARTIALLY_RESOLVED' | 'ABANDONED' | 'REJECTED'
 export interface ForeshadowResponse { id: Uuid; projectId: Uuid; title: string; description: string | null; status: ForeshadowStatus; plantedChapterId: Uuid | null; targetChapterNo: number | null; resolvedChapterId: Uuid | null; notes: string | null; version: number; createdAt: IsoInstant; updatedAt: IsoInstant }
 export interface ForeshadowInput { title: string; description: string | null; plantedChapterId: Uuid | null; targetChapterNo: number | null; notes: string | null }
 
 export interface ImpactReportResponse { id: Uuid; projectId: Uuid; chapterId: Uuid; status: 'READY' | 'FAILED'; summary: string | null; affected: Record<string, unknown>; createdAt: IsoInstant }
-export interface RollingOutlineResponse { projectId: Uuid; currentChapterNo: number; windowSize: number; summary: string | null; goals: string[]; risks: string[]; version: number; updatedAt: IsoInstant }
+export interface RollingOutlineResponse { projectId: Uuid; currentChapterNo: number; windowSize: number; summary: string | null; goals: string[]; risks: string[]; baseChapterId: Uuid | null; fromChapterNo: number | null; toChapterNo: number | null; openThreads: string[]; currentLocations: string[]; activeItems: string[]; activeForeshadow: string[]; nextConstraints: string[]; stale: boolean; version: number; updatedAt: IsoInstant }
 export interface PutRollingOutlineRequest { expectedVersion: number; currentChapterNo: number; windowSize: number; summary: string | null; goals: string[]; risks: string[] }
 export interface AdvanceRollingOutlineRequest { expectedVersion: number; summary: string | null; goals: string[]; risks: string[] }
 

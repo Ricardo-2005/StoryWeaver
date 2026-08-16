@@ -174,7 +174,8 @@ public class TxtBookImportService {
                 result.characterCount(),
                 row.sourceId());
         jdbc.update(
-                "UPDATE book_import_job SET status='PARSED',total_characters=?,total_chapters=?,processed_chapters=0,heading_count=?,error_code=NULL,error_message=NULL,version=version+1,updated_at=? WHERE id=?",
+                "UPDATE book_import_job SET status='PARSED',parser_version=?,total_characters=?,total_chapters=?,processed_chapters=0,heading_count=?,error_code=NULL,error_message=NULL,version=version+1,updated_at=? WHERE id=?",
+                TxtChapterParser.PARSER_VERSION,
                 result.characterCount(),
                 result.chapters().size(),
                 result.headingCount(),

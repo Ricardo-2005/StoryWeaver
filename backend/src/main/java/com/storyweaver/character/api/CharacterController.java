@@ -60,6 +60,12 @@ public class CharacterController {
         return stateResponse(service.get(characterId, userId(jwt)).state());
     }
 
+    @GetMapping("/characters/{characterId}/state-at")
+    List<com.storyweaver.evolution.application.ProjectEvolutionService.TemporalStateView> stateAt(
+            @AuthenticationPrincipal Jwt jwt, @PathVariable UUID characterId, @RequestParam int chapterNo) {
+        return service.stateAt(characterId, userId(jwt), chapterNo);
+    }
+
     @PutMapping("/characters/{characterId}/state")
     CharacterStateResponse updateState(
             @AuthenticationPrincipal Jwt jwt,
@@ -76,6 +82,36 @@ public class CharacterController {
         return stateResponse(service.updateState(characterId, userId(jwt), request.expectedVersion(), values));
     }
 
+    @PostMapping("/characters/{characterId}/lifecycle")
+    CharacterResponse transition(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID characterId,
+            @Valid @RequestBody CharacterLifecycleRequest request) {
+        return response(service.transition(characterId, userId(jwt), request.expectedVersion(), request.status()));
+    }
+
+    @PostMapping("/characters/{characterId}/merge")
+    CharacterResponse merge(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID characterId,
+            @Valid @RequestBody MergeCharacterRequest request) {
+        return response(service.merge(
+                characterId,
+                request.targetCharacterId(),
+                userId(jwt),
+                request.sourceExpectedVersion(),
+                request.targetExpectedVersion()));
+    }
+
+    @PostMapping("/characters/{characterId}/purge")
+    ResponseEntity<Void> purge(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID characterId,
+            @Valid @RequestBody PurgeCharacterRequest request) {
+        service.purge(characterId, userId(jwt), request.expectedVersion(), request.confirmation());
+        return ResponseEntity.noContent().build();
+    }
+
     private CharacterValues values(CreateCharacterRequest r) {
         return new CharacterValues(
                 r.name(),
@@ -86,7 +122,8 @@ public class CharacterController {
                 r.background(),
                 r.goals(),
                 r.appearance(),
-                r.notes());
+                r.notes(),
+                r.importance());
     }
 
     private CharacterValues values(UpdateCharacterRequest r) {
@@ -99,7 +136,8 @@ public class CharacterController {
                 r.background(),
                 r.goals(),
                 r.appearance(),
-                r.notes());
+                r.notes(),
+                r.importance());
     }
 
     private StateValues stateValues(StateInput r) {
@@ -130,6 +168,10 @@ public class CharacterController {
                 c.getAppearance(),
                 c.getNotes(),
                 c.isArchived(),
+                c.getImportance(),
+                c.getLifecycleStatus(),
+                c.getMergedInto(),
+                c.isRetrievalEligible(),
                 c.getVersion(),
                 c.getCreatedAt(),
                 c.getUpdatedAt(),

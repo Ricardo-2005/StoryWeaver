@@ -14,6 +14,9 @@ import com.storyweaver.consistency.repository.CharacterKnowledgeRepository;
 import com.storyweaver.consistency.repository.ItemOwnershipRepository;
 import com.storyweaver.consistency.repository.ReviewIssueRepository;
 import com.storyweaver.consistency.repository.StoryFactRepository;
+import com.storyweaver.evolution.application.ProjectEvolutionService;
+import com.storyweaver.evolution.application.ProjectEvolutionService.ItemSnapshot;
+import com.storyweaver.evolution.application.ProjectEvolutionService.StateSnapshot;
 import com.storyweaver.memory.domain.StoryEvent;
 import com.storyweaver.memory.domain.StoryEvent.EventValues;
 import com.storyweaver.memory.repository.StoryEventRepository;
@@ -49,6 +52,7 @@ public class WorkflowAtomicCommitter {
     private final ReviewIssueRepository issues;
     private final WorkflowStateMachine stateMachine;
     private final AtomicCommitFaultInjector faultInjector;
+    private final ProjectEvolutionService evolution;
     private final Clock clock;
 
     public WorkflowAtomicCommitter(
@@ -64,6 +68,7 @@ public class WorkflowAtomicCommitter {
             ReviewIssueRepository issues,
             WorkflowStateMachine stateMachine,
             AtomicCommitFaultInjector faultInjector,
+            ProjectEvolutionService evolution,
             Clock clock) {
         this.runs = runs;
         this.workflowEvents = workflowEvents;
@@ -77,6 +82,7 @@ public class WorkflowAtomicCommitter {
         this.issues = issues;
         this.stateMachine = stateMachine;
         this.faultInjector = faultInjector;
+        this.evolution = evolution;
         this.clock = clock;
     }
 
@@ -118,8 +124,8 @@ public class WorkflowAtomicCommitter {
                 now));
 
         decideFacts(run, proposal.acceptedFactIndexes(), userId, now);
-        applyCharacterStates(proposal, now);
-        applyItems(run, proposal, now);
+        applyCharacterStates(run, chapter, proposal, now);
+        applyItems(run, chapter, proposal, now);
         applyTimeline(run, chapter, proposal, now);
         applyKnowledge(run, chapter, proposal, now);
 
@@ -127,6 +133,8 @@ public class WorkflowAtomicCommitter {
         run.committed(versionNo, userId, now);
         run.transition(WorkflowStatus.COMPLETED, stateMachine, now);
         workflowEvent(run, "workflow.completed", WorkflowStatus.COMPLETED);
+        evolution.confirmedChapterCommitted(
+                run.getProjectId(), chapter.getId(), chapter.getChapterNo(), summary(run), userId);
         chapters.flush();
         runs.flush();
         return run;
@@ -143,7 +151,7 @@ public class WorkflowAtomicCommitter {
         candidates.forEach(fact -> fact.decide(accepted.contains(fact.getCandidateIndex()), userId, now));
     }
 
-    private void applyCharacterStates(CommitProposal proposal, Instant now) {
+    private void applyCharacterStates(WorkflowRun run, Chapter chapter, CommitProposal proposal, Instant now) {
         proposal.characterStateChanges().forEach(change -> {
             CharacterState state = states.findByCharacterId(change.characterId())
                     .orElseThrow(
@@ -161,10 +169,25 @@ public class WorkflowAtomicCommitter {
                     normalize(change.inventoryNotes()),
                     normalize(change.notes()),
                     now);
+            evolution.recordCharacterState(
+                    run.getProjectId(),
+                    state.getCharacterId(),
+                    chapter.getId(),
+                    chapter.getChapterNo(),
+                    new StateSnapshot(
+                            state.getLifeStatus().name(),
+                            state.getCurrentLocation(),
+                            state.getPhysicalCondition(),
+                            state.getEmotionalState(),
+                            state.getAbilities(),
+                            state.getInventoryNotes(),
+                            state.getNotes()),
+                    change.evidence(),
+                    run.getUserId());
         });
     }
 
-    private void applyItems(WorkflowRun run, CommitProposal proposal, Instant now) {
+    private void applyItems(WorkflowRun run, Chapter chapter, CommitProposal proposal, Instant now) {
         proposal.itemChanges().forEach(change -> {
             ItemOwnership item = items.findByProjectIdAndItemKey(run.getProjectId(), change.itemKey())
                     .orElseGet(() -> new ItemOwnership(
@@ -184,6 +207,16 @@ public class WorkflowAtomicCommitter {
                     change.evidence(),
                     now);
             items.save(item);
+            evolution.recordItem(
+                    run.getProjectId(),
+                    chapter.getId(),
+                    chapter.getChapterNo(),
+                    new ItemSnapshot(
+                            item.getItemKey(),
+                            item.getItemName(),
+                            item.getOwnerCharacterId(),
+                            item.getItemStatus().name(),
+                            item.getEvidence()));
         });
     }
 
@@ -207,25 +240,24 @@ public class WorkflowAtomicCommitter {
 
     private void applyKnowledge(WorkflowRun run, Chapter chapter, CommitProposal proposal, Instant now) {
         proposal.knowledgeChanges().forEach(change -> {
-            CharacterKnowledge value = knowledge
-                    .findByProjectIdAndCharacterIdAndFactKey(run.getProjectId(), change.characterId(), change.factKey())
-                    .orElseGet(() -> new CharacterKnowledge(
-                            run.getProjectId(),
-                            change.characterId(),
-                            change.factKey(),
-                            change.content(),
-                            change.certainty(),
-                            change.sourceEventId(),
-                            chapter.getId(),
-                            change.evidence(),
-                            now));
-            value.update(
+            CharacterKnowledge value = new CharacterKnowledge(
+                    run.getProjectId(),
+                    change.characterId(),
+                    change.factKey(),
                     change.content(),
                     change.certainty(),
                     change.sourceEventId(),
                     chapter.getId(),
+                    chapter.getChapterNo(),
                     change.evidence(),
                     now);
+            knowledge
+                    .findFirstByProjectIdAndCharacterIdAndFactKeyAndLifecycleStatusAndForgottenAtChapterNoIsNullOrderByLearnedAtChapterNoDesc(
+                            run.getProjectId(), change.characterId(), change.factKey(), "ACTIVE")
+                    .ifPresent(previous -> {
+                        previous.supersede(chapter.getChapterNo(), value.getId(), now);
+                        knowledge.saveAndFlush(previous);
+                    });
             knowledge.save(value);
         });
     }

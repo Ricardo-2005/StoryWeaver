@@ -10,6 +10,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,18 +22,24 @@ public class UsageService {
     private final PricingService pricing;
     private final MeterRegistry meters;
     private final Clock clock;
+    private final JdbcTemplate jdbc;
+    private final UsageAttributionContext attribution;
 
     public UsageService(
             UsageRecordRepository records,
             ProjectAccessService projectAccess,
             PricingService pricing,
             MeterRegistry meters,
-            Clock clock) {
+            Clock clock,
+            JdbcTemplate jdbc,
+            UsageAttributionContext attribution) {
         this.records = records;
         this.projectAccess = projectAccess;
         this.pricing = pricing;
         this.meters = meters;
         this.clock = clock;
+        this.jdbc = jdbc;
+        this.attribution = attribution;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -47,7 +54,7 @@ public class UsageService {
                         input.cacheHitTokens(),
                         input.cacheMissTokens()),
                 requestedAt);
-        UsageRecord record = records.save(new UsageRecord(
+        UsageRecord record = records.saveAndFlush(new UsageRecord(
                 input.projectId(),
                 input.userId(),
                 input.agent(),
@@ -67,6 +74,11 @@ public class UsageService {
                 price.amount(),
                 input.status() == UsageStatus.SUCCEEDED ? price.amount() : null,
                 price.currency()));
+        UUID reconstructionJobId = attribution.currentReconstructionJob();
+        if (reconstructionJobId != null) {
+            jdbc.update(
+                    "UPDATE usage_record SET reconstruction_job_id=? WHERE id=?", reconstructionJobId, record.getId());
+        }
         meters.counter(
                         "storyweaver.llm.requests",
                         "agent",

@@ -22,7 +22,10 @@ const disabledReason = computed(() => '后端尚未提供 Conversation、Message
             <button v-for="item in tools" :key="item" role="menuitem" @click="workspace.tool=item;showTools=false">{{ item }}</button>
           </div>
           <select v-model="workspace.mode" aria-label="工作模式"><option v-for="item in modes" :key="item">{{ item }}</option></select>
-          <span v-if="workspace.tool" class="selected-tool">{{ workspace.tool }}</span>
+          <span v-if="workspace.tool" class="selected-tool">
+            <span>{{ workspace.tool }}</span>
+            <button type="button" :aria-label="`移除工具 ${workspace.tool}`" @click="workspace.clearTool">×</button>
+          </span>
         </div>
         <button class="send-button" type="button" disabled :title="disabledReason">发送</button>
       </div>

@@ -1,0 +1,11 @@
+{
+  "datasetVersion": "draft-v1",
+  "groundTruthStatus": "DRAFT_NOT_REVIEWED",
+  "execution": "NOT_RUN",
+  "cases": [
+    {"caseId":"target-reached","status":"PLANTED","targetChapterNo":8,"currentChapterNo":8,"expectedStatus":"DUE"},
+    {"caseId":"resolved-not-pending","status":"RESOLVED","expectedPendingRetrieval":false},
+    {"caseId":"atmosphere-not-foreshadow","evidenceType":"ATMOSPHERE_ONLY","expectedCandidate":false}
+  ],
+  "metrics": {"foreshadowDueRecallAtK": null,"foreshadowFalsePositiveRate": null}
+}

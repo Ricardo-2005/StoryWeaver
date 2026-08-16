@@ -136,6 +136,8 @@ public class ProjectController {
                 project.getTargetWordCount(),
                 project.getChapterWordTarget(),
                 project.isArchived(),
+                project.getCreationSource(),
+                project.getReconstructionStatus(),
                 project.getVersion(),
                 project.getCreatedAt(),
                 project.getUpdatedAt());

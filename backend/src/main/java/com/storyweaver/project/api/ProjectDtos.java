@@ -67,6 +67,8 @@ public final class ProjectDtos {
             Integer targetWordCount,
             Integer chapterWordTarget,
             boolean archived,
+            String creationSource,
+            String reconstructionStatus,
             long version,
             Instant createdAt,
             Instant updatedAt) {}

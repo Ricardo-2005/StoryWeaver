@@ -4,7 +4,7 @@
 
 ## 1. 结论
 
-Phase 0–8、V1.5 与全局 Skill 更新的仓库内后端范围已经实现，并具备可重复自动验收。当前实际规模：22 个顶层业务/共享模块、23 个 REST Controller、128 条业务 REST 路由、1 个 stateless MCP 端点、6 Tools、5 Resource templates、3 Prompts、51 张业务表、18 条 Flyway 迁移、27 个显式 `@Test` 方法；连同 5 条 ArchUnit 规则，完整 Maven 验收共执行 32 项测试。
+Phase 0–8、V1.5、全局 Skill、TXT 书籍建项和项目演化/RAG 生命周期更新的仓库内后端范围具备可重复自动验收。当前实际规模：23 个顶层业务/共享模块、25 个 REST Controller、162 条业务 REST 路由、1 个 stateless MCP 端点、6 Tools、5 Resource templates、3 Prompts、67 张业务表、22 条 Flyway 迁移。2026-08-13 的完整 Maven 验收执行 55 项测试（35 次单元/架构 + 20 次集成）。
 
 “已实现”指设计稿在本仓库定义的 MVP 范围能够编译、启动并通过确定性测试，不代表真实 DeepSeek SLA、开放域生成质量、生产并发容量、高可用、备份恢复和安全合规已经完成。
 
@@ -21,21 +21,24 @@ Phase 0–8、V1.5 与全局 Skill 更新的仓库内后端范围已经实现，
 | 6 | 一致性规则、候选事实、Reviewer、修改重审、人工门禁、原子提交/回滚 | Phase6ApiIT + Validator 单测 | 已完成 |
 | 7 | MCP、安全候选写、审计、价格/预算/成本、Prometheus、OTel/Tempo/Grafana | Phase7ApiIT + Docker 配置 | 已完成 |
 | 8 | 固定评测、Context Baseline、微基准、20 章 Demo、连续 10 章回归 | Phase8EvaluationTest + Phase8DemoIT | 已完成 |
+| 16 | 单个 20 MiB TXT、编码/分章 Preview、章节编辑、Commit 后建项、来源证据、TTL/重复提示 | TxtBookImportApiIT + Parser/Storage 单测 | 已完成 |
+| 17 | Chapter/Chunk 重建、Estimate/预算、恢复控制、真实 Usage、Evidence Candidate | Reconstruction 单测 + 路由契约 | 基础设施完成；正式资产应用部分完成 |
+| 18 | Candidate Policy/撤回、人物与事实生命周期、时间过滤、滚动大纲和伏笔演化 | Candidate Policy/Phase4/Infrastructure 测试 | 基础设施完成；新 Eval 为 Not Run |
 
 ## 3. 接口审计
 
-- 128 条 REST 路由已从运行中的 Spring `RequestMappingHandlerMapping` 提取，并由精确集合测试锁定；不是仅靠扫描源码计数。
+- 162 条 REST 路由已从运行中的 Spring `RequestMappingHandlerMapping` 提取，并由精确集合测试锁定；不是仅靠扫描源码计数。
 - 除 Auth 和 Actuator 外全部需要 JWT；`/mcp` 未认证请求自动返回 401。
 - Phase 1–8 关键 CRUD、所有权隔离、乐观锁、SSE、Workflow、预算、成本、MCP 均有 HTTP 级集成测试。
 - Phase 7 审计实际调用了全部 6 Tools、读取全部 5 Resource templates、获取全部 3 Prompts；写 Tool 缺证据会失败，跨项目调用会失败并留下审计。
-- Actuator 当前报告 `phase: 1.5`；测试固定 PostgreSQL 18、Redis 8.2、18 migrations/current v15、health/prometheus/info 和 ProblemDetail。
+- Actuator 当前报告 `phase: 1.5`；测试固定 PostgreSQL 18、Redis 8.2、22 migrations/current v19、health/prometheus/info 和 ProblemDetail。
 
 REST 路由及字段约束见 `docs/api.md`。路由契约能发现 API 面漂移，但无法穷举每个字段的所有非法组合；新增分支仍需补行为测试。
 
 ## 4. 数据和事务审计
 
 - PostgreSQL 是记录源，Redis 不承载不可恢复的正典数据。
-- 51 张业务表均由 Flyway 创建；Hibernate 只 validate。
+- 67 张业务表均由 Flyway 创建；Hibernate 只 validate。
 - 项目级复合外键和 Application Service 双重隔离跨项目引用。
 - 可编辑聚合使用 `version/expectedVersion`；章节、正典保留不可变历史版本。
 - Workflow 审批以悲观锁 + 单事务提交章节和故事状态；故障注入测试证明中途失败不产生半提交。
@@ -61,7 +64,7 @@ REST 路由及字段约束见 `docs/api.md`。路由契约能发现 API 面漂�
 | 发布前 | 无 TLS、Secret Manager、数据库自动备份/恢复演练 | 明确不属于当前仓库；生产上线前必须补齐 |
 | 发布前 | Actuator 当前公开、Trace 100% 采样 | 由网关隔离并降低生产采样率 |
 | 发布前 | 未做容量/故障/安全扫描和 SBOM | 增加专门发布流水线 |
-| 产品 | 无 Refresh Token、Token 吊销、分页、OpenAPI 和管理员业务后台 | 客户端按现有 128 路由契约接入；后续版本设计 |
+| 产品 | 无 Refresh Token、Token 吊销、分页、OpenAPI 和管理员业务后台 | 客户端按现有 162 路由契约接入；后续版本设计 |
 | 检索 | pgvector 精确检索、无 HNSW/重建任务 | 当前数据规模可用；扩大前压测与演进 |
 | 外部依赖 | CI 不调用真实 DeepSeek、不加载真实 BGE 大模型 | WireMock/Stub 验证协议与降级；上线前做受控冒烟 |
 | 计价 | PricingRule 没有管理 API且仓库无默认价格 | 运维 SQL 管理，未匹配调用明确显示 unpriced |

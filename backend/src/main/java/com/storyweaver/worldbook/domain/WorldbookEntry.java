@@ -69,6 +69,21 @@ public class WorldbookEntry {
     @Column(name = "embedding_model", length = 120)
     private String embeddingModel;
 
+    @Column(name = "lifecycle_status", nullable = false, length = 16)
+    private String lifecycleStatus;
+
+    @Column(name = "retrieval_eligible", nullable = false)
+    private boolean retrievalEligible;
+
+    @Column(name = "valid_from_chapter_no", nullable = false)
+    private int validFromChapterNo;
+
+    @Column(name = "valid_to_chapter_no")
+    private Integer validToChapterNo;
+
+    @Column(name = "embedding_version", nullable = false)
+    private long embeddingVersion;
+
     @Version
     @Column(nullable = false)
     private long version;
@@ -100,6 +115,10 @@ public class WorldbookEntry {
         this.projectId = projectId;
         this.worldbookId = worldbookId;
         this.embeddingStatus = EmbeddingStatus.NOT_REQUESTED;
+        this.lifecycleStatus = "ACTIVE";
+        this.retrievalEligible = true;
+        this.validFromChapterNo = 1;
+        this.embeddingVersion = 1;
         revise(
                 title,
                 content,
@@ -207,6 +226,24 @@ public class WorldbookEntry {
 
     public String getEmbeddingModel() {
         return embeddingModel;
+    }
+
+    public boolean isRetrievalEligibleAt(Integer chapterNo) {
+        if (!retrievalEligible || !"ACTIVE".equals(lifecycleStatus)) return false;
+        if (chapterNo == null) return validToChapterNo == null;
+        return validFromChapterNo <= chapterNo && (validToChapterNo == null || validToChapterNo > chapterNo);
+    }
+
+    public int getValidFromChapterNo() {
+        return validFromChapterNo;
+    }
+
+    public Integer getValidToChapterNo() {
+        return validToChapterNo;
+    }
+
+    public long getEmbeddingVersion() {
+        return embeddingVersion;
     }
 
     public long getVersion() {

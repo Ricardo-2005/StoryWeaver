@@ -11,7 +11,7 @@ function input(): PreflightInput {
     chapters: [
       { id: 'c1', projectId: 'p', outlineNodeId: null, chapterNo: 1, title: '第一章', outline: '抵达', status: 'DRAFT', currentVersionNo: 1, version: 1, createdAt: now, updatedAt: now, currentVersion: null },
     ],
-    characters: [{ id: 'v', projectId: 'p', name: '林雾', aliases: null, role: null, description: null, personality: null, background: null, goals: null, appearance: null, notes: null, archived: false, version: 0, createdAt: now, updatedAt: now, state: { id: 's', projectId: 'p', characterId: 'v', lifeStatus: 'ALIVE', currentLocation: null, physicalCondition: null, emotionalState: null, abilities: null, inventoryNotes: null, notes: null, version: 0, createdAt: now, updatedAt: now } }],
+    characters: [{ id: 'v', projectId: 'p', name: '林雾', aliases: null, role: null, description: null, personality: null, background: null, goals: null, appearance: null, notes: null, archived: false, importance: 'PROTAGONIST', lifecycleStatus: 'ACTIVE', mergedInto: null, retrievalEligible: true, version: 0, createdAt: now, updatedAt: now, state: { id: 's', projectId: 'p', characterId: 'v', lifeStatus: 'ALIVE', currentLocation: null, physicalCondition: null, emotionalState: null, abilities: null, inventoryNotes: null, notes: null, version: 0, createdAt: now, updatedAt: now } }],
     viewpointCharacterId: 'v',
     skills: { resolved: true, effectiveRules: {}, conflicts: [] },
     budget: { projectId: 'p', taskTokenLimit: 40_000, userDailyCostLimit: 10, projectCostLimit: 100, writerOutputTokenLimit: 12_000, plannerReasoningTokenLimit: 6_000, version: 0 },

@@ -77,18 +77,38 @@ class Phase4ApiIT {
         createWorldbookEntry(ownerToken, projectId, "混血种血统规则", "识别龙文和使用言灵必须有血统、训练或设备依据。", true, false, List.of(), 900);
         createWorldbookEntry(ownerToken, projectId, "龙文机关", "青铜城的龙文机关需要按调查证据逐步解析。", false, false, List.of("龙文"), 800);
         createWorldbookEntry(ownerToken, projectId, "青铜城水下结构", "青铜城入口位于三峡水下，进入前必须先完成勘测。", false, true, List.of(), 700);
+        createWorldbookEntry(ownerToken, projectId, "未来世界规则", "第十章之后才能知道的未来秘密。", true, true, List.of("未来秘密"), 1000);
         createWorldbookEntry(ownerToken, projectId, "低优先级长条目", "长".repeat(3000), true, false, List.of(), 1);
         createWorldbookEntry(otherToken, otherProjectId, "隔离秘党档案", "另一个项目的秘党测试档案。", true, true, List.of(), 1000);
+        jdbc.update(
+                "update worldbook_entry set valid_from_chapter_no=10 where project_id=?::uuid and title='未来世界规则'",
+                projectId);
+        String previewChapterId = json(request(
+                        "POST",
+                        "/api/projects/" + projectId + "/chapters",
+                        ownerToken,
+                        Map.of("chapterNo", 3, "title", "第三章", "outline", "尚未知晓未来规则"),
+                        201))
+                .get("id")
+                .asString();
 
         JsonNode preview = json(request(
                 "POST",
                 "/api/projects/" + projectId + "/worldbook/preview",
                 ownerToken,
-                Map.of("query", "路明非准备进入青铜城水下结构，识别龙文机关并遵守混血种血统规则", "tokenBudget", 200, "topK", 8),
+                Map.of(
+                        "query",
+                        "路明非准备进入青铜城水下结构，识别龙文机关并遵守混血种血统规则和未来秘密",
+                        "chapterId",
+                        previewChapterId,
+                        "tokenBudget",
+                        200,
+                        "topK",
+                        8),
                 200));
         assertThat(preview.get("embeddingAvailable").asBoolean()).isTrue();
         assertThat(preview.toString()).contains("CONSTANT", "KEYWORD:龙文", "VECTOR:");
-        assertThat(preview.toString()).contains("TOKEN_BUDGET").doesNotContain("隔离秘党档案");
+        assertThat(preview.toString()).contains("TOKEN_BUDGET").doesNotContain("隔离秘党档案", "未来世界规则");
         assertThat(preview.get("selectedTokens").asInt()).isLessThanOrEqualTo(200);
 
         JsonNode degraded = json(request(
@@ -115,7 +135,7 @@ class Phase4ApiIT {
                 .isGreaterThan(0);
         assertThat(jdbc.queryForObject(
                         "select count(*) from worldbook_entry where project_id=?::uuid", Integer.class, projectId))
-                .isEqualTo(4);
+                .isEqualTo(5);
     }
 
     @Test
@@ -174,6 +194,34 @@ class Phase4ApiIT {
                         "importance",
                         0.1),
                 201);
+        String futureChapterId = json(request(
+                        "POST",
+                        "/api/projects/" + projectId + "/chapters",
+                        token,
+                        Map.of("chapterNo", 9, "title", "未来章", "outline", "未来信息"),
+                        201))
+                .get("id")
+                .asString();
+        request(
+                "POST",
+                "/api/projects/" + projectId + "/story-events",
+                token,
+                Map.of(
+                        "chapterId",
+                        futureChapterId,
+                        "participantIds",
+                        List.of(characterId),
+                        "knownByIds",
+                        List.of(characterId),
+                        "location",
+                        "青铜城水下入口",
+                        "action",
+                        "未来章揭示青铜城水下入口",
+                        "result",
+                        "未来泄露",
+                        "importance",
+                        1.0),
+                201);
         request(
                 "POST",
                 "/api/projects/" + otherProjectId + "/story-events",
@@ -214,12 +262,12 @@ class Phase4ApiIT {
                 .isEqualTo(importantEvent.get("id").asString());
         assertThat(search.toString())
                 .contains("SEMANTIC:", "PARTICIPANT_OVERLAP", "LOCATION", "CHAPTER_PROXIMITY:")
-                .doesNotContain("不可泄露");
+                .doesNotContain("不可泄露", "未来泄露");
         assertThat(jdbc.queryForObject(
                         "select count(*) from story_event where project_id=?::uuid and embedding is not null",
                         Integer.class,
                         projectId))
-                .isEqualTo(2);
+                .isEqualTo(3);
     }
 
     private void createWorldbookEntry(

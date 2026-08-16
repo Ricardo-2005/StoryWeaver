@@ -14,6 +14,7 @@ test('uploads, previews, edits, splits, merges and commits a TXT project', async
   let version = 0
   let status = 'UPLOADED'
   let project: string | null = null
+  let reconstructionStatus = 'NOT_ANALYZED'
   let chapters = [
     chapter('chapter-1', 1, '序章', 0, 18),
     chapter('chapter-2', 2, '第001章 雾港', 25, 60),
@@ -35,7 +36,7 @@ test('uploads, previews, edits, splits, merges and commits a TXT project', async
     processedChapters: status === 'COMPLETED' ? chapters.length : 0,
     headingCount: 2,
     analysisProcessedChunks: 0,
-    parserVersion: 'txt-lines-v1',
+    parserVersion: 'txt-lines-v2',
     errorCode: null,
     errorMessage: null,
     duplicateImportId: null,
@@ -79,6 +80,25 @@ test('uploads, previews, edits, splits, merges and commits a TXT project', async
     return json(route, job())
   })
   await page.route(`**/api/txt-imports/${importId}`, route => json(route, job()))
+  await page.route(`**/api/projects/${projectId}/reconstruction/estimate`, route => json(route, {
+    mode: 'STANDARD', chapters: 2, chunks: 2, estimatedCalls: 7,
+    estimatedInputTokens: 1_200, estimatedOutputTokens: 700,
+    estimatedCostMin: 0.01, estimatedCostMax: 0.04, currency: 'CNY', model: 'deepseek-extractor', unpriced: false,
+  }))
+  await page.route(`**/api/projects/${projectId}/reconstruction`, route => {
+    if (route.request().method() === 'POST') reconstructionStatus = 'QUEUED'
+    return json(route, {
+      id: reconstructionStatus === 'NOT_ANALYZED' ? null : 'dddddddd-dddd-4ddd-8ddd-dddddddddddd',
+      projectId, mode: 'STANDARD', status: reconstructionStatus, currentStep: reconstructionStatus === 'QUEUED' ? 'PREPROCESSING' : 'NOT_ANALYZED',
+      totalChapters: 2, totalChunks: reconstructionStatus === 'QUEUED' ? 2 : 0, processedChunks: 0,
+      failedChapters: 0, progress: 0, estimatedCalls: 7, estimatedInputTokens: 1_200,
+      estimatedOutputTokens: 700, estimatedCostMin: 0.01, estimatedCostMax: 0.04,
+      currency: 'CNY', maxBudget: null, actualInputTokens: 0, actualOutputTokens: 0,
+      actualReasoningTokens: 0, actualCost: 0, retryCount: 0, candidateCount: 0,
+      pendingCandidates: 0, conflicts: 0, acceptedCandidates: 0, rejectedCandidates: 0,
+      errorCode: null, errorMessage: null, startedAt: null, completedAt: null,
+    }, route.request().method() === 'POST' ? 202 : 200)
+  })
 
   await loginToDemo(page, '/projects')
   const importEntry = page.getByRole('main').getByRole('link', { name: '导入 TXT 书籍' })
@@ -110,7 +130,11 @@ test('uploads, previews, edits, splits, merges and commits a TXT project', async
   await page.getByRole('button', { name: '确认导入并创建项目' }).click()
   await expect(page.getByRole('heading', { name: '导入完成' })).toBeVisible()
   await expect(page.getByRole('link', { name: '打开项目' })).toHaveAttribute('href', `/projects/${projectId}`)
-  await expect(page.getByText('所有结果只进入 Candidate 审查区')).toBeVisible()
+  await expect(page.getByRole('heading', { name: '✨ AI 自动构建完整项目' })).toBeVisible()
+  await expect(page.getByText('启动前预估')).toBeVisible()
+  await expect(page.getByText('CNY 0.0100 — CNY 0.0400')).toBeVisible()
+  await page.getByRole('button', { name: '确认费用并开始分析' }).click()
+  await expect(page.getByText('QUEUED')).toBeVisible()
 })
 
 function chapter(id: string, sequenceNo: number, title: string, startOffset: number, endOffset: number) {

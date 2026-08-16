@@ -77,6 +77,22 @@ class TxtChapterParserTest {
     }
 
     @Test
+    void recognizesChineseHeadingsSeparatedByIdeographicSpacesAndFullWidthDigits() throws Exception {
+        Path source = temporaryDirectory.resolve("unicode-headings.txt");
+        Files.writeString(
+                source,
+                "作品说明\n\n第一章\u3000山门旧雨\n正文一。\n第二章\u3000沉水剑\n正文二。\n第００３章\u3000灯下旧人\n正文三。\n",
+                StandardCharsets.UTF_8);
+
+        var result = parser.parse(source, StandardCharsets.UTF_8, "青崖残灯");
+
+        assertThat(result.headingCount()).isEqualTo(3);
+        assertThat(result.chapters())
+                .extracting(value -> value.title())
+                .containsExactly("青崖残灯", "第一章\u3000山门旧雨", "第二章\u3000沉水剑", "第００３章\u3000灯下旧人");
+    }
+
+    @Test
     void detectsUtf8BomAndGb18030WithoutLoadingTheWholeBook() throws Exception {
         Path bom = temporaryDirectory.resolve("bom.txt");
         Files.write(

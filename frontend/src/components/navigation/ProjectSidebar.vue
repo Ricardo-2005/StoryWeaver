@@ -14,8 +14,9 @@ const currentProjectId = computed(() =>
   typeof route.params.projectId === 'string' ? route.params.projectId : '',
 )
 const assetLinks = [
-  ['导入与迁移', 'imports'], ['滚动大纲', 'rolling-outline'], ['连续写作', 'production'], ['伏笔台账', 'foreshadows'],
-  ['项目概览', ''], ['创作工作台', 'workspace'], ['人物', 'characters'], ['世界书', 'worldbook'], ['大纲', 'outlines'], ['章节', 'chapters'], ['Skill', 'skills'], ['模型与费用', 'observability'],
+  ['创作工作台', 'workspace'], ['项目概览', ''], ['章节', 'chapters'], ['人物', 'characters'],
+  ['世界书', 'worldbook'], ['大纲', 'outlines'], ['滚动大纲', 'rolling-outline'], ['连续写作', 'production'],
+  ['伏笔台账', 'foreshadows'], ['Skill', 'skills'], ['模型与费用', 'observability'],
 ] as const
 
 const visibleProjects = computed(() => {
@@ -96,8 +97,13 @@ onBeforeUnmount(() => window.removeEventListener('keydown', handleGlobalKeydown)
           :key="label"
           :to="`/projects/${currentProjectId}${suffix ? `/${suffix}` : ''}`"
           class="sidebar-asset-link"
+          :class="{ 'sidebar-asset-link--core': suffix === 'workspace' }"
           @click="uiStore.closeSidebar"
-        >{{ label }}</RouterLink>
+        >
+          <span v-if="suffix === 'workspace'" aria-hidden="true">✦</span>
+          <span>{{ label }}</span>
+          <small v-if="suffix === 'workspace'">核心</small>
+        </RouterLink>
       </template>
       <p class="sidebar-section-title">项目</p>
       <p v-if="projectsQuery.isPending.value" class="sidebar-hint" role="status">正在加载项目…</p>

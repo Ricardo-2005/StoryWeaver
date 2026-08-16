@@ -4,10 +4,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { useRoute, useRouter } from 'vue-router'
 
 import { txtImportsApi, validateTxtImportFile } from '@/api/endpoints/txtImports'
-import type { BookAnalysisRequest, TxtImportChapterResponse, TxtImportJobResponse } from '@/api/types'
+import type { TxtImportChapterResponse, TxtImportJobResponse } from '@/api/types'
 import ErrorState from '@/components/base/ErrorState.vue'
 import LoadingState from '@/components/base/LoadingState.vue'
 import ProblemAlert from '@/components/base/ProblemAlert.vue'
+import BookReconstructionPanel from '@/components/reconstruction/BookReconstructionPanel.vue'
 import { moreGenreOptions, primaryGenreOptions, type ProjectGenre } from '@/features/projects/projectOptions'
 
 const route = useRoute()
@@ -28,7 +29,6 @@ const fixedCharacters = ref(10_000)
 const uploadError = ref('')
 const encoding = ref<'AUTO' | 'UTF-8' | 'GB18030' | 'GBK'>('AUTO')
 const titleDrafts = reactive<Record<string, string>>({})
-const analysisEnabled = ref(false)
 
 const project = reactive({
   name: '',
@@ -40,13 +40,6 @@ const project = reactive({
   narrativePerspective: 'THIRD_PERSON' as const,
   lengthType: 'LONG_NOVEL' as const,
 })
-const analysisOptions = reactive<BookAnalysisRequest>({
-  extractCharacters: true,
-  extractWorldbook: true,
-  extractOutline: false,
-  extractEvents: true,
-  extractSkills: false,
-})
 
 const chapters = computed(() => job.value?.chapters ?? [])
 const pageCount = computed(() => Math.max(1, Math.ceil(chapters.value.length / pageSize)))
@@ -57,13 +50,6 @@ const contentQuery = useQuery({
   queryFn: () => txtImportsApi.content(importId.value, selectedChapterId.value),
   enabled: () => Boolean(importId.value && selectedChapterId.value),
 })
-const analysisQueryKey = computed(() => ['txt-import-analysis', importId.value])
-const analysisQuery = useQuery({
-  queryKey: analysisQueryKey,
-  queryFn: () => txtImportsApi.analysis(importId.value),
-  enabled: () => Boolean(importId.value && analysisEnabled.value),
-})
-const analysisResult = computed(() => analysisQuery.data.value)
 
 watch(job, (value) => {
   if (!value) return
@@ -113,21 +99,6 @@ const commitMutation = useMutation({
     })
   },
   onSuccess: applyResult,
-})
-const analysisMutation = useMutation({
-  mutationFn: () => {
-    if (!job.value?.projectId) throw new Error('项目尚未创建')
-    return txtImportsApi.startAnalysis(job.value.projectId, analysisOptions)
-  },
-  onSuccess: (value) => {
-    analysisEnabled.value = true
-    queryClient.setQueryData(analysisQueryKey.value, value)
-  },
-})
-const decisionMutation = useMutation({
-  mutationFn: ({ candidateId, accepted }: { candidateId: string; accepted: boolean }) =>
-    txtImportsApi.decideCandidate(importId.value, candidateId, accepted),
-  onSuccess: value => queryClient.setQueryData(analysisQueryKey.value, value),
 })
 
 function selectFile(event: Event): void {
@@ -204,18 +175,10 @@ function splitByLength(): void {
   }))
 }
 
-async function refreshAnalysis(): Promise<void> {
-  analysisEnabled.value = true
-  await analysisQuery.refetch()
-  await jobQuery.refetch()
-}
-
 const anyError = computed(() => uploadMutation.error.value
   ?? parseMutation.error.value
   ?? editMutation.error.value
-  ?? commitMutation.error.value
-  ?? analysisMutation.error.value
-  ?? decisionMutation.error.value)
+  ?? commitMutation.error.value)
 const canCommit = computed(() => Boolean(job.value?.status === 'WAITING_CONFIRMATION'
   && job.value.chapters.some(chapter => chapter.included)
   && project.name.trim()
@@ -302,11 +265,9 @@ const canCommit = computed(() => Boolean(job.value?.status === 'WAITING_CONFIRMA
 
       <section v-if="job.status === 'COMPLETED' && job.projectId" class="form-section analysis-section">
         <span class="step-number">04</span>
-        <div><h2>导入完成</h2><p>{{ job.processedChapters }} / {{ job.totalChapters }} 章已真实写入。现在才可选择 AI 分析，所有结果只进入 Candidate 审查区。</p></div>
+        <div><h2>导入完成</h2><p>{{ job.processedChapters }} / {{ job.totalChapters }} 章已真实写入。你可以直接进入项目，也可以显式确认费用后启动 AI 全项目重建。</p></div>
         <RouterLink class="sw-button sw-button--primary" :to="`/projects/${job.projectId}`">打开项目</RouterLink>
-        <fieldset><legend>可选 AI 分析（按 Chapter / 12,000 字符 Chunk）</legend><label><input v-model="analysisOptions.extractCharacters" type="checkbox" />人物候选</label><label><input v-model="analysisOptions.extractWorldbook" type="checkbox" />世界书候选</label><label><input v-model="analysisOptions.extractOutline" type="checkbox" />回顾大纲候选</label><label><input v-model="analysisOptions.extractEvents" type="checkbox" />事件候选</label><label><input v-model="analysisOptions.extractSkills" type="checkbox" />Skill 候选</label></fieldset>
-        <div class="asset-actions"><button :disabled="analysisMutation.isPending.value || ['QUEUED','ANALYZING'].includes(job.analysisStatus)" @click="analysisMutation.mutate()">启动可选分析</button><button v-if="job.analysisStatus !== 'NOT_REQUESTED' || analysisResult" @click="refreshAnalysis">刷新真实状态</button></div>
-        <div v-if="analysisResult" class="analysis-results"><p role="status">状态：{{ analysisResult.status }} · 已处理 {{ analysisResult.processedChunks }} 个 Chunk</p><article v-for="candidate in analysisResult.candidates" :key="candidate.id" class="candidate-row"><span class="asset-type">{{ candidate.candidateType }} · Chunk {{ candidate.chunkIndex }}</span><p>{{ candidate.content }}</p><div v-if="candidate.status === 'CANDIDATE'" class="asset-actions"><button @click="decisionMutation.mutate({ candidateId: candidate.id, accepted: true })">接受</button><button @click="decisionMutation.mutate({ candidateId: candidate.id, accepted: false })">拒绝</button></div><span v-else class="status-pill">{{ candidate.status }}</span></article></div>
+        <BookReconstructionPanel :project-id="job.projectId" :project-name="project.name" />
       </section>
     </template>
   </main>
@@ -335,8 +296,7 @@ const canCommit = computed(() => Boolean(job.value?.status === 'WAITING_CONFIRMA
 .chapter-content-preview pre { max-height: 520px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; line-height: 1.8; }
 .pagination { grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; gap: 1rem; }
 .import-confirmation { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem; border: 1px solid var(--sw-border); border-radius: var(--sw-radius-card); background: var(--sw-bg-surface); }
-.analysis-section fieldset { grid-column: 2; display: flex; flex-wrap: wrap; gap: 1rem; }
-.analysis-results { grid-column: 1 / -1; display: grid; gap: .75rem; }
+.analysis-section :deep(.reconstruction-panel) { grid-column: 1 / -1; }
 @media (max-width: 900px) { .chapter-preview-layout { grid-template-columns: 1fr; } .chapter-content-preview { position: static; } .import-chapter-list li { grid-template-columns: auto 90px 1fr; } .chapter-row-actions { grid-column: 2 / -1; } }
 @media (max-width: 600px) { .txt-dropzone, .no-heading-options { grid-column: 1; } .import-confirmation { align-items: stretch; flex-direction: column; } }
 </style>

@@ -21,6 +21,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   function openBlock(blockId: string): void { canvasBlockId.value = blockId; canvasAssetId.value = undefined; canvasOpen.value = true; selection.value = undefined }
   function closeCanvas(): void { canvasOpen.value = false; canvasAssetId.value = undefined; canvasBlockId.value = undefined; selection.value = undefined }
   function setSelection(next: CanvasSelection | undefined): void { selection.value = next }
+  function clearTool(): void { tool.value = null }
   function createWritingBlock(): LocalWritingBlock {
     const block = { id: globalThis.crypto.randomUUID(), title: '未命名片段', content: '' }
     writingBlocks.value.push(block)
@@ -31,5 +32,5 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     if (block) block.content = content
   }
 
-  return { composerDraft, mode, tool, canvasOpen, canvasAssetId, canvasBlockId, selection, writingBlocks, canSend, openAsset, openBlock, closeCanvas, setSelection, createWritingBlock, updateWritingBlock }
+  return { composerDraft, mode, tool, canvasOpen, canvasAssetId, canvasBlockId, selection, writingBlocks, canSend, openAsset, openBlock, closeCanvas, setSelection, clearTool, createWritingBlock, updateWritingBlock }
 })

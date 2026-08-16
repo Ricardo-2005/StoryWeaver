@@ -2,6 +2,7 @@ package com.storyweaver.worldbook.application;
 
 import com.storyweaver.chapter.repository.ChapterRepository;
 import com.storyweaver.character.repository.CharacterRepository;
+import com.storyweaver.evolution.application.ProjectEvolutionService;
 import com.storyweaver.llm.application.EmbeddingGateway;
 import com.storyweaver.llm.application.EmbeddingGateway.EmbeddingResult;
 import com.storyweaver.llm.config.RetrievalExperimentMode;
@@ -30,6 +31,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +48,8 @@ public class WorldbookService {
     private final RetrievalProperties retrieval;
     private final MeterRegistry meters;
     private final Clock clock;
+    private final JdbcTemplate jdbc;
+    private final ProjectEvolutionService evolution;
     private final WorldbookRetrievalRanker ranker = new WorldbookRetrievalRanker();
 
     public WorldbookService(
@@ -59,6 +63,8 @@ public class WorldbookService {
             TokenEstimator tokens,
             RetrievalProperties retrieval,
             MeterRegistry meters,
+            JdbcTemplate jdbc,
+            ProjectEvolutionService evolution,
             Clock clock) {
         this.worldbooks = worldbooks;
         this.entries = entries;
@@ -70,6 +76,8 @@ public class WorldbookService {
         this.tokens = tokens;
         this.retrieval = retrieval;
         this.meters = meters;
+        this.jdbc = jdbc;
+        this.evolution = evolution;
         this.clock = clock;
     }
 
@@ -99,8 +107,33 @@ public class WorldbookService {
                 now);
         float[] vector = applyEmbedding(entry, values.vectorEnabled());
         entries.saveAndFlush(entry);
+        refreshRetrievalMetadata(entry.getId(), values.active(), false);
         persistVector(entry, vector);
+        linkMatchingReconstructionCandidates(entry);
         return entry;
+    }
+
+    @Transactional
+    public void cancel(UUID entryId, UUID ownerId) {
+        WorldbookEntry entry = requireOwnedEntry(entryId, ownerId);
+        UUID projectId = entry.getProjectId();
+        vectors.clear(entryId);
+        jdbc.update(
+                """
+                UPDATE project_reconstruction_candidate
+                SET status='CANDIDATE',target_entity_id=NULL,retrieval_eligible=TRUE,
+                    applied_at=NULL,revoked_at=NULL,revoked_by=NULL,revocation_reason=NULL,
+                    inference_type=CASE WHEN inference_type='USER_CONFIRMED' THEN 'MODEL_INFERENCE' ELSE inference_type END,
+                    policy_reason='Formal worldbook entry was cancelled; candidate returned to review',updated_at=?
+                WHERE target_entity_id=? AND project_id=? AND candidate_type='WORLDBOOK'
+                  AND status IN ('APPLIED','REVOKED')
+                """,
+                java.sql.Timestamp.from(clock.instant()),
+                entryId,
+                projectId);
+        entries.delete(entry);
+        entries.flush();
+        evolution.invalidate(projectId, "WORLDBOOK", entryId, "WORLDBOOK_ENTRY_CANCELLED");
     }
 
     @Transactional(readOnly = true)
@@ -116,6 +149,7 @@ public class WorldbookService {
             throw new ConflictException("optimistic_lock_conflict", "The worldbook entry changed; reload it first");
         }
         validateReferences(entry.getProjectId(), values);
+        snapshot(entry.getId());
         entry.revise(
                 values.title().trim(),
                 values.content().trim(),
@@ -131,7 +165,9 @@ public class WorldbookService {
                 clock.instant());
         float[] vector = applyEmbedding(entry, values.vectorEnabled());
         entries.flush();
+        refreshRetrievalMetadata(entry.getId(), values.active(), true);
         persistVector(entry, vector);
+        evolution.invalidate(entry.getProjectId(), "WORLDBOOK", entry.getId(), "WORLDBOOK_VERSION_CHANGED");
         return entry;
     }
 
@@ -171,9 +207,15 @@ public class WorldbookService {
         projectAccess.requireOwnedProject(projectId, ownerId);
         validatePreviewReferences(projectId, chapterId, viewpointCharacterId);
         int budget = tokenBudget == null ? retrieval.worldbookDefaultTokenBudget() : tokenBudget;
+        Integer chapterNo = chapterId == null
+                ? null
+                : chapters.findById(chapterId)
+                        .map(com.storyweaver.chapter.domain.Chapter::getChapterNo)
+                        .orElse(null);
         String normalizedQuery = query.toLowerCase(Locale.ROOT);
         List<WorldbookEntry> visibleEntries = entries.findAllByProjectIdOrderByPriorityDescTitleAsc(projectId).stream()
                 .filter(WorldbookEntry::isActive)
+                .filter(entry -> entry.isRetrievalEligibleAt(chapterNo))
                 .filter(entry -> scopeMatches(entry, chapterId, viewpointCharacterId))
                 .filter(entry -> visibilityMatches(entry, viewpointCharacterId))
                 .toList();
@@ -205,7 +247,7 @@ public class WorldbookService {
         if (queryEmbedding.available()) {
             Map<UUID, WorldbookEntry> byId = visibleEntries.stream()
                     .collect(java.util.stream.Collectors.toMap(WorldbookEntry::getId, entry -> entry));
-            vectors.search(projectId, queryEmbedding.vector(), options.candidatePoolSize())
+            vectors.search(projectId, queryEmbedding.vector(), chapterNo, options.candidatePoolSize())
                     .forEach(match -> {
                         WorldbookEntry entry = byId.get(match.entryId());
                         if (entry != null) {
@@ -384,6 +426,53 @@ public class WorldbookService {
         } else {
             vectors.clear(entry.getId());
         }
+    }
+
+    private void linkMatchingReconstructionCandidates(WorldbookEntry entry) {
+        var now = java.sql.Timestamp.from(clock.instant());
+        jdbc.update(
+                """
+                UPDATE project_reconstruction_candidate
+                SET status='APPLIED',target_entity_id=?,applied_at=COALESCE(applied_at,?),
+                    retrieval_eligible=TRUE,revoked_at=NULL,revoked_by=NULL,revocation_reason=NULL,
+                    policy_reason='Loaded and saved as a formal worldbook entry',updated_at=?
+                WHERE project_id=? AND candidate_type='WORLDBOOK'
+                  AND btrim(content)=btrim(?) AND status IN ('CANDIDATE','ACCEPTED','REVOKED')
+                """,
+                entry.getId(),
+                now,
+                now,
+                entry.getProjectId(),
+                entry.getContent());
+    }
+
+    private void snapshot(UUID entryId) {
+        jdbc.update(
+                """
+                INSERT INTO worldbook_entry_version(
+                    id,entry_id,project_id,version_no,title,content,valid_from_chapter_no,
+                    valid_to_chapter_no,lifecycle_status,content_hash,created_at)
+                SELECT gen_random_uuid(),id,project_id,version,title,content,valid_from_chapter_no,
+                    valid_to_chapter_no,lifecycle_status,coalesce(content_hash,encode(digest(title || E'\\n' || content,'sha256'),'hex')),now()
+                FROM worldbook_entry WHERE id=?
+                ON CONFLICT(entry_id,version_no) DO NOTHING
+                """,
+                entryId);
+    }
+
+    private void refreshRetrievalMetadata(UUID entryId, boolean active, boolean incrementEmbeddingVersion) {
+        jdbc.update(
+                """
+                UPDATE worldbook_entry
+                SET retrieval_eligible=?,lifecycle_status=?,
+                    content_hash=encode(digest(title || E'\\n' || content,'sha256'),'hex'),
+                    embedding_version=embedding_version + ?
+                WHERE id=?
+                """,
+                active,
+                active ? "ACTIVE" : "ARCHIVED",
+                incrementEmbeddingVersion ? 1 : 0,
+                entryId);
     }
 
     private Candidate candidate(Map<UUID, Candidate> candidates, WorldbookEntry entry) {

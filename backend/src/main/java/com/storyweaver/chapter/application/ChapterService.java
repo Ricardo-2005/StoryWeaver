@@ -4,6 +4,7 @@ import com.storyweaver.chapter.domain.Chapter;
 import com.storyweaver.chapter.domain.ChapterVersion;
 import com.storyweaver.chapter.repository.ChapterRepository;
 import com.storyweaver.chapter.repository.ChapterVersionRepository;
+import com.storyweaver.evolution.application.ProjectEvolutionService;
 import com.storyweaver.outline.domain.OutlineNode;
 import com.storyweaver.outline.domain.OutlineNodeType;
 import com.storyweaver.outline.repository.OutlineNodeRepository;
@@ -22,6 +23,7 @@ public class ChapterService {
     private final ChapterVersionRepository versions;
     private final OutlineNodeRepository outlines;
     private final ProjectAccessService projectAccess;
+    private final ProjectEvolutionService evolution;
     private final Clock clock;
 
     public ChapterService(
@@ -29,11 +31,13 @@ public class ChapterService {
             ChapterVersionRepository versions,
             OutlineNodeRepository outlines,
             ProjectAccessService projectAccess,
+            ProjectEvolutionService evolution,
             Clock clock) {
         this.chapters = chapters;
         this.versions = versions;
         this.outlines = outlines;
         this.projectAccess = projectAccess;
+        this.evolution = evolution;
         this.clock = clock;
     }
 
@@ -68,6 +72,7 @@ public class ChapterService {
         validateChapterOutline(chapter.getProjectId(), outlineNodeId);
         chapter.updateOutline(outlineNodeId, title.trim(), nullable(outline), clock.instant());
         chapters.flush();
+        evolution.invalidate(chapter.getProjectId(), "CHAPTER", chapter.getId(), "CHAPTER_OUTLINE_CHANGED");
         return details(chapter);
     }
 
@@ -96,6 +101,7 @@ public class ChapterService {
                 ownerId,
                 now));
         chapters.flush();
+        evolution.invalidate(chapter.getProjectId(), "CHAPTER", chapter.getId(), "CHAPTER_CONTENT_CHANGED");
         return new ChapterDetails(chapter, version);
     }
 
@@ -128,6 +134,7 @@ public class ChapterService {
                 ownerId,
                 now));
         chapters.flush();
+        evolution.invalidate(chapter.getProjectId(), "CHAPTER", chapter.getId(), "CHAPTER_VERSION_RESTORED");
         return new ChapterDetails(chapter, restored);
     }
 

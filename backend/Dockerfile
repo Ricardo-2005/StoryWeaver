@@ -13,7 +13,9 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 RUN groupadd --system --gid 10001 storyweaver \
-    && useradd --system --uid 10001 --gid 10001 --no-create-home storyweaver
+    && useradd --system --uid 10001 --gid 10001 --no-create-home storyweaver \
+    && mkdir -p /data/imports \
+    && chown 10001:10001 /data/imports
 
 COPY --from=builder --chown=10001:10001 /workspace/target/storyweaver-backend-*.jar /app/app.jar
 

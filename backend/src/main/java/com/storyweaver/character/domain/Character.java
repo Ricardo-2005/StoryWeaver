@@ -2,6 +2,8 @@ package com.storyweaver.character.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -37,6 +39,20 @@ public class Character {
     @Column(nullable = false)
     private boolean archived;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private CharacterImportance importance;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "lifecycle_status", nullable = false, length = 20)
+    private CharacterLifecycleStatus lifecycleStatus;
+
+    @Column(name = "merged_into")
+    private UUID mergedInto;
+
+    @Column(name = "retrieval_eligible", nullable = false)
+    private boolean retrievalEligible;
+
     @Version
     @Column(nullable = false)
     private long version;
@@ -53,6 +69,9 @@ public class Character {
         this.id = UUID.randomUUID();
         this.projectId = projectId;
         this.name = name;
+        this.importance = CharacterImportance.MINOR;
+        this.lifecycleStatus = CharacterLifecycleStatus.ACTIVE;
+        this.retrievalEligible = true;
         this.createdAt = now;
         this.updatedAt = now;
     }
@@ -79,6 +98,30 @@ public class Character {
         this.appearance = appearance;
         this.notes = notes;
         this.archived = archived;
+        if (archived) {
+            transition(CharacterLifecycleStatus.ARCHIVED, null, now);
+        } else if (lifecycleStatus == CharacterLifecycleStatus.ARCHIVED) {
+            transition(CharacterLifecycleStatus.ACTIVE, null, now);
+        }
+        this.updatedAt = now;
+    }
+
+    public void transition(CharacterLifecycleStatus lifecycleStatus, UUID mergedInto, Instant now) {
+        if (lifecycleStatus == CharacterLifecycleStatus.MERGED && mergedInto == null) {
+            throw new IllegalArgumentException("Merged character requires a canonical target");
+        }
+        if (lifecycleStatus != CharacterLifecycleStatus.MERGED && mergedInto != null) {
+            throw new IllegalArgumentException("Only merged characters can have a canonical target");
+        }
+        this.lifecycleStatus = lifecycleStatus;
+        this.mergedInto = mergedInto;
+        this.archived = lifecycleStatus == CharacterLifecycleStatus.ARCHIVED;
+        this.retrievalEligible = lifecycleStatus.historicalRetrievalEligible();
+        this.updatedAt = now;
+    }
+
+    public void importance(CharacterImportance importance, Instant now) {
+        this.importance = importance;
         this.updatedAt = now;
     }
 
@@ -128,6 +171,22 @@ public class Character {
 
     public boolean isArchived() {
         return archived;
+    }
+
+    public CharacterImportance getImportance() {
+        return importance;
+    }
+
+    public CharacterLifecycleStatus getLifecycleStatus() {
+        return lifecycleStatus;
+    }
+
+    public UUID getMergedInto() {
+        return mergedInto;
+    }
+
+    public boolean isRetrievalEligible() {
+        return retrievalEligible;
     }
 
     public long getVersion() {

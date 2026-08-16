@@ -114,3 +114,5 @@ evals\run-evals.cmd live
 - Workflow Stub 分数不能写成 Live Agent Workflow 分数。
 - MCP v1 是进程内 Contract/Invocation 评测，不包含 Streamable HTTP 传输压测。
 - 当前工作区没有 `.git` 元数据时，报告中的 `gitCommit` 如实为 `null`。
+- `datasets/import-reconstruction` 目前只有原创 Draft Fixture，Ground Truth 尚未人工复核，因此人物、别名、世界书、Arc、伏笔与 Evidence 指标均未运行且不得填写效果数字。
+- `datasets/temporal-rag`、`entity-lifecycle`、`rolling-outline`、`foreshadow` 是 V1.2 原创 Draft Fixture；当前均为 `Not Run`，对应指标严格为 `null`。

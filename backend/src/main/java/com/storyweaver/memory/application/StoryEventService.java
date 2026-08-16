@@ -101,11 +101,15 @@ public class StoryEventService {
         EmbeddingResult queryEmbedding = embeddings.embed(input.query());
         Map<UUID, Double> semanticScores = new HashMap<>();
         if (queryEmbedding.available()) {
-            vectors.search(projectId, queryEmbedding.vector(), Math.min(100, topK * 4))
+            vectors.search(projectId, queryEmbedding.vector(), input.chapterNo(), Math.min(100, topK * 4))
                     .forEach(match -> semanticScores.put(match.eventId(), match.similarity()));
         }
         Set<UUID> requestedParticipants = new LinkedHashSet<>(input.participantIds());
         List<ScoredEvent> scored = events.findAllByProjectIdOrderByChapterNoDescCreatedAtDesc(projectId).stream()
+                .filter(StoryEvent::isRetrievalEligible)
+                .filter(event -> input.chapterNo() == null
+                        || event.getChapterNo() == null
+                        || event.getChapterNo() <= input.chapterNo())
                 .map(event ->
                         score(event, input, requestedParticipants, semanticScores.getOrDefault(event.getId(), 0.0)))
                 .sorted(Comparator.comparingDouble(ScoredEvent::score)

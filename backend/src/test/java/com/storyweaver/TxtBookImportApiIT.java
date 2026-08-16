@@ -2,6 +2,7 @@ package com.storyweaver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.storyweaver.importing.book.application.BookReconstructionService;
 import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -22,6 +23,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -67,6 +69,9 @@ class TxtBookImportApiIT {
     @Autowired
     JdbcTemplate jdbc;
 
+    @Autowired
+    BookReconstructionService reconstruction;
+
     private final HttpClient client =
             HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).build();
 
@@ -100,6 +105,7 @@ class TxtBookImportApiIT {
         JsonNode parsed = json(
                 request("POST", "/api/txt-imports/" + importId + "/parse", owner, Map.of("encoding", "AUTO"), 200));
         assertThat(parsed.path("status").asString()).isEqualTo("WAITING_CONFIRMATION");
+        assertThat(parsed.path("parserVersion").asString()).isEqualTo("txt-lines-v2");
         assertThat(parsed.path("headingCount").asInt()).isEqualTo(2);
         assertThat(parsed.path("chapters")).hasSize(2);
 
@@ -146,10 +152,65 @@ class TxtBookImportApiIT {
                         "SELECT creation_source FROM novel_project WHERE id=?::uuid", String.class, projectId))
                 .isEqualTo("TXT_IMPORT");
         assertThat(jdbc.queryForObject(
-                        "SELECT COUNT(*) FROM chapter_version WHERE project_id=?::uuid AND creation_source='TXT_IMPORT' AND source_hash IS NOT NULL AND source_encoding='UTF-8' AND parser_version='txt-lines-v1'",
+                        "SELECT COUNT(*) FROM chapter_version WHERE project_id=?::uuid AND creation_source='TXT_IMPORT' AND source_hash IS NOT NULL AND source_encoding='UTF-8' AND parser_version='txt-lines-v2'",
                         Integer.class,
                         projectId))
                 .isEqualTo(2);
+
+        JsonNode project = json(request("GET", "/api/projects/" + projectId, owner, null, 200));
+        assertThat(project.path("creationSource").asString()).isEqualTo("TXT_IMPORT");
+        assertThat(project.path("reconstructionStatus").asString()).isEqualTo("NOT_ANALYZED");
+
+        JsonNode estimate = json(request(
+                "POST",
+                "/api/projects/" + projectId + "/reconstruction/estimate",
+                owner,
+                Map.of(
+                        "mode", "STANDARD",
+                        "includeSkillDistillation", true,
+                        "includeForeshadowing", true),
+                200));
+        assertThat(estimate.path("chapters").asInt()).isEqualTo(2);
+        assertThat(estimate.path("chunks").asInt()).isEqualTo(2);
+        assertThat(estimate.path("estimatedCalls").asInt()).isGreaterThan(2);
+        assertThat(estimate.path("estimatedInputTokens").asLong()).isPositive();
+
+        JsonNode status = json(request("GET", "/api/projects/" + projectId + "/reconstruction", owner, null, 200));
+        assertThat(status.path("status").asString()).isEqualTo("NOT_ANALYZED");
+        request("GET", "/api/projects/" + projectId + "/reconstruction", other, null, 404);
+
+        JsonNode started = json(request(
+                "POST",
+                "/api/projects/" + projectId + "/reconstruction",
+                owner,
+                Map.of(
+                        "mode",
+                        "STANDARD",
+                        "includeSkillDistillation",
+                        true,
+                        "includeForeshadowing",
+                        true,
+                        "maxBudget",
+                        0),
+                202));
+        assertThat(started.path("status").asString())
+                .isIn("QUEUED", "PREPROCESSING", "CHAPTER_ANALYSIS", "PAUSED_BUDGET");
+        JsonNode paused = awaitStatus(projectId, owner, "PAUSED_BUDGET");
+        assertThat(paused.path("processedChunks").asInt()).isZero();
+        assertThat(paused.path("totalChunks").asInt()).isEqualTo(2);
+        ReflectionTestUtils.invokeMethod(
+                reconstruction,
+                "finishValidation",
+                UUID.fromString(started.path("id").asString()),
+                "WAITING_REVIEW");
+        assertThat(jdbc.queryForObject(
+                        "SELECT status FROM book_reconstruction_job WHERE id=?::uuid",
+                        String.class,
+                        started.path("id").asString()))
+                .isEqualTo("WAITING_REVIEW");
+        assertThat(jdbc.queryForObject(
+                        "SELECT version FROM flyway_schema_history ORDER BY installed_rank DESC LIMIT 1", String.class))
+                .isEqualTo("19");
     }
 
     private String register(String username, String email) throws Exception {
@@ -201,6 +262,16 @@ class TxtBookImportApiIT {
 
     private JsonNode json(HttpResponse<String> response) throws Exception {
         return objectMapper.readTree(response.body());
+    }
+
+    private JsonNode awaitStatus(String projectId, String token, String expected) throws Exception {
+        JsonNode current = null;
+        for (int attempt = 0; attempt < 50; attempt++) {
+            current = json(request("GET", "/api/projects/" + projectId + "/reconstruction", token, null, 200));
+            if (expected.equals(current.path("status").asString())) return current;
+            Thread.sleep(100);
+        }
+        throw new AssertionError("Expected reconstruction status " + expected + " but was " + current);
     }
 
     private static Path temporaryStorage() {

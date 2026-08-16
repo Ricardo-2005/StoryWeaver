@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TxtChapterParser {
-    public static final String PARSER_VERSION = "txt-lines-v1";
+    public static final String PARSER_VERSION = "txt-lines-v2";
     private static final Pattern CHINESE_NUMBERED = Pattern.compile(
             "^第[0-9零〇○〇一二三四五六七八九十百千万两]{1,16}(?:章|回|卷|部|篇|集)(?:[\\s：:、.．\\-—_]+.{1,80})?$", Pattern.CASE_INSENSITIVE);
     private static final Pattern CHINESE_VOLUME = Pattern.compile(
@@ -66,7 +67,12 @@ public class TxtChapterParser {
 
     public boolean isHeading(String value) {
         if (value == null || value.isBlank() || value.length() > maxHeadingCharacters) return false;
-        String normalized = value.strip().toLowerCase(Locale.ROOT);
+        // Match against compatibility-normalized text only. This turns common novel typography such as
+        // the ideographic space (U+3000) and full-width digits into their ASCII equivalents while the
+        // original heading remains unchanged in the preview and committed chapter title.
+        String normalized = Normalizer.normalize(value.strip(), Normalizer.Form.NFKC)
+                .strip()
+                .toLowerCase(Locale.ROOT);
         return CHINESE_NUMBERED.matcher(normalized).matches()
                 || CHINESE_VOLUME.matcher(normalized).matches()
                 || SPECIAL.matcher(normalized).matches()
