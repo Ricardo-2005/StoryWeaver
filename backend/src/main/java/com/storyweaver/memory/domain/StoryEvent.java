@@ -62,6 +62,15 @@ public class StoryEvent {
     @Column(name = "embedding_model", length = 120)
     private String embeddingModel;
 
+    @Column(name = "lifecycle_status", nullable = false, length = 16)
+    private String lifecycleStatus;
+
+    @Column(name = "retrieval_eligible", nullable = false)
+    private boolean retrievalEligible;
+
+    @Column(name = "embedding_version", nullable = false)
+    private long embeddingVersion;
+
     @Version
     @Column(nullable = false)
     private long version;
@@ -78,6 +87,9 @@ public class StoryEvent {
         this.id = UUID.randomUUID();
         this.projectId = projectId;
         this.embeddingStatus = EmbeddingStatus.NOT_REQUESTED;
+        this.lifecycleStatus = "ACTIVE";
+        this.retrievalEligible = true;
+        this.embeddingVersion = 1;
         revise(values, now);
         this.createdAt = now;
     }
@@ -156,6 +168,14 @@ public class StoryEvent {
 
     public String getEmbeddingModel() {
         return embeddingModel;
+    }
+
+    public boolean isRetrievalEligible() {
+        return retrievalEligible && "ACTIVE".equals(lifecycleStatus);
+    }
+
+    public long getEmbeddingVersion() {
+        return embeddingVersion;
     }
 
     public long getVersion() {

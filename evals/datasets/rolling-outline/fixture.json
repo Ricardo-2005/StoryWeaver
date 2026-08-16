@@ -1,0 +1,11 @@
+{
+  "datasetVersion": "draft-v1",
+  "groundTruthStatus": "DRAFT_NOT_REVIEWED",
+  "execution": "NOT_RUN",
+  "cases": [
+    {"caseId":"draft-does-not-refresh","chapterStatus":"DRAFT","expectedRefresh":false},
+    {"caseId":"confirmed-refreshes","chapterStatus":"CONFIRMED","expectedRefresh":true},
+    {"caseId":"chapter-edit-invalidates","mutation":"CHAPTER_CONTENT_CHANGED","expectedStale":true}
+  ],
+  "metrics": {"rollingOutlineStateAccuracy": null}
+}

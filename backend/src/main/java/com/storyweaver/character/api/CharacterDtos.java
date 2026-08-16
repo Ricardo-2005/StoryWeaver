@@ -1,5 +1,7 @@
 package com.storyweaver.character.api;
 
+import com.storyweaver.character.domain.CharacterImportance;
+import com.storyweaver.character.domain.CharacterLifecycleStatus;
 import com.storyweaver.character.domain.LifeStatus;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -31,6 +33,7 @@ public final class CharacterDtos {
             @Size(max = 20000) String goals,
             @Size(max = 20000) String appearance,
             @Size(max = 20000) String notes,
+            CharacterImportance importance,
             @Valid StateInput state) {}
 
     public record UpdateCharacterRequest(
@@ -43,6 +46,7 @@ public final class CharacterDtos {
             @Size(max = 20000) String goals,
             @Size(max = 20000) String appearance,
             @Size(max = 20000) String notes,
+            CharacterImportance importance,
             boolean archived,
             @NotNull @PositiveOrZero Long expectedVersion) {}
 
@@ -84,8 +88,22 @@ public final class CharacterDtos {
             String appearance,
             String notes,
             boolean archived,
+            CharacterImportance importance,
+            CharacterLifecycleStatus lifecycleStatus,
+            UUID mergedInto,
+            boolean retrievalEligible,
             long version,
             Instant createdAt,
             Instant updatedAt,
             CharacterStateResponse state) {}
+
+    public record CharacterLifecycleRequest(
+            @NotNull CharacterLifecycleStatus status, @NotNull @PositiveOrZero Long expectedVersion) {}
+
+    public record MergeCharacterRequest(
+            @NotNull UUID targetCharacterId,
+            @NotNull @PositiveOrZero Long sourceExpectedVersion,
+            @NotNull @PositiveOrZero Long targetExpectedVersion) {}
+
+    public record PurgeCharacterRequest(@NotBlank String confirmation, @NotNull @PositiveOrZero Long expectedVersion) {}
 }

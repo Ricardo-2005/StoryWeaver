@@ -1,6 +1,6 @@
 import { apiClient } from '@/api/client'
 import type {
-  ChapterResponse, ChapterVersionResponse, CharacterResponse, CharacterStateResponse,
+  ChapterResponse, ChapterVersionResponse, CharacterLifecycleStatus, CharacterResponse, CharacterStateResponse,
   CreateChapterRequest, CreateChapterVersionRequest, CreateCharacterRequest, CreateOutlineRequest,
   CreateSkillRequest, CreateWorldbookEntryRequest, OutlineResponse, SkillCompositionResponse,
   RestoreChapterVersionRequest, SkillResponse, UpdateChapterOutlineRequest, UpdateCharacterRequest, UpdateCharacterStateRequest,
@@ -12,12 +12,20 @@ export const charactersApi = {
   create: (projectId: string, body: CreateCharacterRequest) => apiClient.post<CharacterResponse>(`/api/projects/${projectId}/characters`, body),
   update: (id: string, body: UpdateCharacterRequest) => apiClient.put<CharacterResponse>(`/api/characters/${id}`, body),
   updateState: (id: string, body: UpdateCharacterStateRequest) => apiClient.put<CharacterStateResponse>(`/api/characters/${id}/state`, body),
+  stateAt: (id: string, chapterNo: number) => apiClient.get(`/api/characters/${id}/state-at?chapterNo=${chapterNo}`),
+  lifecycle: (id: string, status: CharacterLifecycleStatus, expectedVersion: number) =>
+    apiClient.post<CharacterResponse>(`/api/characters/${id}/lifecycle`, { status, expectedVersion }),
+  merge: (id: string, targetCharacterId: string, sourceExpectedVersion: number, targetExpectedVersion: number) =>
+    apiClient.post<CharacterResponse>(`/api/characters/${id}/merge`, { targetCharacterId, sourceExpectedVersion, targetExpectedVersion }),
+  purge: (id: string, expectedVersion: number) =>
+    apiClient.post<void>(`/api/characters/${id}/purge`, { confirmation: 'PURGE', expectedVersion }),
 }
 
 export const worldbookApi = {
   list: (projectId: string) => apiClient.get<WorldbookEntryResponse[]>(`/api/projects/${projectId}/worldbook-entries`),
   create: (projectId: string, body: CreateWorldbookEntryRequest) => apiClient.post<WorldbookEntryResponse>(`/api/projects/${projectId}/worldbook-entries`, body),
   update: (id: string, body: UpdateWorldbookEntryRequest) => apiClient.put<WorldbookEntryResponse>(`/api/worldbook-entries/${id}`, body),
+  cancel: (id: string) => apiClient.delete<void>(`/api/worldbook-entries/${id}`),
 }
 
 export const outlinesApi = {

@@ -12,7 +12,7 @@ flowchart TB
     Frontend[Vue 3 前端\n路由、状态、编辑器、工作流界面]
     Api[Spring Boot API\n认证、领域应用服务、Problem Details]
     Workflow[工作流编排\nPreflight、Context、Planner、Writer、Extractor、Reviewer]
-    Domain[领域模块\n项目、正典、人物、章节、世界书、生产、导入]
+    Domain[领域模块\n项目、正典、人物、章节、世界书、生产、导入、演化]
     Db[(PostgreSQL + pgvector)]
     Redis[(Redis)]
     Llm[DeepSeek]
@@ -39,6 +39,8 @@ flowchart TB
 - 长章节编辑、段落定位、IndexedDB 草稿恢复、查找替换和版本恢复。
 - 工作流预检、上下文预览、SSE 进度订阅、审核和取消/修订操作。
 - V1.5 的导入、滚动大纲、章节批次、剧情门、分支与模型尝试界面。
+- 单个 20 MiB TXT 建项的编码预览、章节编辑、Commit，以及导入后可选的 AI 重建与 Candidate 审核。
+- 人物生命周期、候选撤回、按章节状态、滚动大纲刷新和伏笔状态治理界面。
 - 用量、预算、成本、耗时与主题/可访问性体验。
 - 项目外全局 Skill 工坊、TXT/手写熔炼、28 套动态模板、证据审阅、验证与项目绑定。
 
@@ -53,14 +55,15 @@ flowchart TB
 | `auth` | 用户注册登录、Bearer JWT、USER/ADMIN 角色与访问控制 |
 | `project` | 项目、快照与项目级隔离 |
 | `canon` | 正典资产、版本与正式设定管理 |
-| `character` | 人物、人物状态和创作约束 |
+| `character` | 人物、重要度、生命周期、合并/清除、当前状态与按章节时间状态 |
 | `worldbook` | 世界书条目、激活、关键词/向量检索与 Token 裁剪 |
 | `outline` / `chapter` | 大纲、章节、章节版本和恢复 |
 | `skill` | BASE/PROJECT/CHAPTER 规则合成，以及全局 Skill、证据熔炼、验证、版本和项目绑定 |
 | `workflow` | 工作流状态机、SSE、审批、事务提交、恢复和并发保护 |
 | `llm` | DeepSeek 适配、Planner/Writer/Extractor/Reviewer 调用与用量记录 |
 | `consistency` / `review` | StoryFact、物品归属、角色知识、时间线与审核规则 |
-| `importing` | TXT/Markdown/DOCX/ZIP 导入与候选审核 |
+| `importing` | 向已有项目导入 TXT/Markdown/DOCX/ZIP；`importing.book` 负责单个 20 MiB TXT Preview 后建项和分层 AI 重建 |
+| `evolution` | 人物/事实/关系/知识/物品的章节有效区间、当前检索资格、滚动大纲刷新与 Context 失效 |
 | `production` / `branching` / `impact` / `foreshadow` | V1.5 连续生产、章节分支、影响报告和伏笔台账 |
 | `usage` / `audit` / `mcp` | 用量预算、审计、MCP 工具和资源边界 |
 
@@ -78,7 +81,11 @@ flowchart TB
 
 ## 数据与一致性
 
-PostgreSQL 是主数据存储，Flyway 按 `V0` 到 `V15` 迁移维护结构；pgvector 为世界书语义检索提供向量能力。Redis 用于缓存和运行协调。后端使用所有权隔离、乐观锁、幂等键、同项目 Writer 并发限制与状态机转换来避免并发写入冲突。
+PostgreSQL 是主数据存储，Flyway 按 `V0` 到 `V18` 迁移维护结构；V16—V18 分别实现 TXT 书籍建项、可恢复 AI 重建和项目演化/RAG 生命周期。pgvector 为世界书语义检索提供向量能力。Redis 用于缓存和运行协调。后端使用所有权隔离、乐观锁、幂等键、同项目 Writer 并发限制与状态机转换来避免并发写入冲突。
+
+TXT 原文通过 InputStream 流式写入私有临时卷，存储键由服务器生成并同步计算 SHA-256；解析使用流式 Reader。默认 TTL 为 24 小时，清理不删除已经创建的正式项目和章节版本。
+
+当前 Context 先按目标章节过滤生命周期、有效区间和 `retrievalEligible`，再按 P0—P7 组织结构化当前状态与历史检索证据。被撤回、取代、合并、归档或清除的当前数据不能继续作为有效事实进入新 Context。
 
 系统把以下内容作为重点校验对象：
 

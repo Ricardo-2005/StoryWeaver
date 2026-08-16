@@ -1,0 +1,17 @@
+{
+  "datasetVersion": "draft-v1",
+  "groundTruthStatus": "DRAFT_NOT_REVIEWED",
+  "execution": "NOT_RUN",
+  "cases": [
+    {"caseId":"future-event","targetChapterNo":4,"assetChapterNo":9,"expectedRetrieval":false},
+    {"caseId":"future-worldbook","targetChapterNo":3,"validFromChapterNo":10,"expectedRetrieval":false},
+    {"caseId":"current-state","targetChapterNo":6,"validFromChapterNo":5,"validToChapterNo":null,"expectedRetrieval":true}
+  ],
+  "metrics": {
+    "temporalLeakageRate": null,
+    "currentStateAccuracy": null,
+    "archivedAssetRetrievalRate": null,
+    "supersededFactRetrievalRate": null,
+    "characterKnowledgeLeakageRate": null
+  }
+}

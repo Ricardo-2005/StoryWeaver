@@ -1,0 +1,16 @@
+{
+  "datasetVersion": "draft-v1",
+  "groundTruthStatus": "DRAFT_NOT_REVIEWED",
+  "execution": "NOT_RUN",
+  "cases": [
+    {"caseId":"one-off-mention","mentions":1,"expectedAction":"APPEND_EVENT","expectedImportance":"MENTION_ONLY"},
+    {"caseId":"recurring-person","mentions":3,"expectedCreateSuggestions":1},
+    {"caseId":"ambiguous-same-name","existingMatches":2,"expectedAction":"NEEDS_REVIEW"},
+    {"caseId":"merged-source","lifecycleStatus":"MERGED","expectedCurrentRetrieval":false}
+  ],
+  "metrics": {
+    "characterMergePrecision": null,
+    "characterMergeRecall": null,
+    "archivedAssetRetrievalRate": null
+  }
+}

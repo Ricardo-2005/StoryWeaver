@@ -1,20 +1,24 @@
 # 当前实现状态
 
-更新日期：2026-08-09。
+更新日期：2026-08-13。
 
 本文是 StoryWeaver 当前可运行能力的总清单。阶段文档记录当时的实现过程，设计稿描述产品目标；当三者不一致时，事实优先级为：当前源码与数据库迁移 → 自动化测试 → 本文与 API 文档 → 阶段记录 → 设计稿。
 
 ## 当前版本结论
 
-StoryWeaver 当前为 V1.5 全栈实现，并叠加以下更新：
+StoryWeaver 当前为 V1.5 全栈实现，并叠加创建项目向导、全局 Skill 熔炉、TXT 书籍导入、AI 项目重建和项目演化/RAG 生命周期更新：
 
 - 创建项目页采用选项式向导，支持题材、目标读者、叙事视角、篇幅、故事构想、世界规则和字数目标。
 - 全局 Skill 工坊位于项目外，可创建、版本化、验证、导出和绑定基础 Skill。
 - Skill 熔炉支持 TXT 与手写文本混合来源、段落证据、逐条审阅、冲突处理和 8 类验证测试。
 - Skill 动态模板由 7 种素材标签 × 4 种 Skill 类型组成 28 套独立推荐内容，支持题材替换并保护用户已修改文本。
-- TXT 单文件上限 10 MiB，最多 20 个文件、合计 20 MiB；支持 UTF-8、UTF-8 BOM 与 GB18030。
+- Skill 熔炉的素材上传最多 20 个文件、单文件 10 MiB、合计 20 MiB，支持 UTF-8、UTF-8 BOM 与 GB18030。
+- TXT 书籍导入是独立创建项目流程：只接受单个 `.txt`，上限 20 MiB，支持 UTF-8、UTF-8 BOM、GB18030、GBK；先 Preview 和人工调整，再创建 Project/Chapter/ChapterVersion。
+- TXT 原文以流式方式落入私有临时存储并计算 SHA-256；默认保存 24 小时、每小时清理。正式项目记录 `creationSource=TXT_IMPORT`、来源哈希、编码和 `txt-lines-v2` 解析器版本。
+- 基础导入不依赖 DeepSeek；完成后才能选择按 Chapter/Chunk 分层的 AI 项目重建。模型结果先进入带 Evidence 的 Candidate，不能直接覆盖正典。
+- 重建候选、人物、人物状态/关系/知识、物品、事实、世界书、事件、滚动大纲和伏笔具备当前检索资格、章节时间边界或生命周期治理。
 - 用户具有 `USER` / `ADMIN` 角色；角色进入认证响应和 JWT authority。公开注册默认创建 `USER`。
-- 数据库迁移已到 V15。
+- 数据库迁移已到 V19；V16 为 TXT 书籍导入，V17 为可恢复 AI 重建，V18 为项目演化与 RAG 生命周期，V19 为拆书伏笔自动登记与可逆来源关联。
 
 ## 功能矩阵
 
@@ -27,6 +31,9 @@ StoryWeaver 当前为 V1.5 全栈实现，并叠加以下更新：
 | 章节 | 已实现 | 大纲、章节、不可变版本、恢复、TipTap 长文本编辑和本地草稿 |
 | 写作工作流 | 已实现 | Preflight、Context、Planner、Writer、Extractor、Reviewer、SSE、修订和原子审批 |
 | 长篇生产 | 已实现 | 导入、伏笔、影响报告、滚动大纲、章节批次、剧情门、分支和模型尝试 |
+| TXT 书籍建项 | 已实现 | 单文件 20 MiB、四类编码、流式存储/解析、Preview、改名/合并/拆分/排除/排序、整本或定长切分、Commit 后建项、TTL 与重复提示 |
+| AI 项目重建 | 部分实现 | Estimate、Chapter/Chunk 分析、恢复/暂停/取消/预算、真实 Usage、Evidence Candidate、审核/撤回；全书归并后自动建立稳定重复人物卡、可信世界事实条目和反向滚动大纲，其他正式资产自动应用仍受限 |
+| 项目演化与 RAG | 已实现基础设施 | Candidate 策略、人物生命周期/合并/清除、时间状态、检索失效、P0—P7 Context、滚动大纲刷新和伏笔生命周期 |
 | 全局 Skill | 已实现 | 项目外工坊、私有/内置 Skill、版本、验证、测试、ZIP 导出和项目绑定 |
 | Skill 熔炼 | 已实现 | TXT/手写来源、动态模板、证据规则、冲突处理、结构化契约和安全导出 |
 | 成本与观测 | 已实现 | Usage、定价快照、预算、Prometheus、Grafana、Tempo 和审计 |
@@ -74,8 +81,12 @@ Skill 类型：
 | V13 | TXT/手写来源、段落证据、熔炼步骤和测试结果 |
 | V14 | 动态模板上下文：素材标签、题材和来源项目 |
 | V15 | 用户角色：`USER` / `ADMIN` |
+| V16 | TXT 书籍源、Import Job、章节预览、AI 分析 Candidate 与 Project/Chapter 来源证据 |
+| V17 | 可恢复的全项目重建 Job、Chunk、重建 Candidate、章节重建元数据与 Usage 归属 |
+| V18 | Candidate 策略与撤回、人物/事实时间生命周期、检索资格、滚动大纲刷新和伏笔演化 |
+| V19 | 伏笔来源 Candidate 一对一关联、历史候选自动登记、取消后恢复候选 |
 
-PostgreSQL 当前共有 51 张业务表，不含 `flyway_schema_history`。
+表结构以 V0—V19 迁移为准；本文不固定容易随迁移漂移的业务表总数。`flyway_schema_history` 由 Flyway 自行维护。
 
 ## 当前本地实例
 
@@ -97,12 +108,11 @@ PostgreSQL 当前共有 51 张业务表，不含 `flyway_schema_history`。
 
 最近一次完整验证包括：
 
-- 后端单元测试 13 项通过。
-- Phase 1 认证与所有权集成测试通过，并验证 V15 全量迁移和默认 `USER` 角色。
-- 前端 47 项单元测试通过。
-- 浏览器回归 29 项通过。
-- WCAG 2.2 AA、键盘导航、视觉基线和性能预算通过。
-- Docker 前端、后端、PostgreSQL、Redis、Prometheus 与 Grafana 健康检查通过；Tempo 正常运行。
+- 后端 `./mvnw clean verify` 通过：35 次单元/架构测试、20 次集成测试；空库迁移到 V19，162 条业务 REST 路由契约通过。
+- 前端 `pnpm lint`、`pnpm typecheck`、`pnpm test:unit` 和 `pnpm build` 通过；21 个测试文件、52 项单元测试通过。
+- Chromium TXT Import E2E 1 项通过，覆盖上传、Preview、改名、拆分、合并与 Commit；该测试使用 Mock API。
+- 根目录 `docker compose config` 通过。
+- 新增 `import-reconstruction`、`temporal-rag`、`entity-lifecycle`、`rolling-outline`、`foreshadow` Draft 数据集；Ground Truth 尚未复核，指标保持 `null / Not Run`。
 
 测试数量会随代码变化，持续集成结果优先于本文的历史数字。
 
@@ -112,6 +122,9 @@ PostgreSQL 当前共有 51 张业务表，不含 `flyway_schema_history`。
 - Bearer Token 仅保存在前端内存，刷新后需要重新登录；没有 Refresh Token 和吊销列表。
 - `ADMIN` 已成为真实角色和 authority，但尚未开放管理后台，不能据此宣称已完成用户管理产品。
 - DeepSeek 未配置或不可用时，项目管理和编辑仍可运行，模型生成相关功能不可用。
+- TXT 基础导入与正式 Project/Chapter/ChapterVersion 创建不依赖 DeepSeek；“AI 自动构建完整项目”是导入完成后的可选步骤。
+- Safe Apply 当前只应用低风险章节重建元数据。独立物化链路会自动建立稳定重复人物卡、归并世界事实、写入滚动大纲，并将伏笔候选登记到正式伏笔台账的 `CANDIDATE` 状态。伏笔登记不等于确认已埋设或回收；取消台账条目会恢复来源 Candidate。单次人物提及、非人名、不确定/冲突世界规则、唯一物品、知识和 Skill 等高风险结果仍留在 Candidate。
+- 当前没有真实 DeepSeek 全项目回归或新 V1.2 数据集分数；不得把 Mock E2E、测试 Stub 或 `null` 指标表述为线上模型效果。
 - ONNX 模型缺失时，世界书降级为常量与关键词检索。
 - MCP 只能读取状态或创建带证据的候选事实，不能绕过人工审核写入正典。
 - 设计稿中的持久 Chat、字段级 AI 候选和部分高级资产操作仍属于后续能力。

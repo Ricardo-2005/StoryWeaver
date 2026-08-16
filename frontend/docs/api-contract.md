@@ -35,12 +35,12 @@
 
 1. 任务列出的 `POST /api/projects/{projectId}/archive` **未实现**。实际归档方式是 `PUT /api/projects/{projectId}`，携带完整更新 DTO、`archived: true` 和 `expectedVersion`。
 2. 后端设计文档的 Projects 列表未写归档路由，实际实现与 `backend/docs/api.md` 一致。
-3. 后端设计文档的 API 兼容章节建议 `/api/v1/...`，实际 128 条路由使用 `/api/...`，前端必须以后者为准。
+3. 后端设计文档的 API 兼容章节建议 `/api/v1/...`，实际 162 条路由使用 `/api/...`，前端必须以后者为准。
 4. 前端设计建议 OpenAPI 3.1 生成类型，但后端明确未提供 OpenAPI/Swagger；Phase 0 不生成虚假 schema。
 5. 前端设计优先推荐同站 HttpOnly Cookie，但实际登录返回 Bearer JWT，且没有 Refresh Token。共享客户端已采用仅内存 Token 策略。
 6. 前端设计的 `ApiProblem.fieldErrors: Record<string, string[]>` 与后端实际校验响应 `errors: Record<string, string>` 不同；客户端统一规范化为字符串数组。
 7. 前端需求点名 422、429 与 5xx；后端当前 Bean Validation 返回 400，其他状态仍由统一 Problem Details 层兼容处理。
-8. 前端 Phase 1 设计包含会话列表、固定、归档和搜索，但实际 128 条后端路由没有 conversation/session/chat 持久化接口；后续只能先实现导航框架，不能伪造可持久化会话能力。
+8. 前端 Phase 1 设计包含会话列表、固定、归档和搜索，但实际 162 条后端路由没有 conversation/session/chat 持久化接口；后续只能先实现导航框架，不能伪造可持久化会话能力。
 
 ## Phase 1 对接状态
 
@@ -124,4 +124,19 @@ Skill 工坊位于项目路由之外。熔炉支持在同一任务中混用多�
 
 前端通过 `src/api/endpoints/globalSkills.ts` 使用 `/api/skill-forge/runs/*` 完成来源提交、启动、证据规则审阅、冲突处理、契约生成和 8 类验证。创建请求必须携带 `materialTag` 和 `skillType`，并携带当前文本框中的 `focus/materialDescription`；可选 `genre/sourceProjectId` 由后端重新校验项目所有权与题材。后端将这些上下文组装进熔炼 Prompt，并按 `FOUNDATION/GENRE/TECHNIQUE/REVIEW` 生成不同 `structuredOutput`。每条规则必须由用户 `ACCEPT/EDIT/DELETE` 后才能进入契约；证据展示来自后端所有权校验后的段落，不从前端上传内容自行拼造。
 
-`GET /api/skills/{skillId}/tests` 返回验证用例和最新结果；`GET /api/skills/{skillId}/export` 返回标准 ZIP，默认且当前固定不包含完整原始 TXT 或粘贴文本。仓库没有 springdoc/Swagger 生成物，实际路由由后端 `InfrastructureIT` 的 128 路由集合锁定。
+`GET /api/skills/{skillId}/tests` 返回验证用例和最新结果；`GET /api/skills/{skillId}/export` 返回标准 ZIP，默认且当前固定不包含完整原始 TXT 或粘贴文本。仓库没有 springdoc/Swagger 生成物，实际路由由后端 `InfrastructureIT` 的 162 路由集合锁定。
+
+## TXT 书籍导入与 AI 项目重建契约
+
+创建项目页提供“从零开始 / 导入 TXT 书籍”。后者进入 `/projects/import/txt`，通过 `src/api/endpoints/txtImports.ts` 调用：
+
+- `POST /api/imports/txt` 上传单个 `.txt`；前端执行精确 20 MiB 校验，后端重复校验文件元数据和实际流字节数。
+- `POST /api/txt-imports/{importId}/parse` 选择 UTF-8、GB18030 或 GBK；UTF-8 BOM 由后端自动识别。编码不确定时必须允许用户切换并重看 Preview。
+- Preview、content、PATCH chapter，以及 reorder/merge/split/whole/fixed-split 只修改 Import Job，不提前创建 Project。
+- `POST /api/txt-imports/{importId}/commit` 成功后才返回正式项目；前端随后刷新项目缓存并可进入项目。
+
+这与 Skill 熔炉限制不同：书籍建项是“单个 20 MiB TXT”，Skill 熔炉是“最多 20 个、单个 10 MiB、合计 20 MiB”。Nginx/Spring 的 25 MiB 是 multipart 请求上限，不是用户可上传 25 MiB TXT。
+
+导入完成后，`src/api/endpoints/reconstruction.ts` 使用 `/api/projects/{projectId}/reconstruction/*` 完成 Estimate、启动、状态轮询、Pause/Resume/Cancel/Retry、Candidate 决策/撤回和 Safe Apply。进度由后端按 Chunk 与 VOLUME/ENTITY/GLOBAL/VALIDATING 等真实阶段计算；Chunk 完成时仍处于全书聚合，前端不得提前显示 100%。稳定且重复出现的人物会自动建立人物卡；具备 Evidence 且无歧义的世界事实会归并到正式世界书；可信全书摘要写入滚动大纲；伏笔候选自动登记为正式伏笔的 `CANDIDATE` 状态。伏笔只完成登记，不自动确认已埋设、发展或回收。已登记 Candidate 从上方隐藏；调用 `DELETE /api/foreshadows/{id}` 后删除台账条目并恢复关联 Candidate。单次人物提及、不确定事实和冲突仍显示为待审核。
+
+人物响应扩展 `importance/lifecycleStatus/mergedInto/retrievalEligible`，并对接 `state-at`、`lifecycle`、`merge` 和 `purge`。Purge 是不可恢复的物理删除，界面必须显式确认；普通“退出当前创作”应使用生命周期或归档。

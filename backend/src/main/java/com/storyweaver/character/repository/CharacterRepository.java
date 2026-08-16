@@ -1,10 +1,14 @@
 package com.storyweaver.character.repository;
 
 import com.storyweaver.character.domain.Character;
+import com.storyweaver.character.domain.CharacterLifecycleStatus;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CharacterRepository extends JpaRepository<Character, UUID> {
     List<Character> findAllByProjectIdOrderByUpdatedAtDesc(UUID projectId);
+
+    List<Character> findAllByProjectIdAndRetrievalEligibleTrueAndLifecycleStatusInOrderByUpdatedAtDesc(
+            UUID projectId, List<CharacterLifecycleStatus> lifecycleStatuses);
 }

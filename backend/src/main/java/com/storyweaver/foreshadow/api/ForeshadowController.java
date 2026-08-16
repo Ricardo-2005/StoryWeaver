@@ -48,6 +48,12 @@ public class ForeshadowController {
                 id, userId(jwt), request.expectedVersion(), request.status(), request.resolvedChapterId());
     }
 
+    @DeleteMapping("/foreshadows/{id}")
+    ResponseEntity<Void> cancel(@AuthenticationPrincipal Jwt jwt, @PathVariable UUID id) {
+        service.cancel(id, userId(jwt));
+        return ResponseEntity.noContent().build();
+    }
+
     private UUID userId(Jwt jwt) {
         return UUID.fromString(jwt.getSubject());
     }

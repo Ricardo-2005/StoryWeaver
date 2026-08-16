@@ -6,21 +6,22 @@
 .\mvnw.cmd clean verify
 ```
 
-它依次执行编译、单元/架构测试、打包、Testcontainers 集成测试、Spotless 校验和 Failsafe verify。当前 Surefire 报告 13 次单元/架构测试执行；源码中有 27 个显式 `@Test` 方法，其中 8 个是普通单元测试方法、19 个是集成测试方法。执行次数与注解数不完全相同，是因为 5 条 ArchUnit 规则由架构测试类独立生成测试执行。集成测试使用真实 PostgreSQL 18 + pgvector 和 Redis 8.2 容器，空库执行全部 18 条 Flyway 迁移并验证当前版本为 V15；不依赖开发者现有数据库。
+它依次执行编译、单元/架构测试、打包、Testcontainers 集成测试、Spotless 校验和 Failsafe verify。2026-08-13 的完整报告为 35 次 Surefire 单元/架构测试和 20 次 Failsafe 集成测试，全部通过。集成测试使用真实 PostgreSQL 18 + pgvector 和 Redis 8.2 容器，空库执行全部 22 条 Flyway 迁移并验证当前版本为 V19；不依赖开发者现有数据库。
 
 ## 1. 测试分层
 
 | 层级 | 文件/数量 | 验证内容 |
 |---|---|---|
-| Domain/Service 单测 | 8 个显式 `@Test` 方法 | 正典状态、Skill 合成、Workflow 状态机、DeepSeek 参数与 HMAC、确定性 Validator、Phase 8 评测 |
-| ArchUnit | 5 个架构规则 | Controller 不直连 Repository、shared 依赖方向、模块无环等边界；计入 Surefire 的 13 次单元/架构执行 |
-| Infrastructure IT | 2 个方法 | PG/Redis 版本、Flyway、Hibernate、Actuator、ProblemDetail、精确 128 路由契约 |
+| Domain/Service 单测 | 30 次执行 | 正典状态、Skill 合成、Workflow 状态机、DeepSeek 请求、Validator、TXT 编码/章节/存储、重建与 Candidate Policy |
+| ArchUnit | 5 个架构规则 | Controller 不直连 Repository、shared 依赖方向、模块无环等边界；计入 Surefire 的 35 次单元/架构执行 |
+| Infrastructure IT | 2 次执行 | PG/Redis 版本、Flyway V19、Hibernate、Actuator、ProblemDetail、精确 162 路由契约 |
 | Phase 1–4 IT | 6 个方法 | 身份/所有权/版本、内容模型、DeepSeek/SSE、世界书、事件、上下文与降级 |
 | Phase 5–7 IT | 8 个方法 | Workflow、恢复、原子提交、一致性、MCP、预算、费用、指标、Trace |
 | Phase 8 Demo IT | 1 个方法 | 连续 10 章工作流、原子提交与演示链路 |
 | Skill Forge IT | 2 个方法 | 默认模板、动态必填参数、Skill 熔炼持久化与兼容行为 |
+| TXT Book Import IT | 1 个方法 | 上传/解析/Preview/编辑/Commit、所有权、Project/Chapter/Version 来源证据和 V19 迁移 |
 
-当前源码共有 **27 个显式 `@Test` 方法（8 个普通单元方法 + 19 个集成方法）**；加上 5 条 ArchUnit 规则，完整 Maven 验收会报告 **32 次测试执行（13 次单元/架构 + 19 次集成）**。新增或删除测试、路由、迁移时，本文、接口清单与 CI 验收记录必须同步更新。
+最近一次完整 Maven 验收报告 **55 次测试执行（35 次单元/架构 + 20 次集成）**。新增或删除测试、路由、迁移时，本文、接口清单与 CI 验收记录必须同步更新。
 
 ## 2. Phase 可追溯矩阵
 
@@ -35,12 +36,12 @@
 | 6 | `Phase6ApiIT`：状态传播、BLOCKER、修订重提取、审批、原子提交、故障注入回滚 |
 | 7 | `Phase7ApiIT`：MCP 未认证拒绝、6 Tools、5 Resources、3 Prompts、候选写安全/幂等/隔离/审计、预算读写、Pricing/Usage/Cost、指标、Tracer |
 | 8 | `Phase8EvaluationTest` + `Phase8DemoIT`：固定集指标、Context 对照、微基准、连续十章 |
-| 9–13 | 项目向导、全局 Skill、导入导出、分支/门禁、滚动大纲等能力由对应 API IT 与 128 路由契约共同覆盖 |
-| 14–15 | `SkillForgeServiceIT` + `InfrastructureIT`：28 个动态模板、参数契约、管理员角色迁移、空库升级到 V15 |
+| 9–15 | 项目向导、全局 Skill、导入导出、分支/门禁、滚动大纲、动态模板和用户角色由对应 IT 与路由契约覆盖 |
+| 16–19 | `TxtBookImportApiIT`、重建单测、Candidate Policy 单测与 `InfrastructureIT`：TXT 建项、来源证据、V17/V18 状态、伏笔自动登记和空库升级到 V19 |
 
 ## 3. 接口契约测试
 
-`InfrastructureIT.exposesTheDocumentedRestApiSurfaceWithoutUndocumentedBusinessRoutes` 从 Spring 运行时读取所有 `com.storyweaver.*Controller` 映射，要求与 128 条 `METHOD path` 清单完全一致。它可以发现：
+`InfrastructureIT.exposesTheDocumentedRestApiSurfaceWithoutUndocumentedBusinessRoutes` 从 Spring 运行时读取所有 `com.storyweaver.*Controller` 映射，要求与 162 条 `METHOD path` 清单完全一致。它可以发现：
 
 - Controller 写了但文档/契约未登记的业务路由；
 - 方法、路径参数名或父路径被意外改动；

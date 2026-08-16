@@ -51,7 +51,8 @@ public class WorkflowPreflight {
         }
         if (characters
                 .findById(run.getViewpointCharacterId())
-                .filter(character -> character.getProjectId().equals(run.getProjectId()) && !character.isArchived())
+                .filter(character -> character.getProjectId().equals(run.getProjectId())
+                        && character.getLifecycleStatus().currentContextEligible())
                 .isEmpty()) {
             throw blocked("viewpoint_character_required", "A valid viewpoint character is required");
         }

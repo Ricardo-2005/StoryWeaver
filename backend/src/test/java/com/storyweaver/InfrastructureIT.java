@@ -56,6 +56,10 @@ class InfrastructureIT {
             PUT /api/characters/{characterId}
             GET /api/characters/{characterId}/state
             PUT /api/characters/{characterId}/state
+            GET /api/characters/{characterId}/state-at
+            POST /api/characters/{characterId}/lifecycle
+            POST /api/characters/{characterId}/merge
+            POST /api/characters/{characterId}/purge
             POST /api/projects/{projectId}/outlines
             GET /api/projects/{projectId}/outlines
             GET /api/outlines/{outlineId}
@@ -105,6 +109,7 @@ class InfrastructureIT {
             POST /api/projects/{projectId}/worldbook-entries
             GET /api/projects/{projectId}/worldbook-entries
             PUT /api/worldbook-entries/{entryId}
+            DELETE /api/worldbook-entries/{entryId}
             POST /api/projects/{projectId}/worldbook/preview
             POST /api/projects/{projectId}/story-events
             GET /api/projects/{projectId}/story-events
@@ -153,10 +158,23 @@ class InfrastructureIT {
             POST /api/projects/{projectId}/book-analysis
             GET /api/txt-imports/{importId}/analysis
             PATCH /api/txt-imports/{importId}/analysis/candidates/{candidateId}
+            POST /api/projects/{projectId}/reconstruction/estimate
+            POST /api/projects/{projectId}/reconstruction
+            GET /api/projects/{projectId}/reconstruction
+            POST /api/projects/{projectId}/reconstruction/pause
+            POST /api/projects/{projectId}/reconstruction/resume
+            POST /api/projects/{projectId}/reconstruction/cancel
+            POST /api/projects/{projectId}/reconstruction/retry-failed
+            GET /api/projects/{projectId}/reconstruction/candidates
+            PATCH /api/projects/{projectId}/reconstruction/candidates/{candidateId}
+            POST /api/projects/{projectId}/reconstruction/candidates/{candidateId}/restore
+            POST /api/projects/{projectId}/reconstruction/candidates/{candidateId}/revoke
+            POST /api/projects/{projectId}/reconstruction/approve-safe
             POST /api/projects/{projectId}/foreshadows
             GET /api/projects/{projectId}/foreshadows
             PUT /api/foreshadows/{id}
             POST /api/foreshadows/{id}/transition
+            DELETE /api/foreshadows/{id}
             POST /api/chapters/{chapterId}/impact-reports
             GET /api/chapters/{chapterId}/impact-reports
             GET /api/impact-reports/{id}
@@ -231,8 +249,8 @@ class InfrastructureIT {
         }
         assertThat(redisVersion).startsWith("8.2");
         flyway.validate();
-        assertThat(flyway.info().applied()).hasSize(19);
-        assertThat(flyway.info().current().getVersion().getVersion()).isEqualTo("16");
+        assertThat(flyway.info().applied()).hasSize(22);
+        assertThat(flyway.info().current().getVersion().getVersion()).isEqualTo("19");
 
         HttpClient client =
                 HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).build();
@@ -265,7 +283,7 @@ class InfrastructureIT {
                 .flatMap(entry -> routes(entry.getKey()).stream())
                 .collect(Collectors.toSet());
 
-        assertThat(expected).hasSize(144);
+        assertThat(expected).hasSize(162);
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 

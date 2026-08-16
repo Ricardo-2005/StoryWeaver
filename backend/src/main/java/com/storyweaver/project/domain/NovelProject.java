@@ -69,6 +69,12 @@ public class NovelProject {
     @Column(nullable = false)
     private boolean archived;
 
+    @Column(name = "creation_source", nullable = false, length = 24)
+    private String creationSource = "MANUAL";
+
+    @Column(name = "reconstruction_status", nullable = false, length = 24)
+    private String reconstructionStatus = "NOT_ANALYZED";
+
     @Version
     @Column(nullable = false)
     private long version;
@@ -211,6 +217,14 @@ public class NovelProject {
 
     public boolean isArchived() {
         return archived;
+    }
+
+    public String getCreationSource() {
+        return creationSource;
+    }
+
+    public String getReconstructionStatus() {
+        return reconstructionStatus;
     }
 
     public long getVersion() {

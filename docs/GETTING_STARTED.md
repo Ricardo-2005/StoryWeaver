@@ -61,6 +61,20 @@ Invoke-WebRequest http://127.0.0.1:4173/healthz
 
 前端首页：`http://127.0.0.1:4173`。后端健康端点返回 HTTP 200，表示应用及其必需依赖已经就绪。
 
+## 导入 TXT 书籍创建项目
+
+登录后在项目入口选择“导入 TXT 书籍”。这条流程只接受单个 `.txt`，文件不得超过 20 MiB：
+
+1. 上传后先检测编码并生成 Preview，不会立即创建项目。
+2. 支持 UTF-8、UTF-8 BOM、GB18030、GBK；自动判断不确定时可手动切换编码并重新预览。
+3. 在 Preview 中可修改项目名和章节名，并合并、拆分、排除或排序章节；无标题文本可保留为整本一章，或主动按固定字数切分。
+4. 确认后才创建 Project、Chapter 和首个 ChapterVersion。该基础提交不需要 DeepSeek。
+5. 项目创建成功后，可选择“AI 自动构建完整项目”。分析按 Chapter/Chunk 进行，结果先进入 Candidate 审核区，不会直接覆盖已确认资产。
+
+原始 TXT 默认保存在后端私有临时卷 24 小时，由定时任务清理。文件名不会直接成为服务器路径；同一用户重复上传会通过 SHA-256 给出提示。
+
+Nginx 与 Spring 的请求上限是 25 MiB，用于容纳 multipart 开销；前端和业务层仍严格执行 20 MiB 文件上限。这里不要与 Skill 熔炉的“单文件 10 MiB、最多 20 个、合计 20 MiB”素材规则混淆。
+
 ## 停止与重启
 
 停止并保留数据库、Redis 和监控数据卷：
@@ -87,7 +101,7 @@ Pop-Location
 | 19090 | Prometheus | 当前工作区指标查询；容器内为 9090 |
 | 13080 | Grafana | 当前工作区监控仪表盘；容器内为 3000 |
 
-当前工作区使用替代宿主映射，其中 9090 位于 Windows 保留端口范围；具体值来自 `backend/.env`。全新环境仍以 `.env.example` 的 8080/9090/3000 为默认值。可通过 `APP_PORT`、`PROMETHEUS_PORT`、`GRAFANA_PORT` 调整宿主端口；容器内端口不变。前端端口可通过启动前设置 `FRONTEND_PORT` 改变。
+当前工作区使用替代宿主映射，其中部分默认端口位于 Windows 保留端口范围；后端具体值来自 `backend/.env`，前端首选值来自 `frontend/.env`。全新环境仍使用两个 `.env.example` 中的默认值。可通过 `APP_PORT`、`PROMETHEUS_PORT`、`GRAFANA_PORT` 和 `FRONTEND_PORT` 调整宿主端口；容器内端口不变。进程环境中的 `FRONTEND_PORT` 会覆盖 `frontend/.env`。如果前端首选端口不可绑定，根启动脚本会自动选择后续可用端口，并在完成时输出实际地址。
 
 ## 常见问题
 
@@ -125,7 +139,7 @@ docker compose -f compose.frontend.yaml logs --tail=150 frontend
 netsh interface ipv4 show excludedportrange protocol=tcp
 ```
 
-如果端口落在保留范围内，在 `backend/.env` 选择未保留的宿主端口，再重新运行根启动脚本。当前实例采用 `APP_PORT=18080`、`PROMETHEUS_PORT=19090`、`GRAFANA_PORT=13080`。
+如果端口落在保留范围内，后端端口在 `backend/.env` 中调整；前端由根启动脚本自动避开不可绑定的端口，也可以在 `frontend/.env` 中通过 `FRONTEND_PORT` 设置新的首选值。当前实例采用 `APP_PORT=18080`、`PROMETHEUS_PORT=19090`、`GRAFANA_PORT=13080`、`FRONTEND_PORT=4300`。
 
 ### AI 生成功能不可用
 

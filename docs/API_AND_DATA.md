@@ -17,6 +17,8 @@
 | --- | --- | --- |
 | 认证 | `/api/auth/*` | 注册、登录和会话凭证 |
 | 项目 | `/api/projects` | 项目列表、创建、详情、快照与项目上下文 |
+| TXT 书籍建项 | `/api/imports/txt`、`/api/txt-imports/{id}/*` | 单个 20 MiB TXT 上传、编码/章节 Preview、编辑和确认建项 |
+| AI 项目重建 | `/api/projects/{id}/reconstruction/*` | Estimate、启动/恢复/暂停/取消、Candidate 审核/撤回和安全应用 |
 | 全局 Skill | `/api/skills`、`/api/skill-forge/runs` | 项目外创建、TXT/手写文本熔炼、证据审阅、验证、测试集与安全导出 |
 | 创作资产 | `/api/projects/{id}/characters`、`worldbook-entries`、`outlines`、`chapters`、`skills` | 人物、世界书、大纲、章节与 Skill 的维护 |
 | 章节版本 | `/api/chapters/{id}/versions`、`restore/{versionNo}` | 新建不可变版本、查看版本和恢复 |
@@ -64,6 +66,9 @@ sequenceDiagram
 | WorkflowRun | 一次章节写作任务 | 由状态机驱动，审批前不是正式内容 |
 | StoryFact | 从章节提取并确认的故事事实 | 与时间线、归属和知识边界校验关联 |
 | Candidate Fact | 尚未确认的候选事实 | 可来自工作流或 MCP，不能直接作为正典 |
+| BookImportJob | 一次 TXT 书籍建项任务 | Preview 前后都受 owner 隔离；Commit 成功前不创建 Project |
+| ReconstructionJob / Candidate | 导入后一次分层项目理解及其候选结果 | Chapter/Chunk 执行，真实进度/Usage；候选可审阅、拒绝或撤回 |
+| Temporal State / Retrieval Eligibility | 某一章节有效的状态及能否进入当前检索 | 未来、过期、撤回、取代、合并、归档和清除数据不得污染当前 Context |
 | Skill Composition | BASE/PROJECT/CHAPTER 三级规则合成结果 | 冲突应被报告并由用户处理 |
 | Global Skill / ForgeRun | 跨项目复用的版本化行为契约及一次熔炼任务 | 原文私有保存；规则必须带段落证据并经用户接受/编辑；只有验证版本可绑定项目 |
 | ChapterBatch / StoryGate | 连续生产批次及其重大剧情门 | 剧情门未决时不能无控制地继续推进 |
@@ -80,6 +85,12 @@ sequenceDiagram
 - `FAILED`、`CANCELLED`、`ROLLED_BACK`：不应把当前草稿视为已发布正典。
 
 后端同时使用乐观锁、项目所有权校验、幂等键和同项目 Writer 并发限制。调用方应保留资源的版本/预期版本等并发控制字段，并在冲突时重新加载数据，而不是盲目重试覆盖。
+
+## TXT 导入与项目重建边界
+
+TXT 书籍建项的真实主链路是 `POST /api/imports/txt` → `POST /api/txt-imports/{id}/parse` → Preview/章节编辑 → `POST /api/txt-imports/{id}/commit`。上传只接受 `.txt` 和单文件 20 MiB；Spring/Nginx 使用 25 MiB 请求上限容纳 multipart 开销，业务层仍重复校验实际读取字节数。支持 UTF-8、UTF-8 BOM、GB18030、GBK，编码不确定时由用户选择后重新解析。
+
+Commit 后可使用 `/api/projects/{projectId}/reconstruction` 启动 QUICK/STANDARD/DEEP 分析。任务按 Chapter/Chunk 保存真实进度，支持 Pause、Resume、Cancel、Retry Failed 与预算暂停；Candidate 可决定、批量安全应用或通过 `/candidates/{candidateId}/revoke` 撤回。Safe Apply 当前只处理低风险章节重建元数据，不能将其理解为人物、世界书、伏笔或 Skill 已自动成为正式资产。
 
 ## MCP 边界
 

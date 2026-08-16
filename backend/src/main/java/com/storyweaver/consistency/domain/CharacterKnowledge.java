@@ -41,6 +41,21 @@ public class CharacterKnowledge {
     @Column(nullable = false)
     private String evidence;
 
+    @Column(name = "learned_at_chapter_no", nullable = false)
+    private int learnedAtChapterNo;
+
+    @Column(name = "forgotten_at_chapter_no")
+    private Integer forgottenAtChapterNo;
+
+    @Column(name = "lifecycle_status", nullable = false, length = 16)
+    private String lifecycleStatus;
+
+    @Column(name = "retrieval_eligible", nullable = false)
+    private boolean retrievalEligible;
+
+    @Column(name = "superseded_by")
+    private UUID supersededBy;
+
     @Version
     @Column(nullable = false)
     private long version;
@@ -63,12 +78,37 @@ public class CharacterKnowledge {
             UUID acquiredChapterId,
             String evidence,
             Instant now) {
+        this(projectId, characterId, factKey, content, certainty, sourceEventId, acquiredChapterId, 1, evidence, now);
+    }
+
+    public CharacterKnowledge(
+            UUID projectId,
+            UUID characterId,
+            String factKey,
+            String content,
+            KnowledgeCertainty certainty,
+            UUID sourceEventId,
+            UUID acquiredChapterId,
+            int learnedAtChapterNo,
+            String evidence,
+            Instant now) {
         this.id = UUID.randomUUID();
         this.projectId = projectId;
         this.characterId = characterId;
         this.factKey = factKey;
+        this.learnedAtChapterNo = learnedAtChapterNo;
+        this.lifecycleStatus = "ACTIVE";
+        this.retrievalEligible = true;
         this.createdAt = now;
         update(content, certainty, sourceEventId, acquiredChapterId, evidence, now);
+    }
+
+    public void supersede(int validToChapterNo, UUID supersededBy, Instant now) {
+        this.forgottenAtChapterNo = validToChapterNo;
+        this.lifecycleStatus = "SUPERSEDED";
+        this.retrievalEligible = false;
+        this.supersededBy = supersededBy;
+        this.updatedAt = now;
     }
 
     public void update(
@@ -124,5 +164,17 @@ public class CharacterKnowledge {
 
     public long getVersion() {
         return version;
+    }
+
+    public int getLearnedAtChapterNo() {
+        return learnedAtChapterNo;
+    }
+
+    public Integer getForgottenAtChapterNo() {
+        return forgottenAtChapterNo;
+    }
+
+    public boolean isRetrievalEligible() {
+        return retrievalEligible && "ACTIVE".equals(lifecycleStatus);
     }
 }

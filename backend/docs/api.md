@@ -1,6 +1,6 @@
 # StoryWeaver 后端 API 契约
 
-本文档对应仓库当前 Phase 0–8、V1.5 与全局 Skill 更新。Spring MVC 运行时暴露 **128 条业务 REST 路由**；`InfrastructureIT` 会从 `RequestMappingHandlerMapping` 读取实际路由并与固定清单做精确比较，新增、删除或改动路径都会使 CI 失败。除此之外还有 `/mcp` 和 Actuator 端点。
+本文档对应仓库当前 Phase 0–8、V1.5、全局 Skill、TXT 书籍建项和项目演化/RAG 生命周期更新。Spring MVC 运行时暴露 **162 条业务 REST 路由**；`InfrastructureIT` 会从 `RequestMappingHandlerMapping` 读取实际路由并与固定清单做精确比较，新增、删除或改动路径都会使 CI 失败。除此之外还有 `/mcp` 和 Actuator 端点。
 
 ## 1. 通用约定
 
@@ -56,7 +56,7 @@ Content-Type: application/json
 
 常见状态：400 请求/校验错误，401 未登录或 JWT 无效，403 被安全层拒绝，404 路由或本用户可见范围内的资源不存在，409 乐观锁、幂等、状态机、预算、BLOCKER 或数据约束冲突。代码不会把堆栈、SQL 或密钥返回给客户端。
 
-## 2. REST 路由总表（128）
+## 2. REST 路由总表（162）
 
 ### 2.1 Auth、项目和快照（9）
 
@@ -86,7 +86,7 @@ Content-Type: application/json
 
 `assetType` 必须匹配 `[A-Za-z][A-Za-z0-9_-]*` 且最多 40 字符；`name` 120，`content` 200,000，`changeSummary` 500。状态：`DRAFT/CANDIDATE/CONFIRMED/CONFLICTED/DEPRECATED`。响应同时给出 `currentVersionNo/confirmedVersionNo/currentVersion/version`。
 
-### 2.3 人物与人物状态（6）
+### 2.3 人物与人物状态（10）
 
 | 方法与路径 | 状态 | 请求/说明 |
 |---|---:|---|
@@ -95,9 +95,13 @@ Content-Type: application/json
 | `GET /api/characters/{characterId}` | 200 | 人物卡及当前状态 |
 | `PUT /api/characters/{characterId}` | 200 | 人物字段、`archived/expectedVersion` |
 | `GET /api/characters/{characterId}/state` | 200 | 当前状态 |
+| `GET /api/characters/{characterId}/state-at?chapterNo={n}` | 200 | 查询目标章节有效的时间状态 |
 | `PUT /api/characters/{characterId}/state` | 200 | 状态字段及状态自己的 `expectedVersion` |
+| `POST /api/characters/{characterId}/lifecycle` | 200 | `status/expectedVersion`，迁移人物生命周期和当前检索资格 |
+| `POST /api/characters/{characterId}/merge` | 200 | `targetCharacterId/sourceExpectedVersion/targetExpectedVersion`，源人物退出当前检索 |
+| `POST /api/characters/{characterId}/purge` | 204 | `confirmation/expectedVersion`；准备清理引用后物理删除，要求显式确认 |
 
-人物字段：`name` 必填；`aliases/role/description/personality/background/goals/appearance/notes` 可选。状态字段：`lifeStatus/currentLocation/physicalCondition/emotionalState/abilities/inventoryNotes/notes`；`lifeStatus` 为 `UNKNOWN/ALIVE/DEAD`。
+人物字段：`name` 必填；`aliases/role/description/personality/background/goals/appearance/notes` 可选；`importance` 为 `PROTAGONIST/MAJOR/SUPPORTING/MINOR/MENTION_ONLY`。生命周期为 `CANDIDATE/ACTIVE/INACTIVE/DECEASED/MISSING/LEFT_STORY/MERGED/REJECTED/ARCHIVED/PURGED`。状态字段：`lifeStatus/currentLocation/physicalCondition/emotionalState/abilities/inventoryNotes/notes`；`lifeStatus` 为 `UNKNOWN/ALIVE/DEAD`。
 
 ### 2.4 大纲、章节和章节版本（11）
 
@@ -166,6 +170,7 @@ data: {"requestId":"..."}
 | `POST /api/projects/{projectId}/worldbook-entries` | 201 | 创建世界书条目 |
 | `GET /api/projects/{projectId}/worldbook-entries` | 200 | 条目列表 |
 | `PUT /api/worldbook-entries/{entryId}` | 200 | 全量更新及 `expectedVersion` |
+| `DELETE /api/worldbook-entries/{entryId}` | 204 | 取消正式条目，并将关联 AI Candidate 恢复为待审核 |
 | `POST /api/projects/{projectId}/worldbook/preview` | 200 | 激活预览、原因、分数、Token 裁剪和降级原因 |
 | `POST /api/projects/{projectId}/story-events` | 201 | 创建故事事件 |
 | `GET /api/projects/{projectId}/story-events` | 200 | 事件列表 |
@@ -281,7 +286,7 @@ TXT 原始字节、规范化文本与段落证据只对所有者可见并保存�
 
 导入文件不是上传后立即成为正典。章节切分、候选资料和别名必须经过对应状态与决定接口；失败、取消或未确认候选不会被当作正式事实。
 
-### 2.12 伏笔与影响报告（7）
+### 2.12 伏笔与影响报告（8）
 
 | 方法与路径 | 状态 | 说明 |
 |---|---:|---|
@@ -289,6 +294,7 @@ TXT 原始字节、规范化文本与段落证据只对所有者可见并保存�
 | `GET /api/projects/{projectId}/foreshadows` | 200 | 查询项目伏笔台账 |
 | `PUT /api/foreshadows/{id}` | 200 | 以 `expectedVersion` 更新伏笔 |
 | `POST /api/foreshadows/{id}/transition` | 200 | 执行伏笔状态迁移 |
+| `DELETE /api/foreshadows/{id}` | 204 | 取消伏笔登记；关联的拆书 Candidate 恢复为待审核 |
 | `POST /api/chapters/{chapterId}/impact-reports` | 201 | 为章节生成影响报告 |
 | `GET /api/chapters/{chapterId}/impact-reports` | 200 | 查询章节影响报告列表 |
 | `GET /api/impact-reports/{id}` | 200 | 查询单份影响报告 |
@@ -333,6 +339,48 @@ TXT 原始字节、规范化文本与段落证据只对所有者可见并保存�
 |---|---:|---|
 | `GET /api/workflows/{runId}/model-attempts` | 200 | 查询工作流各模型尝试、结果与耗时 |
 | `GET /api/ai/model-health` | 200 | 查询模型与相关能力健康状态 |
+
+### 2.17 TXT 书籍导入并创建项目（16）
+
+| 方法与路径 | 状态 | 说明 |
+|---|---:|---|
+| `POST /api/imports/txt` | 201 | multipart `file`；只接受单个 `.txt`，业务上限 20 MiB，流式保存并计算 SHA-256 |
+| `GET /api/txt-imports/{importId}` | 200 | 查询 owner 自己的 Import Job、编码、重复提示、章节和版本 |
+| `POST /api/txt-imports/{importId}/parse` | 200 | `{encoding}`；支持 UTF-8、GB18030、GBK，BOM 自动识别 |
+| `GET /api/txt-imports/{importId}/preview` | 200 | Preview 元数据，不返回整本正文 |
+| `GET /api/txt-imports/{importId}/chapters/{chapterId}/content` | 200 | 可选 `limit` 的截断正文预览 |
+| `PATCH /api/txt-imports/{importId}/chapters/{chapterId}` | 200 | `expectedVersion/title/included` |
+| `POST /api/txt-imports/{importId}/chapters/reorder` | 200 | 按章节 ID 重排 |
+| `POST /api/txt-imports/{importId}/chapters/merge` | 200 | 合并两个相邻预览章节 |
+| `POST /api/txt-imports/{importId}/chapters/split` | 200 | 在源字符 offset 手动拆分 |
+| `POST /api/txt-imports/{importId}/chapters/whole` | 200 | 将无章节或当前文本恢复为整本一章 |
+| `POST /api/txt-imports/{importId}/chapters/fixed-split` | 200 | `targetCharacters` 为 1,000—100,000 |
+| `POST /api/txt-imports/{importId}/commit` | 201 | 提交 ProjectInput，原子创建 Project/Chapter/ChapterVersion；不依赖 DeepSeek |
+| `POST /api/txt-imports/{importId}/cancel` | 200 | 取消未完成任务 |
+| `POST /api/projects/{projectId}/book-analysis` | 202 | 旧版可选 Chapter/Chunk Candidate 分析入口 |
+| `GET /api/txt-imports/{importId}/analysis` | 200 | 查询旧版分析状态与 Candidate |
+| `PATCH /api/txt-imports/{importId}/analysis/candidates/{candidateId}` | 200 | 接受或拒绝旧版分析 Candidate |
+
+上传后不会立即创建项目。Import Job 主线为 `UPLOADED → DECODING → PARSED → WAITING_CONFIRMATION → IMPORTING → COMPLETED`，失败/取消分别进入 `FAILED/CANCELLED`。原始源默认保留 24 小时，每小时清理；服务器路径使用生成的 UUID storage key，不使用原始文件名。Nginx/Spring 请求上限为 25 MiB 以容纳 multipart 开销，前端和业务层仍执行 20 MiB 文件限制。
+
+### 2.18 AI 项目重建与 Candidate 生命周期（12）
+
+| 方法与路径 | 状态 | 说明 |
+|---|---:|---|
+| `POST /api/projects/{projectId}/reconstruction/estimate` | 200 | 按 QUICK/STANDARD/DEEP 估算章节、Chunk、调用、Token 与价格 |
+| `POST /api/projects/{projectId}/reconstruction` | 202 | 导入完成后启动分层重建，可设置伏笔、Skill 与最大预算 |
+| `GET /api/projects/{projectId}/reconstruction` | 200 | 查询真实持久化进度、步骤、Usage 与错误 |
+| `POST /api/projects/{projectId}/reconstruction/pause` | 200 | 请求暂停 |
+| `POST /api/projects/{projectId}/reconstruction/resume` | 200 | 恢复，可提交新的最大预算 |
+| `POST /api/projects/{projectId}/reconstruction/cancel` | 200 | 请求取消 |
+| `POST /api/projects/{projectId}/reconstruction/retry-failed` | 200 | 重试真实失败 Chunk/阶段 |
+| `GET /api/projects/{projectId}/reconstruction/candidates` | 200 | 可按 `status/type` 过滤 Candidate |
+| `PATCH /api/projects/{projectId}/reconstruction/candidates/{candidateId}` | 200 | 人工接受或拒绝单项 Candidate |
+| `POST /api/projects/{projectId}/reconstruction/candidates/{candidateId}/restore` | 200 | 将已拒绝 Candidate 恢复为待审核 |
+| `POST /api/projects/{projectId}/reconstruction/candidates/{candidateId}/revoke` | 200 | `{reason}` 撤回错误 Candidate 并退出当前检索 |
+| `POST /api/projects/{projectId}/reconstruction/approve-safe` | 200 | 只应用策略允许的低风险章节重建元数据 |
+
+运行状态覆盖 `QUEUED/PREPROCESSING/CHAPTER_ANALYSIS/VOLUME_AGGREGATION/ENTITY_RESOLUTION/GLOBAL_RECONSTRUCTION/FORESHADOW_ANALYSIS/SKILL_DISTILLATION/VALIDATING/WAITING_REVIEW/APPLYING/COMPLETED`，并有 `PAUSED/PAUSED_BUDGET/PARTIAL/CANCELLED/FAILED` 分支。进度包含 Chunk 与后续全书聚合阶段，不能因 Chunk 为 100% 就显示整个任务完成。验证阶段会按全书候选归并姓名：稳定且重复出现的人物自动创建一张正式人物卡并回写 Candidate 目标。具备 Evidence 且不含歧义标记的 `WORLDBOOK` 事实自动归并到保留的正式世界书条目；可信 `OUTLINE/PROJECT_OVERVIEW` 自动写入仅覆盖已导入章节的滚动大纲，并记录来源章节与内容哈希。用户手动保存大纲后自动任务不再覆盖。单次人物提及、不确定/冲突世界规则、唯一物品、知识、伏笔和 Skill 仍是高风险 Candidate。
 
 ## 3. MCP Streamable HTTP
 
@@ -384,4 +432,4 @@ Prompts：`plan-next-chapter(projectId, chapterId)`、`review-chapter(projectId,
 
 ## 5. 契约边界与未实现项
 
-当前没有 OpenAPI/Swagger UI、分页、Refresh Token、注销/吊销列表、PricingRule 写 API、管理后台、Webhook 或 GraphQL。任何客户端都应以本文件和 `InfrastructureIT` 的 128 路由契约为准，不能依赖不存在的设计稿接口。
+当前没有 OpenAPI/Swagger UI、分页、Refresh Token、注销/吊销列表、PricingRule 写 API、管理后台、Webhook 或 GraphQL。任何客户端都应以本文件和 `InfrastructureIT` 的 162 路由契约为准，不能依赖不存在的设计稿接口。

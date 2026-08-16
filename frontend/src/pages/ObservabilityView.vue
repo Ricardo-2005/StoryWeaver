@@ -72,9 +72,13 @@ const modelContractWarnings = computed(() => {
 
 const tokenChart = computed<UsageChartOption>(() => ({
   tooltip: { trigger: 'axis' },
-  legend: { data: ['输入', '输出', '推理'] },
-  grid: { left: 56, right: 20, top: 44, bottom: 42 },
-  xAxis: { type: 'category', data: days.value.map((day) => day.key), axisLabel: { hideOverlap: true } },
+  legend: { data: ['输入', '输出', '推理'], top: 8, left: 'center', itemGap: 18 },
+  grid: { left: 24, right: 20, top: 64, bottom: 24, containLabel: true },
+  xAxis: {
+    type: 'category',
+    data: days.value.map((day) => day.key),
+    axisLabel: { hideOverlap: true, margin: 14 },
+  },
   yAxis: { type: 'value', name: 'Token' },
   series: [
     { name: '输入', type: 'bar', stack: 'token', data: days.value.map((day) => day.promptTokens), itemStyle: { color: '#315f4c' } },

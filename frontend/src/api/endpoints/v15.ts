@@ -26,6 +26,7 @@ export const foreshadowsApi = {
   create: (projectId: string, value: ForeshadowInput) => apiClient.post<ForeshadowResponse>(`/api/projects/${projectId}/foreshadows`, value),
   update: (id: string, value: ForeshadowInput & { expectedVersion: number }) => apiClient.put<ForeshadowResponse>(`/api/foreshadows/${id}`, value),
   transition: (id: string, value: { expectedVersion: number; status: string; resolvedChapterId: string | null }) => apiClient.post<ForeshadowResponse>(`/api/foreshadows/${id}/transition`, value),
+  cancel: (id: string) => apiClient.delete<void>(`/api/foreshadows/${id}`),
 }
 export const impactApi = { create: (chapterId: string) => apiClient.post<ImpactReportResponse>(`/api/chapters/${chapterId}/impact-reports`), list: (chapterId: string) => apiClient.get<ImpactReportResponse[]>(`/api/chapters/${chapterId}/impact-reports`), get: (id: string) => apiClient.get<ImpactReportResponse>(`/api/impact-reports/${id}`) }
 export const rollingOutlineApi = { get: (projectId: string) => apiClient.get<RollingOutlineResponse>(`/api/projects/${projectId}/rolling-outline`), put: (projectId: string, value: PutRollingOutlineRequest) => apiClient.put<RollingOutlineResponse>(`/api/projects/${projectId}/rolling-outline`, value), advance: (projectId: string, value: AdvanceRollingOutlineRequest) => apiClient.post<RollingOutlineResponse>(`/api/projects/${projectId}/rolling-outline/advance`, value) }

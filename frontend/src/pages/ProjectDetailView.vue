@@ -10,6 +10,7 @@ import ErrorState from '@/components/base/ErrorState.vue'
 import LoadingState from '@/components/base/LoadingState.vue'
 import OptionChipGroup from '@/components/base/OptionChipGroup.vue'
 import ProblemAlert from '@/components/base/ProblemAlert.vue'
+import BookReconstructionPanel from '@/components/reconstruction/BookReconstructionPanel.vue'
 import { audienceOptions, genreLabel, lengthOptions, moreGenreOptions, perspectiveOptions, primaryGenreOptions, type LengthType, type NarrativePerspective, type ProjectGenre, type TargetAudience } from '@/features/projects/projectOptions'
 import { toUpdateProjectRequest, useProjectQuery, useUpdateProjectMutation } from '@/queries/projects'
 
@@ -154,6 +155,12 @@ async function archiveProject(): Promise<void> {
           <p>{{ projectQuery.data.value.currentFocus || '尚未填写。' }}</p>
         </article>
       </section>
+
+      <BookReconstructionPanel
+        v-if="projectQuery.data.value.creationSource === 'TXT_IMPORT'"
+        :project-id="projectId"
+        :project-name="projectQuery.data.value.name"
+      />
 
       <section class="conversation-placeholder" aria-labelledby="conversation-heading">
         <div>

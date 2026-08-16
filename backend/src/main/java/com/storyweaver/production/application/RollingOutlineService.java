@@ -4,6 +4,7 @@ import com.storyweaver.project.application.ProjectAccessService;
 import com.storyweaver.shared.error.ConflictException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
@@ -33,7 +34,24 @@ public class RollingOutlineService {
         RollingOutlineView value = jdbc.query(
                 "SELECT * FROM rolling_outline WHERE project_id=?", rs -> rs.next() ? map(rs) : null, projectId);
         return value == null
-                ? new RollingOutlineView(projectId, 1, 5, null, List.of(), List.of(), 0, clock.instant())
+                ? new RollingOutlineView(
+                        projectId,
+                        1,
+                        5,
+                        null,
+                        List.of(),
+                        List.of(),
+                        null,
+                        null,
+                        null,
+                        List.of(),
+                        List.of(),
+                        List.of(),
+                        List.of(),
+                        List.of(),
+                        false,
+                        0,
+                        clock.instant())
                 : value;
     }
 
@@ -55,7 +73,7 @@ public class RollingOutlineService {
         if (exists != null && exists > 0) {
             if (current.version() != expectedVersion) throw stale();
             int changed = jdbc.update(
-                    "UPDATE rolling_outline SET current_chapter_no=?,window_size=?,summary=?,goals_json=CAST(? AS jsonb),risks_json=CAST(? AS jsonb),version=version+1,updated_at=? WHERE project_id=? AND version=?",
+                    "UPDATE rolling_outline SET current_chapter_no=?,window_size=?,summary=?,goals_json=CAST(? AS jsonb),risks_json=CAST(? AS jsonb),content_hash=NULL,stale=FALSE,version=version+1,updated_at=? WHERE project_id=? AND version=?",
                     currentChapterNo,
                     windowSize,
                     summary,
@@ -75,9 +93,72 @@ public class RollingOutlineService {
                     summary,
                     json.writeValueAsString(goals),
                     json.writeValueAsString(risks),
-                    now);
+                    Timestamp.from(now));
         }
         return get(projectId, userId);
+    }
+
+    @Transactional
+    public boolean applyReconstruction(
+            UUID projectId,
+            UUID userId,
+            int currentChapterNo,
+            UUID baseChapterId,
+            int fromChapterNo,
+            List<UUID> sourceChapterIds,
+            String summary,
+            String contentHash) {
+        access.requireOwnedProject(projectId, userId);
+        ReconstructionOwnership current = jdbc.query(
+                "SELECT summary,content_hash FROM rolling_outline WHERE project_id=?",
+                rs -> rs.next() ? new ReconstructionOwnership(rs.getString(1), rs.getString(2)) : null,
+                projectId);
+        if (current != null
+                && current.contentHash() == null
+                && current.summary() != null
+                && !current.summary().isBlank()) {
+            return false;
+        }
+
+        Instant now = clock.instant();
+        String sourceIds = "{"
+                + String.join(",", sourceChapterIds.stream().map(UUID::toString).toList()) + "}";
+        if (current == null) {
+            jdbc.update(
+                    """
+                    INSERT INTO rolling_outline(
+                        project_id,current_chapter_no,window_size,summary,goals_json,risks_json,
+                        base_chapter_id,from_chapter_no,to_chapter_no,source_chapter_ids,
+                        content_hash,stale,updated_at)
+                    VALUES (?,?,5,?,'[]'::jsonb,'[]'::jsonb,?,?,?,CAST(? AS uuid[]),?,FALSE,?)
+                    """,
+                    projectId,
+                    currentChapterNo,
+                    summary,
+                    baseChapterId,
+                    fromChapterNo,
+                    currentChapterNo,
+                    sourceIds,
+                    contentHash,
+                    Timestamp.from(now));
+        } else {
+            jdbc.update(
+                    """
+                    UPDATE rolling_outline SET current_chapter_no=?,summary=?,base_chapter_id=?,
+                        from_chapter_no=?,to_chapter_no=?,source_chapter_ids=CAST(? AS uuid[]),content_hash=?,
+                        stale=FALSE,version=version+1,updated_at=? WHERE project_id=?
+                    """,
+                    currentChapterNo,
+                    summary,
+                    baseChapterId,
+                    fromChapterNo,
+                    currentChapterNo,
+                    sourceIds,
+                    contentHash,
+                    Timestamp.from(now),
+                    projectId);
+        }
+        return true;
     }
 
     @Transactional
@@ -104,6 +185,15 @@ public class RollingOutlineService {
                 rs.getString("summary"),
                 json.readValue(rs.getString("goals_json"), List.class),
                 json.readValue(rs.getString("risks_json"), List.class),
+                rs.getObject("base_chapter_id", UUID.class),
+                (Integer) rs.getObject("from_chapter_no"),
+                (Integer) rs.getObject("to_chapter_no"),
+                json.readValue(rs.getString("open_threads_json"), List.class),
+                json.readValue(rs.getString("current_locations_json"), List.class),
+                json.readValue(rs.getString("active_items_json"), List.class),
+                json.readValue(rs.getString("active_foreshadow_json"), List.class),
+                json.readValue(rs.getString("next_constraints_json"), List.class),
+                rs.getBoolean("stale"),
                 rs.getLong("version"),
                 rs.getTimestamp("updated_at").toInstant());
     }
@@ -112,6 +202,8 @@ public class RollingOutlineService {
         return new ConflictException("stale_version", "Rolling outline was changed by another request");
     }
 
+    private record ReconstructionOwnership(String summary, String contentHash) {}
+
     public record RollingOutlineView(
             UUID projectId,
             int currentChapterNo,
@@ -119,6 +211,15 @@ public class RollingOutlineService {
             String summary,
             List<String> goals,
             List<String> risks,
+            UUID baseChapterId,
+            Integer fromChapterNo,
+            Integer toChapterNo,
+            List<String> openThreads,
+            List<String> currentLocations,
+            List<String> activeItems,
+            List<String> activeForeshadow,
+            List<String> nextConstraints,
+            boolean stale,
             long version,
             Instant updatedAt) {}
 }

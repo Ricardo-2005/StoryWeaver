@@ -35,7 +35,8 @@ StoryWeaver（文脉）是一个面向长篇小说创作的全栈应用。它把
 | 写作工作流 | Preflight、Context、Planner、Writer、Extractor、Reviewer、SSE 进度与人工审批 |
 | 一致性治理 | 故事事实、物品归属、人物知识边界、时间线校验与 BLOCKER 门禁 |
 | Skill 工坊 | 全局 Skill、TXT/手写素材熔炼、28 套动态模板、证据审阅、边界测试与安全导出 |
-| 导入与迁移 | TXT、Markdown、DOCX、ZIP 导入，章节切分、候选审查与 Git ZIP 导出 |
+| 导入与迁移 | 创建项目时导入单个 20 MiB TXT（编码预览、分章编辑、提交），以及项目内 TXT/Markdown/DOCX/ZIP 导入与 Git ZIP 导出 |
+| AI 项目重建 | 导入后按 Chapter/Chunk 可选分析、证据 Candidate 审核、人物/事实生命周期、时间过滤、滚动大纲与伏笔治理 |
 | 成本与观测 | Token、费用、预算、耗时、Prometheus、Grafana、OpenTelemetry 与 Tempo |
 | 接口能力 | REST、SSE 与 Stateless Streamable HTTP MCP；MCP 写入仅生成候选事实 |
 

@@ -12,8 +12,7 @@ $backendDirectory = Join-Path $projectRoot 'backend'
 $frontendDirectory = Join-Path $projectRoot 'frontend'
 $backendEnvFile = Join-Path $backendDirectory '.env'
 $backendEnvExample = Join-Path $backendDirectory '.env.example'
-$frontendUrl = 'http://127.0.0.1:4173'
-$frontendHealthUrl = "$frontendUrl/healthz"
+$frontendEnvFile = Join-Path $frontendDirectory '.env'
 
 function Write-Stage {
     param([Parameter(Mandatory)][string]$Message)
@@ -48,6 +47,81 @@ function Get-ConfiguredPort {
     }
 
     return $port
+}
+
+function Get-FrontendPort {
+    param(
+        [Parameter(Mandatory)][string]$EnvFile,
+        [Parameter(Mandatory)][int]$Default
+    )
+
+    $environmentPort = [Environment]::GetEnvironmentVariable('FRONTEND_PORT')
+    if (-not [string]::IsNullOrWhiteSpace($environmentPort)) {
+        $port = 0
+        if (-not [int]::TryParse($environmentPort, [ref]$port) -or $port -lt 1 -or $port -gt 65535) {
+            throw 'FRONTEND_PORT must be between 1 and 65535.'
+        }
+
+        return $port
+    }
+
+    if (Test-Path $EnvFile) {
+        return Get-ConfiguredPort -EnvFile $EnvFile -Name 'FRONTEND_PORT' -Default $Default
+    }
+
+    return $Default
+}
+
+function Test-TcpPortAvailable {
+    param([Parameter(Mandatory)][int]$Port)
+
+    $listener = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Any, $Port)
+    try {
+        $listener.Start()
+        return $true
+    }
+    catch [System.Net.Sockets.SocketException] {
+        return $false
+    }
+    finally {
+        $listener.Stop()
+    }
+}
+
+function Test-FrontendHealthEndpoint {
+    param([Parameter(Mandatory)][int]$Port)
+
+    try {
+        $response = Invoke-WebRequest -Uri "http://127.0.0.1:$Port/healthz" -UseBasicParsing -TimeoutSec 2
+        return $response.StatusCode -ge 200 -and $response.StatusCode -lt 400
+    }
+    catch {
+        return $false
+    }
+}
+
+function Resolve-FrontendPort {
+    param([Parameter(Mandatory)][int]$PreferredPort)
+
+    if ((Test-TcpPortAvailable -Port $PreferredPort) -or (Test-FrontendHealthEndpoint -Port $PreferredPort)) {
+        return $PreferredPort
+    }
+
+    for ($candidate = $PreferredPort + 1; $candidate -le 65535; $candidate++) {
+        if (Test-TcpPortAvailable -Port $candidate) {
+            Write-Host "Frontend port $PreferredPort is unavailable; using $candidate for this startup." -ForegroundColor Yellow
+            return $candidate
+        }
+    }
+
+    for ($candidate = 1024; $candidate -lt $PreferredPort; $candidate++) {
+        if (Test-TcpPortAvailable -Port $candidate) {
+            Write-Host "Frontend port $PreferredPort is unavailable; using $candidate for this startup." -ForegroundColor Yellow
+            return $candidate
+        }
+    }
+
+    throw 'No available TCP port could be found for the frontend.'
 }
 
 function Wait-ForHttpEndpoint {
@@ -115,7 +189,11 @@ try {
     $backendPort = Get-ConfiguredPort -EnvFile $backendEnvFile -Name 'APP_PORT' -Default 8080
     $prometheusPort = Get-ConfiguredPort -EnvFile $backendEnvFile -Name 'PROMETHEUS_PORT' -Default 9090
     $grafanaPort = Get-ConfiguredPort -EnvFile $backendEnvFile -Name 'GRAFANA_PORT' -Default 3000
+    $preferredFrontendPort = Get-FrontendPort -EnvFile $frontendEnvFile -Default 4173
+    $frontendPort = Resolve-FrontendPort -PreferredPort $preferredFrontendPort
     $backendHealthUrl = "http://127.0.0.1:$backendPort/actuator/health"
+    $frontendUrl = "http://127.0.0.1:$frontendPort"
+    $frontendHealthUrl = "$frontendUrl/healthz"
 
     $modelPath = Join-Path $backendDirectory 'models\model.onnx'
     $tokenizerPath = Join-Path $backendDirectory 'models\tokenizer.json'
@@ -147,7 +225,9 @@ try {
     Write-Stage "Starting frontend ($startupMode)"
     Push-Location $frontendDirectory
     $previousBackendUpstream = $env:BACKEND_UPSTREAM
+    $previousFrontendPort = $env:FRONTEND_PORT
     $env:BACKEND_UPSTREAM = "http://host.docker.internal:$backendPort"
+    $env:FRONTEND_PORT = [string]$frontendPort
     try {
         Start-ComposeStack -ComposeFileArguments @('-f', 'compose.frontend.yaml') -FailureMessage 'Frontend Compose startup failed.'
     }
@@ -157,6 +237,12 @@ try {
         }
         else {
             $env:BACKEND_UPSTREAM = $previousBackendUpstream
+        }
+        if ($null -eq $previousFrontendPort) {
+            Remove-Item Env:FRONTEND_PORT -ErrorAction SilentlyContinue
+        }
+        else {
+            $env:FRONTEND_PORT = $previousFrontendPort
         }
         Pop-Location
     }

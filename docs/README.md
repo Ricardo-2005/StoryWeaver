@@ -30,9 +30,9 @@
 
 - [Agent Evaluation](evaluation.md)：RAG、Token、一致性、Workflow Stub 与 MCP 的离线评测。
 - [RAG 评测驱动优化](rag-evaluation-optimization.md)：冻结基线、失败根因、实验矩阵、选型与 holdout。
-- [后端 API 契约](../backend/docs/api.md)：128 条 REST 路由、MCP 与 Actuator。
+- [后端 API 契约](../backend/docs/api.md)：162 条 REST 路由、MCP 与 Actuator。
 - [后端架构](../backend/docs/architecture.md)：模块、事务、工作流、MCP 和可观测性。
-- [后端数据库](../backend/docs/database.md)：V0—V15、51 张业务表、约束和迁移纪律。
+- [后端数据库](../backend/docs/database.md)：V0—V19、67 张业务表、约束和迁移纪律。
 - [后端测试](../backend/docs/testing.md)：单元、集成、Testcontainers 与 CI。
 - [后端实现审计](../backend/docs/acceptance.md)：能力证据、限制和复验方式。
 - [前端 API 契约](../frontend/docs/api-contract.md)：真实 DTO、差异和 Skill 熔炉契约。

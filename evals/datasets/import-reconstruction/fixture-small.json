@@ -1,0 +1,17 @@
+{
+  "datasetVersion": "draft-v1",
+  "caseId": "import-reconstruction-original-001",
+  "category": "TXT_IMPORT_RECONSTRUCTION",
+  "description": "原创两章小样，用于后续验证章节级分析、别名审核和 Evidence 锚点。",
+  "fixtureProject": "青崖灯-original-fixture",
+  "input": {
+    "chapters": [
+      { "title": "第一章 山门雨", "content": "沈砚在雨夜抵达青崖山门。守门人称他为阿砚。" },
+      { "title": "第二章 旧铜灯", "content": "阿砚从师姐陆遥手中接过旧铜灯，但两人都不知道灯芯已经熄灭。" }
+    ]
+  },
+  "expected": null,
+  "tags": ["original", "offline", "ground-truth-pending"],
+  "createdBy": "StoryWeaver",
+  "version": 1
+}

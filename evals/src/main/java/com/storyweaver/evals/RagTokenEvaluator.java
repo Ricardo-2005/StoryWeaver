@@ -125,6 +125,8 @@ final class RagTokenEvaluator {
                         options.finalRankingSize(),
                         options.rrfRankConstant()),
                 new SimpleMeterRegistry(),
+                null,
+                null,
                 Clock.fixed(NOW, ZoneOffset.UTC));
 
         List<JsonNode> cases = EvalSupport.readJsonl(datasetPath, datasetVersion);
@@ -413,7 +415,7 @@ final class RagTokenEvaluator {
         }
 
         @Override
-        public List<VectorMatch> search(UUID projectId, float[] query, int topK) {
+        public List<VectorMatch> search(UUID projectId, float[] query, Integer chapterNo, int topK) {
             return vectors.entrySet().stream()
                     .map(value -> new VectorMatch(value.getKey(), cosine(query, value.getValue())))
                     .sorted(Comparator.comparingDouble(VectorMatch::similarity)

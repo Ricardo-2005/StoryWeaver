@@ -1,0 +1,18 @@
+package com.storyweaver.importing.book.application;
+
+public enum CandidateAction {
+    CREATE_CHARACTER,
+    UPDATE_PROFILE,
+    APPEND_STATE,
+    APPEND_KNOWLEDGE,
+    APPEND_RELATIONSHIP,
+    APPEND_EVENT,
+    MERGE_ALIAS,
+    UPDATE_WORLD_ASSET,
+    CREATE_FORESHADOW,
+    ADVANCE_FORESHADOW,
+    RESOLVE_FORESHADOW,
+    UPDATE_ROLLING_OUTLINE,
+    IGNORE,
+    NEEDS_REVIEW
+}

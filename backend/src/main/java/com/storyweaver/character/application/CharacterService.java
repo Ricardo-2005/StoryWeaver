@@ -1,10 +1,15 @@
 package com.storyweaver.character.application;
 
 import com.storyweaver.character.domain.Character;
+import com.storyweaver.character.domain.CharacterImportance;
+import com.storyweaver.character.domain.CharacterLifecycleStatus;
 import com.storyweaver.character.domain.CharacterState;
 import com.storyweaver.character.domain.LifeStatus;
 import com.storyweaver.character.repository.CharacterRepository;
 import com.storyweaver.character.repository.CharacterStateRepository;
+import com.storyweaver.evolution.application.ProjectEvolutionService;
+import com.storyweaver.evolution.application.ProjectEvolutionService.StateSnapshot;
+import com.storyweaver.evolution.application.ProjectEvolutionService.TemporalStateView;
 import com.storyweaver.project.application.ProjectAccessService;
 import com.storyweaver.shared.error.ConflictException;
 import com.storyweaver.shared.error.NotFoundException;
@@ -20,16 +25,19 @@ public class CharacterService {
     private final CharacterRepository characters;
     private final CharacterStateRepository states;
     private final ProjectAccessService projectAccess;
+    private final ProjectEvolutionService evolution;
     private final Clock clock;
 
     public CharacterService(
             CharacterRepository characters,
             CharacterStateRepository states,
             ProjectAccessService projectAccess,
+            ProjectEvolutionService evolution,
             Clock clock) {
         this.characters = characters;
         this.states = states;
         this.projectAccess = projectAccess;
+        this.evolution = evolution;
         this.clock = clock;
     }
 
@@ -50,12 +58,15 @@ public class CharacterService {
                 nullable(values.notes()),
                 false,
                 now);
-        characters.save(character);
+        character.importance(values.importance() == null ? CharacterImportance.MINOR : values.importance(), now);
+        characters.saveAndFlush(character);
         CharacterState state = new CharacterState(projectId, character.getId(), now);
         if (stateValues != null) {
             applyState(state, stateValues, now);
         }
-        states.save(state);
+        states.saveAndFlush(state);
+        evolution.recordCharacterState(
+                projectId, character.getId(), null, null, snapshot(state), "Character created", ownerId);
         return new CharacterDetails(character, state);
     }
 
@@ -89,7 +100,10 @@ public class CharacterService {
                 nullable(values.notes()),
                 archived,
                 clock.instant());
+        character.importance(
+                values.importance() == null ? character.getImportance() : values.importance(), clock.instant());
         characters.flush();
+        evolution.invalidate(character.getProjectId(), "CHARACTER", character.getId(), "CHARACTER_PROFILE_CHANGED");
         return details(character);
     }
 
@@ -101,7 +115,93 @@ public class CharacterService {
         requireVersion(state.getVersion(), expectedVersion);
         applyState(state, values, clock.instant());
         states.flush();
+        evolution.recordCharacterState(
+                character.getProjectId(), characterId, null, null, snapshot(state), "Manual state update", ownerId);
         return state;
+    }
+
+    @Transactional
+    public CharacterDetails transition(
+            UUID characterId, UUID ownerId, long expectedVersion, CharacterLifecycleStatus lifecycleStatus) {
+        Character character = requireOwned(characterId, ownerId);
+        requireVersion(character.getVersion(), expectedVersion);
+        if (lifecycleStatus == CharacterLifecycleStatus.MERGED || lifecycleStatus == CharacterLifecycleStatus.PURGED) {
+            throw new ConflictException(
+                    "character_lifecycle_transition_invalid", "Use the explicit merge or permanent purge operation");
+        }
+        character.transition(lifecycleStatus, null, clock.instant());
+        CharacterState state = states.findByCharacterId(characterId)
+                .orElseThrow(() -> new IllegalStateException("Character state is missing"));
+        if (lifecycleStatus == CharacterLifecycleStatus.DECEASED) {
+            state.update(
+                    LifeStatus.DEAD,
+                    state.getCurrentLocation(),
+                    state.getPhysicalCondition(),
+                    state.getEmotionalState(),
+                    state.getAbilities(),
+                    state.getInventoryNotes(),
+                    state.getNotes(),
+                    clock.instant());
+        }
+        characters.flush();
+        evolution.recordCharacterState(
+                character.getProjectId(), characterId, null, null, snapshot(state), "Lifecycle transition", ownerId);
+        return new CharacterDetails(character, state);
+    }
+
+    @Transactional
+    public CharacterDetails merge(
+            UUID sourceId, UUID targetId, UUID ownerId, long sourceExpectedVersion, long targetExpectedVersion) {
+        if (sourceId.equals(targetId)) {
+            throw new ConflictException("character_merge_invalid", "A character cannot be merged into itself");
+        }
+        Character source = requireOwned(sourceId, ownerId);
+        Character target = requireOwned(targetId, ownerId);
+        if (!source.getProjectId().equals(target.getProjectId())) {
+            throw new NotFoundException("character_not_found", "Character was not found in this project");
+        }
+        requireVersion(source.getVersion(), sourceExpectedVersion);
+        requireVersion(target.getVersion(), targetExpectedVersion);
+        String aliases = mergeAliases(target.getAliases(), source.getName(), source.getAliases());
+        target.update(
+                target.getName(),
+                aliases,
+                target.getRole(),
+                target.getDescription(),
+                target.getPersonality(),
+                target.getBackground(),
+                target.getGoals(),
+                target.getAppearance(),
+                target.getNotes(),
+                false,
+                clock.instant());
+        source.transition(CharacterLifecycleStatus.MERGED, target.getId(), clock.instant());
+        characters.flush();
+        evolution.invalidate(source.getProjectId(), "CHARACTER", source.getId(), "CHARACTER_MERGED");
+        evolution.invalidate(target.getProjectId(), "CHARACTER", target.getId(), "CHARACTER_ALIAS_CHANGED");
+        return details(source);
+    }
+
+    @Transactional
+    public void purge(UUID characterId, UUID ownerId, long expectedVersion, String confirmation) {
+        Character character = requireOwned(characterId, ownerId);
+        requireVersion(character.getVersion(), expectedVersion);
+        if (!"PURGE".equals(confirmation)) {
+            throw new ConflictException(
+                    "character_purge_confirmation_required", "Permanent purge requires the exact confirmation PURGE");
+        }
+        character.transition(CharacterLifecycleStatus.PURGED, null, clock.instant());
+        characters.flush();
+        evolution.prepareCharacterPurge(character.getProjectId(), character.getId());
+        evolution.invalidate(character.getProjectId(), "CHARACTER", character.getId(), "CHARACTER_PURGED");
+        characters.delete(character);
+        characters.flush();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TemporalStateView> stateAt(UUID characterId, UUID ownerId, int chapterNo) {
+        Character character = requireOwned(characterId, ownerId);
+        return evolution.characterStateAt(character.getProjectId(), characterId, chapterNo);
     }
 
     private Character requireOwned(UUID characterId, UUID ownerId) {
@@ -142,6 +242,27 @@ public class CharacterService {
         return trimmed.isEmpty() ? null : trimmed;
     }
 
+    private String mergeAliases(String existing, String sourceName, String sourceAliases) {
+        return java.util.stream.Stream.of(existing, sourceName, sourceAliases)
+                .filter(value -> value != null && !value.isBlank())
+                .flatMap(value -> java.util.Arrays.stream(value.split("[,，]")))
+                .map(String::trim)
+                .filter(value -> !value.isBlank())
+                .distinct()
+                .collect(java.util.stream.Collectors.joining(", "));
+    }
+
+    private StateSnapshot snapshot(CharacterState state) {
+        return new StateSnapshot(
+                state.getLifeStatus().name(),
+                state.getCurrentLocation(),
+                state.getPhysicalCondition(),
+                state.getEmotionalState(),
+                state.getAbilities(),
+                state.getInventoryNotes(),
+                state.getNotes());
+    }
+
     public record CharacterValues(
             String name,
             String aliases,
@@ -151,7 +272,8 @@ public class CharacterService {
             String background,
             String goals,
             String appearance,
-            String notes) {}
+            String notes,
+            CharacterImportance importance) {}
 
     public record StateValues(
             LifeStatus lifeStatus,

@@ -24,6 +24,10 @@ PostgreSQL 是系统记录源，Flyway 是唯一结构管理机制；Hibernate �
 | V13 | TXT/手写来源快照、段落证据、熔炼步骤与 8 类验证测试 |
 | V14 | Skill 动态模板上下文：素材标签、题材和来源项目 |
 | V15 | 用户 `USER/ADMIN` 角色约束 |
+| V16 | 单个 TXT 书籍建项：私有临时源、Import Job、章节 Preview、分析 Candidate 与 Project/Chapter 来源证据 |
+| V17 | 可恢复全项目重建：Reconstruction Job、Chapter/Chunk、Evidence Candidate、章节重建元数据、步骤和 Usage 归属 |
+| V18 | Candidate 策略/撤回、人物与事实时间生命周期、检索资格、世界书版本、滚动大纲快照、依赖与失效 |
+| V19 | 伏笔来源 Candidate 关联、既有候选台账回填与可逆取消 |
 
 `worldbook_entry.embedding` 与 `story_event.embedding` 均为 `vector(512)`。条目保存作用域、可见性、关键词、常驻/向量开关、优先级及 Embedding 状态；事件保存参与者、知情者、地点、故事时间、行动、结果、重要度和证据。两类表均带项目外键、必要索引和乐观锁版本。
 
@@ -35,9 +39,15 @@ Phase 7 把每次 LLM 请求匹配到当时有效的 `pricing_rule`，并在 `us
 
 MCP 写入的 StoryFact 使用 `source=MCP`、调用者和可选幂等键，数据库约束保证它只能是无 Workflow/Chapter 绑定的候选来源；MCP 不存在直接写入 `ACCEPTED` 的路径。每次 Tool、Resource 或 Prompt 执行都写入 `mcp_audit_log`，失败审计使用独立事务保存。
 
-Testcontainers 在空 PostgreSQL/pgvector 数据库上顺序执行全部 18 条迁移，再由 Hibernate 校验实体映射。正式提交使用悲观锁定 WorkflowRun 的单个数据库事务；事务失败后章节版本、当前版本号、事实和状态写入全部回滚，再以独立事务把运行标记为 `ROLLED_BACK`。
+V16 的 TXT 源只保存服务器生成的相对 storage key，默认 24 小时 TTL；正式 Project、Chapter 和 ChapterVersion 保存来源哈希、编码、解析器版本与字符 offset，临时源清理不删除正式导入结果。`book_import_job` 状态与 owner 隔离独立于既有的项目内 `story_import`。
 
-## 表归属（51 张业务表）
+V17 将重建进度落在 Job、Chunk 和 Step 表，模型输出只进入 `project_reconstruction_candidate`。V18 为候选加入建议动作、目标实体、撤回/取代和当前检索资格，并为人物状态、关系、知识、物品、事实、世界书和事件加入生命周期或章节有效区间。旧值退出当前检索，不等于删除历史证据。
+
+V19 为正式伏笔增加 `source_candidate_id`，将既有未应用的拆书伏笔 Candidate 回填到台账并建立一对一来源关联。已登记候选变为 `APPLIED`；取消正式条目时，关联 Candidate 恢复为 `CANDIDATE`。
+
+Testcontainers 在空 PostgreSQL/pgvector 数据库上顺序执行全部 22 条迁移并验证当前版本 V19，再由 Hibernate 校验实体映射。正式提交使用悲观锁定 WorkflowRun 的单个数据库事务；事务失败后章节版本、当前版本号、事实和状态写入全部回滚，再以独立事务把运行标记为 `ROLLED_BACK`。
+
+## 表归属（67 张业务表）
 
 | 模块 | 表 | 关键语义 |
 |---|---|---|
@@ -54,8 +64,11 @@ Testcontainers 在空 PostgreSQL/pgvector 数据库上顺序执行全部 18 条�
 | Long-form Production | `story_import` 等 13 张 V1.5 表 | 导入、滚动生产、剧情门、分支、伏笔、影响与模型尝试 |
 | Global Skill | `global_skill`, `global_skill_version`, `global_skill_atomic_rule`, `skill_forge_run`, `project_skill_binding` | 跨项目契约、不可变版本、证据规则、动态熔炼上下文与基础绑定 |
 | Skill Evidence/Test | `skill_source`, `skill_source_paragraph`, `skill_forge_step`, `skill_test_case`, `skill_test_run`, `skill_test_result` | 私有原文快照、稳定段落证据、状态事件和验证结果 |
+| TXT Book Import | `book_import_source`, `book_import_job`, `book_import_chapter`, `book_analysis_candidate` | 20 MiB 私有临时源、Preview 后建项、来源证据和旧版可选分析 Candidate |
+| Reconstruction | `book_reconstruction_job`, `book_analysis_chunk`, `project_reconstruction_candidate`, `chapter_reconstruction_metadata`, `book_reconstruction_step` | 可恢复分层分析、真实进度/Usage、Evidence Candidate 和低风险章节元数据 |
+| Evolution/Lifecycle | `character_state_timeline`, `character_relationship_timeline`, `item_ownership_timeline`, `worldbook_entry_version`, `rolling_outline_snapshot`, `asset_dependency`, `asset_invalidation` | 章节有效区间、历史版本、当前检索资格、滚动大纲刷新和依赖失效 |
 
-`flyway_schema_history` 由 Flyway 自己维护，不计入上述 51 张业务表。
+`flyway_schema_history` 由 Flyway 自己维护，不计入上述 67 张业务表。业务表数由迁移中的 `CREATE TABLE` 语句复核，不包含扩展已有表的 V18 字段和索引。
 
 ## 约束和索引原则
 
@@ -63,6 +76,7 @@ Testcontainers 在空 PostgreSQL/pgvector 数据库上顺序执行全部 18 条�
 - 大纲位置、项目章节号、章节版本号、正典版本号具有业务唯一性，避免并发生成重复序号。
 - 项目内活跃 Workflow 使用部分唯一索引；用户幂等键、SSE `(run_id,event_id)` 可稳定重放。
 - `item_ownership(project_id,item_key)` 和 `character_knowledge(project_id,character_id,fact_key)` 表示单一当前状态。
+- 当前检索还要求生命周期/有效区间和 `retrieval_eligible=true`；未来章节、已撤回、已取代、合并、归档或清除的数据不得作为当前状态召回。
 - MCP `requestKey` 使用来源限定唯一索引，防止重试重复创建候选事实。
 - 列表/恢复/检索热路径按 `project_id`、状态、更新时间/章节号建立 B-tree 索引。
 - 当前向量查询为精确余弦距离，没有 HNSW/IVFFlat；扩大数据量前需基准验证再加索引。

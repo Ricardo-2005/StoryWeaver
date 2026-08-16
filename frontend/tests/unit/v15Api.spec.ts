@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { batchesApi, rollingOutlineApi, v15WorkflowApi } from '@/api/endpoints/v15'
+import { batchesApi, foreshadowsApi, rollingOutlineApi, v15WorkflowApi } from '@/api/endpoints/v15'
 
 afterEach(() => vi.unstubAllGlobals())
 
@@ -24,5 +24,15 @@ describe('V1.5 API contracts', () => {
     await v15WorkflowApi.localRevision('run-1', { expectedVersion: 4, startOffset: 10, endOffset: 12, replacement: '新句', reason: '修复称谓' })
     expect(fetchMock.mock.calls[0]?.[0]).toBe('/api/workflows/run-1/local-revisions')
     expect(JSON.parse(String((fetchMock.mock.calls[0]?.[1] as RequestInit).body))).toMatchObject({ expectedVersion: 4, startOffset: 10 })
+  })
+
+  it('cancels a materialized foreshadow through the delete route', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 204 }))
+    vi.stubGlobal('fetch', fetchMock)
+
+    await foreshadowsApi.cancel('foreshadow-1')
+
+    expect(fetchMock.mock.calls[0]?.[0]).toBe('/api/foreshadows/foreshadow-1')
+    expect((fetchMock.mock.calls[0]?.[1] as RequestInit).method).toBe('DELETE')
   })
 })
